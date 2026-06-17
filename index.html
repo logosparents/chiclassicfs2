@@ -1,0 +1,1362 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-HK">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>唐詩童樂園 - 小學古詩文互動學習平台</title>
+    <!-- 引入 Tailwind CSS 進行現代化、響應式排版 -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: 引入可愛且清晰的字型 -->
+    <link href="https://fonts.googleapis.com/css2?family=Chilanka&family=Noto+Sans+TC:wght@400;700;900&family=Comic+Neue:wght@700&display=swap" rel="stylesheet">
+    <!-- FontAwesome 圖標 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- canvas-confetti 動畫效果 -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    
+    <style>
+        body {
+            font-family: 'Noto Sans TC', 'Comic Neue', sans-serif;
+            background-color: #f0fdf4; /* 淡淡的草綠色底色，保護眼睛 */
+        }
+        
+        /* 童趣風繽紛漸變與陰影 */
+        .kids-shadow {
+            box-shadow: 0 8px 0px #cbd5e1;
+        }
+        .kids-shadow-primary {
+            box-shadow: 0 8px 0px #b91c1c;
+        }
+        .kids-shadow-success {
+            box-shadow: 0 8px 0px #15803d;
+        }
+        .kids-shadow-warning {
+            box-shadow: 0 8px 0px #a16207;
+        }
+        .kids-shadow-info {
+            box-shadow: 0 8px 0px #1d4ed8;
+        }
+        .kids-shadow-purple {
+            box-shadow: 0 8px 0px #6b21a8;
+        }
+        
+        /* 卡片翻轉效果 CSS */
+        .flip-card {
+            background-color: transparent;
+            perspective: 1000px;
+        }
+        .flip-card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+        }
+        .flip-card.flipped .flip-card-inner {
+            transform: rotateY(180deg);
+        }
+        .flip-card-front, .flip-card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            border-radius: 1.5rem;
+        }
+        .flip-card-back {
+            transform: rotateY(180deg);
+        }
+
+        /* 答錯時的童趣抖動動畫 */
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-6px) rotate(-1deg); }
+            75% { transform: translateX(6px) rotate(1deg); }
+        }
+        .animate-shake {
+            animation: shake 0.3s ease-in-out;
+        }
+
+        /* 隱藏打印時不必要的元素 */
+        @media print {
+            body {
+                background: white;
+            }
+            .no-print {
+                display: none !important;
+            }
+            .print-area {
+                width: 100% !important;
+                max-width: 100% !important;
+                box-shadow: none !important;
+                border: none !important;
+                margin: 0 !important;
+                padding: 0 !important;
+            }
+        }
+    </style>
+</head>
+<body class="overflow-x-hidden min-h-screen flex flex-col">
+
+    <!-- 頂部自定義童樂警告框 (取代原生 alert) -->
+    <div id="kid-alert-modal" class="fixed inset-0 z-[9999] flex items-center justify-center bg-black/50 backdrop-blur-sm hidden">
+        <div class="bg-white border-8 border-yellow-300 rounded-3xl p-6 max-w-sm w-11/12 text-center shadow-2xl transform scale-95 transition-all">
+            <span class="text-6xl block mb-3">🔔</span>
+            <h4 class="text-2xl font-black text-amber-900 mb-2">樂園廣播</h4>
+            <p id="kid-alert-message" class="text-slate-700 font-bold text-sm mb-6 leading-relaxed">提示訊息</p>
+            <button onclick="closeKidAlert()" class="px-6 py-2 bg-yellow-400 hover:bg-yellow-500 text-yellow-950 font-black rounded-full border-2 border-yellow-500 shadow-md">
+                好的，我知道了！
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // 核心古詩文數據庫
+        const POEMS_DATA = [
+            {
+                id: 1,
+                title: "回鄉偶書",
+                author: "賀知章",
+                dynasty: "唐代",
+                content: [
+                    { line: "少小離家老大回", pinyin: "shào xiǎo lí jiā lǎo dà huí", jyutping: "siu2 siu2 lei4 gaa1 lou5 daai6 wui4" },
+                    { line: "鄉音無改鬢毛衰", pinyin: "xiāng yīn wú gǎi bìn máo cuī", jyutping: "hoeng1 jam1 mou4 goi2 ban1 mou4 seoi1" },
+                    { line: "兒童相見不相識", pinyin: "ér tóng xiāng jiàn bù xiāng shí", jyutping: "ji4 tung4 soeng1 gin3 bat1 soeng1 sik1" },
+                    { line: "笑問客從何處來", pinyin: "xiào wèn kè cóng hé chù lái", jyutping: "siu3 man6 haak3 cung4 ho4 cyu3 loi4" }
+                ],
+                explanation: "詩人小時候離開家鄉，老了才回來。他的家鄉口音沒有改變，但耳邊的頭髮已經斑白稀疏。村裏的孩子們看見他，都不認識他，笑着問他：『客人，您是從哪裏來的呀？』",
+                themeColor: "bg-red-100 border-red-400 text-red-800",
+                btnColor: "bg-red-500 hover:bg-red-600 text-white kids-shadow-primary",
+                emoji: "👴🏡",
+                words: [
+                    { word: "鄉音", pron: "hoeng1 jam1", meaning: "故鄉的方言、口音" },
+                    { word: "鬢毛衰", pron: "ban1 mou4 seoi1", meaning: "耳邊的頭髮變稀疏斑白了" }
+                ]
+            },
+            {
+                id: 2,
+                title: "九月九日憶山東兄弟",
+                author: "王維",
+                dynasty: "唐代",
+                content: [
+                    { line: "獨在異鄉為異客", pinyin: "dú zài yì xiāng wéi yì kè", jyutping: "duk6 zoi6 ji6 hoeng1 wai4 ji6 haak3" },
+                    { line: "每逢佳節倍思親", pinyin: "měi féng jiā jié bèi sī qīn", jyutping: "mui5 fung4 gaa1 zit3 pui5 si1 can1" },
+                    { line: "遙知兄弟登高處", pinyin: "yáo zhī xiōng dì dēng gāo chù", jyutping: "jiu4 zi1 hing1 dai6 dang1 gou1 cyu3" },
+                    { line: "遍插茱萸少一人", pinyin: "biàn chā zhū yú shǎo yī rén", jyutping: "bin3 caap3 zyu1 jyu4 siu2 jat1 jan4" }
+                ],
+                explanation: "我獨自一個人外地漂泊，每當遇到好節日（如重陽節）就更加思念家鄉的親人。我在遠方想像，兄弟們今天一定登上了高山，大家都插戴着茱萸，只少了我一個人。",
+                themeColor: "bg-orange-100 border-orange-400 text-orange-800",
+                btnColor: "bg-orange-500 hover:bg-orange-600 text-white kids-shadow-warning",
+                emoji: "🍂⛰️",
+                words: [
+                    { word: "異鄉", pron: "ji6 hoeng1", meaning: "他鄉，自己家鄉以外的地方" },
+                    { word: "茱萸", pron: "zyu1 jyu4", meaning: "一種有香氣的植物，古人在重陽節插戴來辟邪" }
+                ]
+            },
+            {
+                id: 3,
+                title: "靜夜思",
+                author: "李白",
+                dynasty: "唐代",
+                content: [
+                    { line: "床前明月光", pinyin: "chuáng qián míng yuè guāng", jyutping: "cong4 cin4 ming4 jyut6 gwong1" },
+                    { line: "疑是地上霜", pinyin: "yí shì dì shàng shuāng", jyutping: "ji4 si6 dei6 soeng6 soeng1" },
+                    { line: "舉頭望明月", pinyin: "jǔ tóu wàng míng yuè", jyutping: "geoi2 tau4 mong6 ming4 jyut6" },
+                    { line: "低頭思故鄉", pinyin: "dī tóu sī gù xiāng", jyutping: "dai1 tau4 si1 gu3 hoeng1" }
+                ],
+                explanation: "明亮的月光灑在我的床前，讓我恍惚以為是地上鋪了一層白白的霜。我抬起頭，看着天空中那一輪明月，不由得低下頭，思念起遠方的故鄉。",
+                themeColor: "bg-blue-100 border-blue-400 text-blue-800",
+                btnColor: "bg-blue-500 hover:bg-blue-600 text-white kids-shadow-info",
+                emoji: "🌕🛏️",
+                words: [
+                    { word: "疑是", pron: "ji4 si6", meaning: "好像是、懷疑是" },
+                    { word: "思故鄉", pron: "si1 gu3 hoeng1", meaning: "思念起自己的家鄉與親人" }
+                ]
+            },
+            {
+                id: 4,
+                title: "蜂",
+                author: "羅隱",
+                dynasty: "唐代",
+                content: [
+                    { line: "不論平地與山尖", pinyin: "bù lùn píng dì yǔ shān jiān", jyutping: "bat1 leon6 ping4 dei6 jyu5 saan1 zim1" },
+                    { line: "無限風光盡被占", pinyin: "wú xiàn fēng guāng jìn bèi zhàn", jyutping: "mou4 haan6 fung1 gwong1 zeon6 bei6 zim1" },
+                    { line: "採得百花成蜜後", pinyin: "cǎi dé bǎi huā chéng mì hòu", jyutping: "coi2 dak1 baak1 faa1 sing4 mat6 hau6" },
+                    { line: "為誰辛苦為誰甜", pinyin: "wèi shuí xīn kǔ wèi shuí tián", jyutping: "wai6 seoi4 san1 fu2 wai6 seoi4 tim4" }
+                ],
+                explanation: "無論是平平整整的平原，還是高聳的山尖，只要有花朵，美麗的風景都被蜜蜂佔據了。蜜蜂辛苦地採摘了無數花朵釀成甜甜的蜂蜜，這到底是為了誰而辛苦，又是為了誰帶來甜美呢？",
+                themeColor: "bg-yellow-100 border-yellow-400 text-yellow-800",
+                btnColor: "bg-yellow-500 hover:bg-yellow-600 text-yellow-950 kids-shadow-warning",
+                emoji: "🐝🌸",
+                words: [
+                    { word: "風光", pron: "fung1 gwong1", meaning: "大自然的美麗景色" },
+                    { word: "盡被占", pron: "zeon6 bei6 zim1", meaning: "全部都被蜜蜂們佔據了（形容蜜蜂無處不在）" }
+                ]
+            },
+            {
+                id: 5,
+                title: "登鸛雀樓",
+                author: "王之渙",
+                dynasty: "唐代",
+                content: [
+                    { line: "白日依山盡", pinyin: "bái rì yī shān jìn", jyutping: "baak6 jat6 ji1 saan1 zeon6" },
+                    { line: "黃河入海流", pinyin: "huáng hé rù hǎi liú", jyutping: "wong4 ho4 jap6 hoi2 lau4" },
+                    { line: "欲窮千里目", pinyin: "yù qióng qiān lǐ mù", jyutping: "juk6 kung4 cin1 lei5 muk6" },
+                    { line: "更上一層樓", pinyin: "gèng shàng yī céng lóu", jyutping: "gang1 soeng5 jat1 cang4 lau4" }
+                ],
+                explanation: "太陽依着遠方的山慢慢落下去了，滾滾的黃河水奔騰流向大海。如果你想要看到更遠更美麗、無窮無盡的景色，就要再往上爬登上一層樓哦！",
+                themeColor: "bg-emerald-100 border-emerald-400 text-emerald-800",
+                btnColor: "bg-emerald-500 hover:bg-emerald-600 text-white kids-shadow-success",
+                emoji: "🌅🏢",
+                words: [
+                    { word: "欲窮", pron: "juk6 kung4", meaning: "想要看盡、想要看個夠" },
+                    { word: "更上", pron: "gang1 soeng5", meaning: "更加、再往上攀登" }
+                ]
+            },
+            {
+                id: 6,
+                title: "憫農",
+                author: "李紳",
+                dynasty: "唐代",
+                content: [
+                    { line: "鋤禾日當午", pinyin: "chú hé rì dāng wǔ", jyutping: "co4 wo4 jat6 dong1 ng5" },
+                    { line: "汗滴禾下土", pinyin: "hàn dī hé xià tǔ", jyutping: "hon6 dik6 wo4 haa6 tou2" },
+                    { line: "誰知盤中餐", pinyin: "shuí zhī pán zhōng cān", jyutping: "seoi4 zi1 pun4 zung1 caan1" },
+                    { line: "粒粒皆辛苦", pinyin: "lì lì jiē xīn kǔ", jyutping: "lap1 lap1 gaai1 san1 fu2" }
+                ],
+                explanation: "農民伯伯頂着中午火辣辣的太陽在田裏除草，辛勤的汗水一滴滴地掉落在禾苗底下的泥土裏。有誰能知道，我們碗盤中的香噴噴白米飯，每一粒都是農民伯伯無比辛苦換來的呢？",
+                themeColor: "bg-teal-100 border-teal-400 text-teal-800",
+                btnColor: "bg-teal-500 hover:bg-teal-600 text-white kids-shadow-info",
+                emoji: "🌾☀️",
+                words: [
+                    { word: "鋤禾", pron: "co4 wo4", meaning: "在田裏鬆土，給禾苗拔草" },
+                    { word: "皆辛苦", pron: "gaai1 san1 fu2", meaning: "全都是非常辛勞得來的結果" }
+                ]
+            },
+            {
+                id: 7,
+                title: "清明",
+                author: "杜牧",
+                dynasty: "唐代",
+                content: [
+                    { line: "清明時節雨紛紛", pinyin: "qīng míng shí jié yǔ fēn fēn", jyutping: "cing1 ming4 si4 zit3 jyu5 fan1 fan1" },
+                    { line: "路上行人欲斷魂", pinyin: "lù shàng xíng rén yù duàn hún", jyutping: "lou6 soeng6 hang4 jan4 juk6 dyun6 wan4" },
+                    { line: "借問酒家何處有", pinyin: "jiè wèn jiǔ jiā hé chù yǒu", jyutping: "ze3 man6 zau2 gaa1 ho4 cyu3 jau5" },
+                    { line: "牧童遙指杏花村", pinyin: "mù tóng yáo zhǐ xìng huā cūn", jyutping: "muk6 tung4 jiu4 zi2 hang6 faa1 cyun1" }
+                ],
+                explanation: "清明節的時候，天空下起紛紛揚揚的細雨。在路上趕路的人，心裏都感到憂愁難過極了。請問哪裏有客棧酒家可以歇歇腳呢？小牧童指着遠方美麗的杏花村。",
+                themeColor: "bg-purple-100 border-purple-400 text-purple-800",
+                btnColor: "bg-purple-500 hover:bg-purple-600 text-white kids-shadow-purple",
+                emoji: "🌧️🐃",
+                words: [
+                    { word: "紛紛", pron: "fan1 fan1", meaning: "形容雨下個不停、細雨密布的樣子" },
+                    { word: "遙指", pron: "jiu4 zi2", meaning: "伸出手指向遠遠的地方" }
+                ]
+            },
+            {
+                id: 8,
+                title: "元日",
+                author: "王安石",
+                dynasty: "宋代",
+                content: [
+                    { line: "爆竹聲中一歲除", pinyin: "bào zhú shēng zhōng yī suì chú", jyutping: "baau3 zuk1 sing1 zung1 jat1 seoi3 ceoi2" },
+                    { line: "春風送暖入屠蘇", pinyin: "chūn fēng sòng nuǎn rù tú sū", jyutping: "ceon1 fung1 sung3 nyun5 jap6 tou4 sou1" },
+                    { line: "千門萬戶曈曈日", pinyin: "qiān mén wàn hù tóng tóng rì", jyutping: "cin1 mun4 maan6 wu6 tung4 tung4 jat1" },
+                    { line: "總把新桃換舊符", pinyin: "zǒng bǎ xīn táo huàn jiù fú", jyutping: "zung2 baa2 san1 tou4 wun6 gau6 fu4" }
+                ],
+                explanation: "在噼裏啪啦的爆竹聲中，舊的一年過去了。溫慢的春風吹拂着大地，大家開心地喝着避邪的屠蘇酒。初升的太陽照亮了千家萬戶，大家把門口舊的桃符換成了新寫的桃符。",
+                themeColor: "bg-rose-100 border-rose-400 text-rose-800",
+                btnColor: "bg-rose-500 hover:bg-rose-600 text-white kids-shadow-primary",
+                emoji: "🧨🍊",
+                words: [
+                    { word: "一歲除", pron: "jat1 seoi3 ceoi2", meaning: "一年過去了（除：過去，消逝）" },
+                    { word: "新桃換舊符", pron: "san1 tou4 wun6 gau6 fu4", meaning: "把舊的春聯（桃符）除下，換上新的" }
+                ]
+            }
+        ];
+    </script>
+
+    <!-- 頂部繽紛導航欄 -->
+    <header class="bg-amber-300 border-b-8 border-amber-400 py-4 px-6 no-print sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
+            <!-- 平台 Logo -->
+            <div class="flex items-center gap-3">
+                <span class="text-4xl animate-bounce">🍎</span>
+                <div>
+                    <h1 class="text-3xl font-extrabold text-amber-900 tracking-wider flex items-center gap-2">
+                        <span>唐詩童樂園</span>
+                        <span class="text-xs px-2 py-1 bg-white text-red-500 rounded-full border-2 border-red-400 font-bold">小學中文版</span>
+                    </h1>
+                    <p class="text-xs text-amber-800 font-medium">香港小學中文古詩文互動學習平台 🇭🇰</p>
+                </div>
+            </div>
+            
+            <!-- 導航選單 (Tab 控制) -->
+            <nav class="flex flex-wrap justify-center gap-3">
+                <button onclick="switchTab('home')" id="tab-home" class="tab-btn px-4 py-2.5 bg-red-500 text-white font-black rounded-2xl border-2 border-red-600 kids-shadow-primary transform active:translate-y-1 transition-all flex items-center gap-2">
+                    <span>🎬</span> 詩文動畫
+                </button>
+                <button onclick="switchTab('flashcards')" id="tab-flashcards" class="tab-btn px-4 py-2.5 bg-blue-400 text-white font-black rounded-2xl border-2 border-blue-500 kids-shadow-info transform active:translate-y-1 transition-all flex items-center gap-2">
+                    <span>🃏</span> 重點字詞卡
+                </button>
+                <button onclick="switchTab('games')" id="tab-games" class="tab-btn px-4 py-2.5 bg-emerald-400 text-white font-black rounded-2xl border-2 border-emerald-500 kids-shadow-success transform active:translate-y-1 transition-all flex items-center gap-2">
+                    <span>🎮</span> 趣味遊戲
+                </button>
+                <button onclick="switchTab('worksheets')" id="tab-worksheets" class="tab-btn px-4 py-2.5 bg-purple-400 text-white font-black rounded-2xl border-2 border-purple-500 kids-shadow-purple transform active:translate-y-1 transition-all flex items-center gap-2">
+                    <span>📝</span> 工作紙生成器
+                </button>
+            </nav>
+        </div>
+    </header>
+
+    <!-- 主體內容區 -->
+    <main class="flex-grow max-w-7xl w-full mx-auto p-4 md:p-6">
+
+        <!-- ==================== 第一頁：詩文動畫與古詩關卡 ==================== -->
+        <section id="page-home" class="tab-content block">
+            
+            <!-- YouTube 學習影片橫幅 -->
+            <div class="bg-gradient-to-r from-pink-400 to-amber-300 p-6 rounded-3xl border-4 border-pink-500 kids-shadow-primary mb-8 text-center relative overflow-hidden">
+                <div class="absolute -right-10 -top-10 text-9xl opacity-10 rotate-12">🎬</div>
+                <h2 class="text-2xl md:text-3xl font-black text-white mb-4 drop-shadow-md">
+                    🌟 兒歌古詩動畫劇場 🌟
+                </h2>
+                <p class="text-white font-medium mb-6 text-sm md:text-base max-w-2xl mx-auto">
+                    聽音樂、唱兒歌，輕輕鬆鬆學會中華經典古詩文！老師和同學們可以一起跟著下面的動畫朗讀哦。
+                </p>
+                
+                <!-- YouTube 嵌入 -->
+                <div class="aspect-video w-full max-w-3xl mx-auto rounded-2xl border-4 border-white shadow-xl overflow-hidden">
+                    <iframe 
+                        id="yt-player"
+                        class="w-full h-full"
+                        src="https://www.youtube.com/embed/PCwF6Y-ezoo?list=PLVQtFr_2AmTTPDC1dBVn43IyJHrZzd76G" 
+                        title="YouTube video player" 
+                        frameborder="0" 
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                        allowfullscreen>
+                    </iframe>
+                </div>
+            </div>
+
+            <!-- 8大關卡冒險地圖 -->
+            <div class="text-center mb-6">
+                <h3 class="text-3xl font-black text-green-950 flex items-center justify-center gap-2">
+                    🚀 古詩冒險地圖 (8大關卡)
+                </h3>
+                <p class="text-green-800 text-sm font-bold mt-1">選一首古詩，開啟你的智能朗讀與探險之旅吧！</p>
+            </div>
+
+            <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-4 mb-8">
+                <!-- 關卡按鈕生成 -->
+                <script>
+                    POEMS_DATA.forEach((poem, index) => {
+                        document.write(`
+                            <button onclick="selectLevel(${poem.id})" id="level-btn-${poem.id}" class="level-btn flex flex-col items-center p-3 rounded-2xl border-4 bg-white border-slate-300 hover:border-yellow-400 hover:scale-105 transition-all">
+                                <span class="w-10 h-10 flex items-center justify-center text-lg font-black bg-slate-100 rounded-full border-2 border-slate-300 mb-1" id="level-badge-${poem.id}">
+                                    ${poem.id}
+                                </span>
+                                <span class="text-2xl mb-1">${poem.emoji}</span>
+                                <span class="text-xs font-black text-slate-700">${poem.title}</span>
+                            </button>
+                        `);
+                    });
+                </script>
+            </div>
+
+            <!-- 古詩文多功能展示板 -->
+            <div id="poem-viewer" class="bg-white border-8 border-yellow-300 rounded-3xl p-6 md:p-8 shadow-inner relative max-w-4xl mx-auto hidden transition-all duration-300">
+                <!-- 漂浮裝飾物 -->
+                <div class="absolute right-4 top-4 text-4xl animate-pulse" id="poem-emoji">🎈</div>
+                
+                <!-- 標題與作者 -->
+                <div class="text-center mb-6">
+                    <span id="poem-dynasty" class="px-3 py-1 bg-yellow-400 text-yellow-950 text-xs font-bold rounded-full border-2 border-yellow-600">唐代</span>
+                    <h2 id="poem-title" class="text-3xl md:text-4xl font-black text-slate-800 mt-2">靜夜思</h2>
+                    <p id="poem-author" class="text-lg font-bold text-slate-500 mt-1">李白</p>
+                </div>
+
+                <!-- 詩歌本文與拼音對照 -->
+                <div class="flex flex-col items-center gap-4 py-4 px-2 md:px-12 bg-amber-50/50 rounded-2xl border-2 border-dashed border-amber-300 max-w-2xl mx-auto" id="poem-lines-container">
+                    <!-- 動態JS生成詩歌本體 -->
+                </div>
+
+                <!-- 廣東話發音與控制按鈕 -->
+                <div class="flex flex-wrap justify-center gap-4 mt-8">
+                    <button id="btn-read-aloud" onclick="readAloud()" class="px-6 py-3 bg-red-400 hover:bg-red-500 text-white font-extrabold rounded-full border-2 border-red-600 kids-shadow-primary flex items-center gap-2 transform active:translate-y-1 transition-all">
+                        <span>🔊</span> 廣東話朗讀 (AI發音)
+                    </button>
+                    <button onclick="togglePinyin()" id="btn-pinyin" class="px-6 py-3 bg-indigo-400 hover:bg-indigo-500 text-white font-extrabold rounded-full border-2 border-indigo-600 kids-shadow-info flex items-center gap-2 transform active:translate-y-1 transition-all">
+                        <span>🗣️</span> 切換粵拼 / 漢語拼音
+                    </button>
+                </div>
+
+                <!-- 淺白譯文 -->
+                <div class="mt-8 bg-green-50 p-5 rounded-2xl border-2 border-green-300 text-green-950">
+                    <h4 class="font-black text-lg mb-2 flex items-center gap-2">
+                        <span>💡</span> 詩歌大意（童趣譯文）：
+                    </h4>
+                    <p id="poem-explanation" class="text-sm md:text-base leading-relaxed">
+                        明亮的月光灑在我的床前...
+                    </p>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- ==================== 第二頁：重點字詞 FlashCards ==================== -->
+        <section id="page-flashcards" class="tab-content hidden">
+            <div class="text-center mb-8">
+                <h3 class="text-3xl font-black text-blue-950 flex items-center justify-center gap-2">
+                    🃏 重點字詞智多星
+                </h3>
+                <p class="text-blue-800 text-sm font-bold mt-1">點擊卡片即可旋轉，翻轉看字詞解釋和粵音！</p>
+                
+                <!-- 篩選器 -->
+                <div class="flex justify-center flex-wrap gap-2 mt-4">
+                    <button onclick="filterFlashcards(0)" class="filter-card-btn px-4 py-1.5 bg-blue-500 text-white border-2 border-blue-600 font-bold rounded-full shadow text-sm">
+                        全部字詞
+                    </button>
+                    <script>
+                        POEMS_DATA.forEach(poem => {
+                            document.write(`
+                                <button onclick="filterFlashcards(${poem.id})" class="filter-card-btn px-4 py-1.5 bg-white hover:bg-blue-100 text-slate-700 border-2 border-slate-300 font-bold rounded-full shadow text-sm">
+                                    ${poem.title}
+                                </button>
+                            `);
+                        });
+                    </script>
+                </div>
+            </div>
+
+            <!-- 卡片容器 -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 justify-items-center" id="flashcards-grid">
+                <!-- JS動態生成字詞卡 -->
+            </div>
+        </section>
+
+
+        <!-- ==================== 第三頁：趣味遊戲（配對 + 小畫家） ==================== -->
+        <section id="page-games" class="tab-content hidden">
+            <!-- 遊戲分頁切換 -->
+            <div class="flex justify-center gap-4 mb-8">
+                <button onclick="switchGame('match')" id="btn-game-match" class="px-6 py-3 bg-amber-400 text-amber-950 border-4 border-amber-500 font-black rounded-full shadow-lg text-lg flex items-center gap-2">
+                    🧩 詩句接龍配對
+                </button>
+                <button onclick="switchGame('painter')" id="btn-game-painter" class="px-6 py-3 bg-slate-200 text-slate-700 border-4 border-slate-300 font-black rounded-full shadow-lg text-lg flex items-center gap-2">
+                    🎨 詩意小畫家
+                </button>
+            </div>
+
+            <!-- 遊戲 A: 詩歌配對 -->
+            <div id="game-match-container" class="bg-amber-50 border-8 border-amber-300 rounded-3xl p-6 md:p-8 max-w-4xl mx-auto">
+                <div class="text-center mb-6">
+                    <h4 class="text-2xl font-black text-amber-900">🧩 詩句接龍配對</h4>
+                    <p class="text-amber-800 text-sm mt-1">請將左右兩邊能組成一句完整古詩的卡片連接配對！</p>
+                </div>
+
+                <div class="grid grid-cols-2 gap-8 mb-8" id="match-game-board">
+                    <!-- 左列：前半句 -->
+                    <div class="flex flex-col gap-3" id="match-left-column"></div>
+                    <!-- 右列：後半句 -->
+                    <div class="flex flex-col gap-3" id="match-right-column"></div>
+                </div>
+
+                <div class="text-center">
+                    <button onclick="resetMatchGame()" class="px-8 py-3 bg-red-400 hover:bg-red-500 text-white font-extrabold text-lg rounded-full border-2 border-red-600 kids-shadow-primary transform active:translate-y-1 transition-all">
+                        🔄 重新載入遊戲
+                    </button>
+                </div>
+            </div>
+
+            <!-- 遊戲 B: 小畫家 -->
+            <div id="game-painter-container" class="bg-indigo-50 border-8 border-indigo-300 rounded-3xl p-6 md:p-8 max-w-4xl mx-auto hidden">
+                <div class="text-center mb-6">
+                    <h4 class="text-2xl font-black text-indigo-900">🎨 詩意小畫家</h4>
+                    <p class="text-indigo-800 text-sm mt-1">選一首你喜歡的古詩，一邊朗讀，一邊發揮創意在畫板上創作吧！</p>
+                    
+                    <div class="mt-4 flex flex-wrap justify-center gap-2">
+                        <span class="font-bold text-indigo-950 py-1">繪畫主題推薦：</span>
+                        <button onclick="setPaintTopic('《靜夜思》的月亮和夜空')" class="px-3 py-1 bg-white border border-indigo-300 text-xs rounded-full font-bold hover:bg-indigo-100">🌕 靜夜思的月亮</button>
+                        <button onclick="setPaintTopic('《憫農》中辛苦種田的農夫')" class="px-3 py-1 bg-white border border-indigo-300 text-xs rounded-full font-bold hover:bg-indigo-100">🌾 憫農的稻田</button>
+                        <button onclick="setPaintTopic('《登鸛雀樓》中的太陽與高樓')" class="px-3 py-1 bg-white border border-indigo-300 text-xs rounded-full font-bold hover:bg-indigo-100">🌅 登鸛雀樓高聳的景象</button>
+                    </div>
+                    <div class="mt-2 text-indigo-950 font-black text-lg bg-white inline-block py-1 px-4 rounded-full border-2 border-indigo-300" id="current-paint-topic">
+                        正在創作：🌕 《靜夜思》的月亮和夜空
+                    </div>
+                </div>
+
+                <!-- 畫板核心與工具 -->
+                <div class="flex flex-col md:flex-row gap-6 items-center">
+                    <!-- 左側工具欄 -->
+                    <div class="flex md:flex-col flex-wrap gap-2 w-full md:w-auto bg-white p-4 rounded-2xl border-2 border-indigo-200">
+                        <span class="text-xs font-bold text-slate-500 block text-center">畫筆顏色</span>
+                        <div class="grid grid-cols-6 md:grid-cols-2 gap-2">
+                            <button onclick="setPaintColor('#f43f5e')" class="w-8 h-8 rounded-full bg-rose-500 border-2 border-white ring-2 ring-transparent active:ring-rose-500"></button>
+                            <button onclick="setPaintColor('#f59e0b')" class="w-8 h-8 rounded-full bg-amber-500 border-2 border-white ring-2 ring-transparent active:ring-amber-500"></button>
+                            <button onclick="setPaintColor('#10b981')" class="w-8 h-8 rounded-full bg-emerald-500 border-2 border-white ring-2 ring-transparent active:ring-emerald-500"></button>
+                            <button onclick="setPaintColor('#3b82f6')" class="w-8 h-8 rounded-full bg-blue-500 border-2 border-white ring-2 ring-transparent active:ring-blue-500"></button>
+                            <button onclick="setPaintColor('#8b5cf6')" class="w-8 h-8 rounded-full bg-violet-500 border-2 border-white ring-2 ring-transparent active:ring-violet-500"></button>
+                            <button onclick="setPaintColor('#1e293b')" class="w-8 h-8 rounded-full bg-slate-800 border-2 border-white ring-2 ring-transparent active:ring-slate-800"></button>
+                        </div>
+                        
+                        <span class="text-xs font-bold text-slate-500 block text-center mt-2">橡皮擦</span>
+                        <button onclick="setPaintColor('#ffffff')" class="p-2 bg-slate-100 hover:bg-slate-200 border border-slate-300 rounded-lg text-xs font-bold flex items-center justify-center gap-1">
+                            🧼 橡皮擦
+                        </button>
+
+                        <span class="text-xs font-bold text-slate-500 block text-center mt-2">粗細調節</span>
+                        <input type="range" id="brush-size" min="2" max="25" value="6" class="w-24">
+                    </div>
+
+                    <!-- Canvas 畫布 -->
+                    <div class="flex-grow w-full bg-white rounded-2xl border-4 border-indigo-400 overflow-hidden shadow-md">
+                        <canvas id="paintCanvas" class="w-full cursor-crosshair" style="height: 400px; display: block;"></canvas>
+                    </div>
+                </div>
+
+                <!-- 畫板控制鈕 -->
+                <div class="flex justify-center gap-4 mt-6">
+                    <button onclick="clearCanvas()" class="px-6 py-2.5 bg-slate-400 hover:bg-slate-500 text-white font-bold rounded-full border-2 border-slate-600 shadow transform active:translate-y-0.5 transition-all">
+                        🗑️ 清空畫布
+                    </button>
+                    <button onclick="downloadCanvas()" class="px-6 py-2.5 bg-indigo-500 hover:bg-indigo-600 text-white font-bold rounded-full border-2 border-indigo-700 shadow transform active:translate-y-0.5 transition-all">
+                        💾 下載我的大作
+                    </button>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- ==================== 第四頁：工作紙下載與生成器 ==================== -->
+        <section id="page-worksheets" class="tab-content hidden">
+            <!-- 推薦鏈接 -->
+            <div class="bg-gradient-to-r from-purple-500 to-indigo-500 p-6 rounded-3xl border-4 border-indigo-600 text-white text-center mb-8 kids-shadow-purple relative overflow-hidden">
+                <div class="absolute -left-10 -bottom-10 text-9xl opacity-10 rotate-12">📝</div>
+                <h3 class="text-2xl md:text-3xl font-black mb-3">🎓 官方優質教育資源庫</h3>
+                <p class="text-sm md:text-base mb-6 max-w-2xl mx-auto font-medium">
+                    推薦前往香港教育大學「古詩文教學與評估」官方網站。內有大量專為香港小學師生編寫的教學材料與高質素工作紙！
+                </p>
+                <a href="https://classic.eduhk.modernedu.hk/" target="_blank" class="inline-flex items-center gap-2 px-8 py-3.5 bg-yellow-400 hover:bg-yellow-300 text-yellow-950 font-black rounded-full border-2 border-yellow-500 text-lg shadow-lg transform active:translate-y-1 transition-all">
+                    🌐 前往 香港教育大學 古詩文教學網 <i class="fa-solid fa-square-arrow-up-right"></i>
+                </a>
+            </div>
+
+            <!-- 智能工作紙生成器（為中文老師量身打造） -->
+            <div class="bg-white border-8 border-purple-300 rounded-3xl p-6 md:p-8 kids-shadow no-print">
+                <div class="text-center mb-6">
+                    <h4 class="text-2xl font-black text-purple-900 flex items-center justify-center gap-2">
+                        <span>🛠️</span> 智能古詩工作紙自製器 (老師專用)
+                    </h4>
+                    <p class="text-slate-600 text-xs mt-1">
+                        老師可自選詩歌和題型，點擊「生成預覽」，即可快速打印或導出精美的 PDF 課堂練習！
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+                    <!-- 設定 1 -->
+                    <div class="bg-purple-50 p-4 rounded-2xl border border-purple-200">
+                        <label class="block text-purple-950 font-black mb-2 text-sm">步驟一：選擇古詩</label>
+                        <select id="ws-poem-select" class="w-full p-2.5 rounded-lg border-2 border-purple-300 font-bold text-slate-700 bg-white">
+                            <!-- JS將動態填充古詩選項 -->
+                        </select>
+                    </div>
+
+                    <!-- 設定 2 -->
+                    <div class="bg-purple-50 p-4 rounded-2xl border border-purple-200">
+                        <label class="block text-purple-950 font-black mb-2 text-sm">步驟二：自選工作紙題型</label>
+                        <div class="flex flex-col gap-2">
+                            <label class="inline-flex items-center font-bold text-slate-700 text-xs cursor-pointer">
+                                <input type="checkbox" id="ws-type-pinyin" checked class="rounded border-purple-400 text-purple-600 focus:ring-purple-500 mr-2">
+                                題型一：拼音/粵拼填空
+                            </label>
+                            <label class="inline-flex items-center font-bold text-slate-700 text-xs cursor-pointer">
+                                <input type="checkbox" id="ws-type-matching" checked class="rounded border-purple-400 text-purple-600 focus:ring-purple-500 mr-2">
+                                題型二：詩句接龍（連線題）
+                            </label>
+                            <label class="inline-flex items-center font-bold text-slate-700 text-xs cursor-pointer">
+                                <input type="checkbox" id="ws-type-explanation" checked class="rounded border-purple-400 text-purple-600 focus:ring-purple-500 mr-2">
+                                題型三：古詩大意理解（選擇題）
+                            </label>
+                            <label class="inline-flex items-center font-bold text-slate-700 text-xs cursor-pointer">
+                                <input type="checkbox" id="ws-type-copybook" checked class="rounded border-purple-400 text-purple-600 focus:ring-purple-500 mr-2">
+                                題型四：硬筆書法臨摹格
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- 設定 3 -->
+                    <div class="bg-purple-50 p-4 rounded-2xl border border-purple-200">
+                        <label class="block text-purple-950 font-black mb-2 text-sm">步驟三：課堂基本資訊</label>
+                        <div class="flex flex-col gap-2">
+                            <input type="text" id="ws-school-name" value="開心小學" class="p-2 border border-purple-300 rounded text-xs font-bold" placeholder="學校名稱">
+                            <input type="text" id="ws-class-name" value="三年級" class="p-2 border border-purple-300 rounded text-xs font-bold" placeholder="年級/班級">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="text-center">
+                    <button onclick="generateWorksheet()" class="px-8 py-3 bg-purple-500 hover:bg-purple-600 text-white font-black text-lg rounded-full border-2 border-purple-700 kids-shadow-purple transform active:translate-y-1 transition-all">
+                        🚀 一鍵生成我的專屬工作紙
+                    </button>
+                </div>
+            </div>
+
+            <!-- 工作紙即時預覽區域（打印區域） -->
+            <div id="worksheet-preview-container" class="mt-8 bg-white border-2 border-dashed border-slate-300 rounded-3xl p-8 max-w-3xl mx-auto shadow-lg hidden print-area">
+                <!-- 頁眉資訊 -->
+                <div class="border-b-4 border-double border-slate-800 pb-4 mb-6">
+                    <div class="flex justify-between items-center text-slate-800">
+                        <span id="preview-school-name" class="font-bold text-lg">開心小學</span>
+                        <span class="font-extrabold text-2xl">中文科古詩文學習工作紙</span>
+                        <span class="text-sm">成績：__________</span>
+                    </div>
+                    <div class="flex justify-between items-center text-slate-600 mt-2 text-xs">
+                        <span>課題：《<span id="preview-poem-title" class="font-bold">靜夜思</span>》隨堂練習</span>
+                        <span>班別：<span id="preview-class-name" class="font-bold">三年級</span></span>
+                        <span>姓名：_________________</span>
+                        <span>日期：_________________</span>
+                    </div>
+                </div>
+
+                <!-- 題目區域 -->
+                <div id="preview-questions-list" class="space-y-8 text-slate-800">
+                    <!-- 動態JS加載工作紙各類題目 -->
+                </div>
+
+                <!-- 頁腳版權聲明 -->
+                <div class="border-t border-slate-300 pt-4 mt-12 text-center text-xs text-slate-500">
+                    由唐詩童樂園智能工作紙生成器生成 &copy; 2026 
+                </div>
+
+                <!-- 打印控制 -->
+                <div class="mt-8 text-center no-print">
+                    <button onclick="window.print()" class="px-6 py-3 bg-emerald-500 hover:bg-emerald-600 text-white font-extrabold rounded-full border-2 border-emerald-700 shadow-md flex items-center gap-2 mx-auto">
+                        🖨️ 列印此工作紙 / 匯出成 PDF
+                    </button>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- 底部版權 -->
+    <footer class="bg-emerald-900 text-emerald-100 py-6 text-center border-t-8 border-emerald-950 no-print">
+        <p class="font-bold">🏡 唐詩童樂園 — 專為小學中文教育設計</p>
+        <p class="text-xs text-emerald-300 mt-1">&copy; 2026 古詩文教育網頁. 為香港教師提供便利工具</p>
+    </footer>
+
+
+    <script>
+        // 全局狀態
+        let currentLevel = 1;
+        let pinyinMode = 'jyutping'; // 'jyutping' 或 'pinyin'
+        let currentTab = 'home';
+        
+        // --- 樂園提示框 ---
+        function showKidAlert(msg) {
+            document.getElementById('kid-alert-message').innerText = msg;
+            const modal = document.getElementById('kid-alert-modal');
+            modal.classList.remove('hidden');
+        }
+        function closeKidAlert() {
+            document.getElementById('kid-alert-modal').classList.add('hidden');
+        }
+
+        // --- Tab 導航控制 ---
+        function switchTab(tabId) {
+            currentTab = tabId;
+            // 隱藏所有 tab 內容
+            document.querySelectorAll('.tab-content').forEach(element => {
+                element.classList.add('hidden');
+            });
+            // 顯示當前 tab 內容
+            document.getElementById(`page-${tabId}`).classList.remove('hidden');
+
+            // 調整按鈕激活樣式
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.add('opacity-75');
+            });
+            document.getElementById(`tab-${tabId}`).classList.remove('opacity-75');
+
+            // 如果切換到 Flashcard，初始化
+            if (tabId === 'flashcards') {
+                renderFlashcards();
+            }
+            // 如果切換到 遊戲，初始化配對
+            if (tabId === 'games') {
+                initMatchGame();
+                // 確保延遲一點等 DOM 高度加載完再初始化畫布大小
+                setTimeout(initPainter, 50);
+            }
+            // 如果切換到工作紙
+            if (tabId === 'worksheets') {
+                initWorksheetGenerator();
+            }
+        }
+
+        // --- 第一頁：古詩關卡控制 ---
+        function selectLevel(levelId) {
+            currentLevel = levelId;
+            const poem = POEMS_DATA.find(p => p.id === levelId);
+            if (!poem) return;
+
+            // 更新關卡選中狀態樣式
+            document.querySelectorAll('.level-btn').forEach(btn => {
+                btn.className = "level-btn flex flex-col items-center p-3 rounded-2xl border-4 bg-white border-slate-300 hover:border-yellow-400 hover:scale-105 transition-all";
+            });
+            const activeBtn = document.getElementById(`level-btn-${levelId}`);
+            if (activeBtn) {
+                activeBtn.className = "level-btn flex flex-col items-center p-3 rounded-2xl border-4 bg-yellow-100 border-yellow-400 scale-105 transition-all ring-4 ring-yellow-300";
+            }
+
+            // 更新展示卡片
+            const viewer = document.getElementById('poem-viewer');
+            viewer.classList.remove('hidden');
+
+            // 設置主題顏色
+            viewer.className = `bg-white border-8 border-yellow-300 rounded-3xl p-6 md:p-8 shadow-inner relative max-w-4xl mx-auto transition-all duration-300`;
+
+            document.getElementById('poem-emoji').innerText = poem.emoji;
+            document.getElementById('poem-dynasty').innerText = poem.dynasty;
+            document.getElementById('poem-title').innerText = poem.title;
+            document.getElementById('poem-author').innerText = poem.author;
+            document.getElementById('poem-explanation').innerText = poem.explanation;
+
+            renderPoemLines(poem);
+
+            // 當選取關卡時，發射五彩碎片動畫，增加儀式感
+            confetti({
+                particleCount: 50,
+                spread: 60,
+                origin: { y: 0.8 }
+            });
+        }
+
+        // 渲染詩句（支持粵拼、拼音切換）
+        function renderPoemLines(poem) {
+            const container = document.getElementById('poem-lines-container');
+            container.innerHTML = '';
+
+            poem.content.forEach((item, index) => {
+                const phoneticText = pinyinMode === 'jyutping' ? item.jyutping : item.pinyin;
+                const phoneticColor = pinyinMode === 'jyutping' ? 'text-indigo-600' : 'text-emerald-600';
+                
+                const lineDiv = document.createElement('div');
+                lineDiv.className = 'text-center py-2';
+                lineDiv.innerHTML = `
+                    <div class="text-xs md:text-sm ${phoneticColor} font-mono h-5 opacity-80 leading-tight select-none">
+                        ${phoneticText}
+                    </div>
+                    <div class="text-xl md:text-3xl font-black text-slate-800 tracking-widest mt-1 hover:text-red-500 hover:scale-105 cursor-pointer transition-all">
+                        ${item.line}
+                    </div>
+                `;
+                container.appendChild(lineDiv);
+            });
+        }
+
+        // 切換拼音模式
+        function togglePinyin() {
+            pinyinMode = pinyinMode === 'jyutping' ? 'pinyin' : 'jyutping';
+            const btn = document.getElementById('btn-pinyin');
+            if (pinyinMode === 'jyutping') {
+                btn.innerHTML = `<span>🗣️</span> 使用拼音標註 (國語)`;
+            } else {
+                btn.innerHTML = `<span>🗣️</span> 使用粵拼標註 (廣東話)`;
+            }
+            const poem = POEMS_DATA.find(p => p.id === currentLevel);
+            if (poem) {
+                renderPoemLines(poem);
+            }
+        }
+
+        // Web Speech API 朗讀（廣東話）
+        function readAloud() {
+            const poem = POEMS_DATA.find(p => p.id === currentLevel);
+            if (!poem) return;
+
+            // 提取整首詩的純文字
+            const speechText = poem.content.map(c => c.line).join('。');
+
+            if ('speechSynthesis' in window) {
+                // 先取消任何正在播放的語音
+                window.speechSynthesis.cancel();
+
+                const utterance = new SpeechSynthesisUtterance(speechText);
+                utterance.lang = 'zh-HK'; // 設定為廣東話（香港）
+                utterance.rate = 0.8;    // 稍微放慢一點，方便小朋友聆聽
+                
+                // 嘗試尋找廣東話語音庫
+                const voices = window.speechSynthesis.getVoices();
+                const hkVoice = voices.find(v => v.lang === 'zh-HK' || v.lang === 'zh-YUE');
+                if (hkVoice) {
+                    utterance.voice = hkVoice;
+                }
+
+                // 開始播放
+                window.speechSynthesis.speak(utterance);
+                
+                // 按鈕動效
+                const btn = document.getElementById('btn-read-aloud');
+                btn.classList.add('animate-pulse');
+                utterance.onend = () => {
+                    btn.classList.remove('animate-pulse');
+                };
+            } else {
+                showKidAlert("抱歉，您的瀏覽器不支援語音朗讀功能，請更換主流瀏覽器（如 Chrome, Safari）。");
+            }
+        }
+
+
+        // --- 第二頁：Flashcards 字詞卡片邏輯 ---
+        let currentFilterId = 0;
+
+        function renderFlashcards() {
+            const grid = document.getElementById('flashcards-grid');
+            grid.innerHTML = '';
+
+            let filteredList = [];
+            if (currentFilterId === 0) {
+                // 展示所有詩歌的字詞
+                POEMS_DATA.forEach(p => {
+                    p.words.forEach(w => {
+                        filteredList.push({ ...w, sourcePoem: p.title });
+                    });
+                });
+            } else {
+                // 展示單一詩歌的字詞
+                const poem = POEMS_DATA.find(p => p.id === currentFilterId);
+                if (poem) {
+                    poem.words.forEach(w => {
+                        filteredList.push({ ...w, sourcePoem: poem.title });
+                    });
+                }
+            }
+
+            if (filteredList.length === 0) {
+                grid.innerHTML = `<p class="col-span-full text-slate-500 font-bold">該詩歌暫無推薦重點詞彙，去看看其他古詩吧！</p>`;
+                return;
+            }
+
+            filteredList.forEach((wordObj, idx) => {
+                const cardDiv = document.createElement('div');
+                cardDiv.className = "flip-card w-72 h-44 cursor-pointer transform hover:scale-105 transition-all";
+                // 點擊翻轉
+                cardDiv.onclick = () => {
+                    cardDiv.classList.toggle('flipped');
+                };
+
+                cardDiv.innerHTML = `
+                    <div class="flip-card-inner relative w-full h-full transition-all duration-500">
+                        <!-- 卡片正面 -->
+                        <div class="flip-card-front absolute w-full h-full bg-gradient-to-br from-amber-200 to-yellow-300 border-4 border-yellow-400 rounded-3xl shadow-md p-6 flex flex-col justify-between items-center text-slate-800">
+                            <span class="text-xs px-2.5 py-1 bg-white/70 text-amber-900 border border-amber-300 rounded-full font-bold">
+                                來自：《${wordObj.sourcePoem}》
+                            </span>
+                            <h4 class="text-3xl font-black text-amber-950">${wordObj.word}</h4>
+                            <span class="text-xs text-amber-800 font-bold">👉 點擊翻頁看粵音與解釋</span>
+                        </div>
+                        
+                        <!-- 卡片背面 -->
+                        <div class="flip-card-back absolute w-full h-full bg-indigo-50 border-4 border-indigo-400 rounded-3xl shadow-md p-6 flex flex-col justify-between items-center text-indigo-950">
+                            <div>
+                                <span class="text-xs px-2.5 py-1 bg-indigo-200/50 text-indigo-900 rounded-full font-bold">
+                                    粵拼：[ ${wordObj.pron} ]
+                                </span>
+                            </div>
+                            <p class="text-sm font-bold text-indigo-900 text-center leading-relaxed">
+                                ${wordObj.meaning}
+                            </p>
+                            <span class="text-xs text-indigo-400 font-bold">🔄 點擊卡片翻回正面</span>
+                        </div>
+                    </div>
+                `;
+                grid.appendChild(cardDiv);
+            });
+        }
+
+        function filterFlashcards(poemId) {
+            currentFilterId = poemId;
+            // 更新篩選按鈕樣式
+            const btns = document.querySelectorAll('.filter-card-btn');
+            btns.forEach((btn, index) => {
+                if (index === poemId) {
+                    btn.className = "filter-card-btn px-4 py-1.5 bg-blue-500 text-white border-2 border-blue-600 font-bold rounded-full shadow text-sm";
+                } else {
+                    btn.className = "filter-card-btn px-4 py-1.5 bg-white hover:bg-blue-100 text-slate-700 border-2 border-slate-300 font-bold rounded-full shadow text-sm";
+                }
+            });
+            renderFlashcards();
+        }
+
+
+        // --- 第三頁：遊戲 A：詩句配對邏輯 ---
+        let selectedLeft = null;
+        let selectedRight = null;
+        let matchedCount = 0;
+
+        function switchGame(gameType) {
+            const btnMatch = document.getElementById('btn-game-match');
+            const btnPainter = document.getElementById('btn-game-painter');
+            const matchContainer = document.getElementById('game-match-container');
+            const painterContainer = document.getElementById('game-painter-container');
+
+            if (gameType === 'match') {
+                btnMatch.className = "px-6 py-3 bg-amber-400 text-amber-950 border-4 border-amber-500 font-black rounded-full shadow-lg text-lg flex items-center gap-2";
+                btnPainter.className = "px-6 py-3 bg-slate-200 text-slate-700 border-4 border-slate-300 font-black rounded-full shadow-lg text-lg flex items-center gap-2";
+                matchContainer.classList.remove('hidden');
+                painterContainer.classList.add('hidden');
+                initMatchGame();
+            } else {
+                btnMatch.className = "px-6 py-3 bg-slate-200 text-slate-700 border-4 border-slate-300 font-black rounded-full shadow-lg text-lg flex items-center gap-2";
+                btnPainter.className = "px-6 py-3 bg-indigo-400 text-indigo-950 border-4 border-indigo-500 font-black rounded-full shadow-lg text-lg flex items-center gap-2";
+                matchContainer.classList.add('hidden');
+                painterContainer.classList.remove('hidden');
+                setTimeout(initPainter, 50);
+            }
+        }
+
+        function initMatchGame() {
+            selectedLeft = null;
+            selectedRight = null;
+            matchedCount = 0;
+            
+            // 隨機抽選 4 條古詩的句子對
+            const shuffledPoems = [...POEMS_DATA].sort(() => 0.5 - Math.random()).slice(0, 4);
+            const pairs = shuffledPoems.map(p => {
+                return {
+                    left: p.content[0].line,  // 首句
+                    right: p.content[1].line, // 次句 (接龍)
+                    id: p.id
+                }
+            });
+
+            const leftCol = document.getElementById('match-left-column');
+            const rightCol = document.getElementById('match-right-column');
+            leftCol.innerHTML = '';
+            rightCol.innerHTML = '';
+
+            // 隨機化兩列的顯示順序
+            const leftItems = [...pairs].sort(() => 0.5 - Math.random());
+            const rightItems = [...pairs].sort(() => 0.5 - Math.random());
+
+            leftItems.forEach(item => {
+                const btn = document.createElement('button');
+                btn.id = `match-left-${item.id}`;
+                btn.className = "w-full py-4 px-3 bg-white hover:bg-amber-100 border-4 border-slate-300 text-slate-800 font-black rounded-2xl shadow-sm text-center transform hover:scale-102 transition-all cursor-pointer text-sm md:text-base";
+                btn.innerText = item.left;
+                btn.onclick = () => selectMatchItem('left', item.id);
+                leftCol.appendChild(btn);
+            });
+
+            rightItems.forEach(item => {
+                const btn = document.createElement('button');
+                btn.id = `match-right-${item.id}`;
+                btn.className = "w-full py-4 px-3 bg-white hover:bg-amber-100 border-4 border-slate-300 text-slate-800 font-black rounded-2xl shadow-sm text-center transform hover:scale-102 transition-all cursor-pointer text-sm md:text-base";
+                btn.innerText = item.right;
+                btn.onclick = () => selectMatchItem('right', item.id);
+                rightCol.appendChild(btn);
+            });
+        }
+
+        function selectMatchItem(side, id) {
+            if (side === 'left') {
+                // 如果已經點擊了其他的，先復原
+                if (selectedLeft) {
+                    document.getElementById(`match-left-${selectedLeft}`).classList.remove('border-amber-500', 'bg-amber-100');
+                }
+                selectedLeft = id;
+                document.getElementById(`match-left-${id}`).classList.add('border-amber-500', 'bg-amber-100');
+            } else {
+                if (selectedRight) {
+                    document.getElementById(`match-right-${selectedRight}`).classList.remove('border-amber-500', 'bg-amber-100');
+                }
+                selectedRight = id;
+                document.getElementById(`match-right-${id}`).classList.add('border-amber-500', 'bg-amber-100');
+            }
+
+            // 檢查是否配對成功
+            if (selectedLeft !== null && selectedRight !== null) {
+                if (selectedLeft === selectedRight) {
+                    // 成功配對！
+                    const lBtn = document.getElementById(`match-left-${selectedLeft}`);
+                    const rBtn = document.getElementById(`match-right-${selectedRight}`);
+                    
+                    lBtn.className = "w-full py-4 px-3 bg-emerald-100 text-emerald-800 border-4 border-emerald-500 font-black rounded-2xl text-center cursor-not-allowed opacity-60 text-sm md:text-base";
+                    rBtn.className = "w-full py-4 px-3 bg-emerald-100 text-emerald-800 border-4 border-emerald-500 font-black rounded-2xl text-center cursor-not-allowed opacity-60 text-sm md:text-base";
+                    
+                    lBtn.onclick = null;
+                    rBtn.onclick = null;
+
+                    // 煙花小特效
+                    confetti({
+                        particleCount: 20,
+                        spread: 40,
+                        origin: { y: 0.8 }
+                    });
+
+                    matchedCount++;
+                    selectedLeft = null;
+                    selectedRight = null;
+
+                    if (matchedCount === 4) {
+                        // 通關煙花大爆炸
+                        setTimeout(() => {
+                            confetti({
+                                particleCount: 150,
+                                spread: 80,
+                                origin: { y: 0.6 }
+                            });
+                        }, 300);
+                    }
+                } else {
+                    // 配對失敗，提示一下，並復原
+                    const lBtn = document.getElementById(`match-left-${selectedLeft}`);
+                    const rBtn = document.getElementById(`match-right-${selectedRight}`);
+                    
+                    lBtn.classList.add('animate-shake', 'border-red-500', 'bg-red-50');
+                    rBtn.classList.add('animate-shake', 'border-red-500', 'bg-red-50');
+
+                    setTimeout(() => {
+                        lBtn.classList.remove('animate-shake', 'border-red-500', 'bg-red-50', 'border-amber-500', 'bg-amber-100');
+                        rBtn.classList.remove('animate-shake', 'border-red-500', 'bg-red-50', 'border-amber-500', 'bg-amber-100');
+                    }, 500);
+
+                    selectedLeft = null;
+                    selectedRight = null;
+                }
+            }
+        }
+
+        function resetMatchGame() {
+            initMatchGame();
+        }
+
+
+        // --- 第三頁：遊戲 B：小畫家邏輯 (全新重寫，徹底解決 Touch Event 與 getBoundingClientRect 衝突) ---
+        let canvas, ctx;
+        let painting = false;
+        let brushColor = '#f43f5e';
+        let brushWidth = 6;
+
+        function initPainter() {
+            canvas = document.getElementById('paintCanvas');
+            ctx = canvas.getContext('2d');
+            
+            // 響應式：將 canvas 寬度設為容器寬度並做縮放保存
+            resizeCanvas();
+            window.removeEventListener('resize', resizeCanvas);
+            window.addEventListener('resize', resizeCanvas);
+
+            // 統一取得觸控/滑鼠相對 Canvas 的座標位置
+            function getCoordinates(e) {
+                const rect = canvas.getBoundingClientRect();
+                let clientX, clientY;
+                if (e.touches && e.touches.length > 0) {
+                    clientX = e.touches[0].clientX;
+                    clientY = e.touches[0].clientY;
+                } else {
+                    clientX = e.clientX;
+                    clientY = e.clientY;
+                }
+                return {
+                    x: clientX - rect.left,
+                    y: clientY - rect.top
+                };
+            }
+
+            function startDrawing(e) {
+                painting = true;
+                ctx.beginPath();
+                const coords = getCoordinates(e);
+                ctx.moveTo(coords.x, coords.y);
+                // 點擊瞬間也畫一個小點
+                ctx.lineTo(coords.x, coords.y);
+                ctx.stroke();
+            }
+
+            function draw(e) {
+                if (!painting) return;
+                // 阻止預設捲動行為 (尤其是觸控操作)
+                if (e.cancelable) e.preventDefault();
+                
+                const coords = getCoordinates(e);
+                ctx.lineWidth = brushWidth;
+                ctx.lineCap = 'round';
+                ctx.strokeStyle = brushColor;
+
+                ctx.lineTo(coords.x, coords.y);
+                ctx.stroke();
+                ctx.beginPath();
+                ctx.moveTo(coords.x, coords.y);
+            }
+
+            function stopDrawing() {
+                painting = false;
+                ctx.beginPath();
+            }
+
+            // 1. 滑鼠監聽
+            canvas.addEventListener('mousedown', startDrawing);
+            canvas.addEventListener('mousemove', draw);
+            canvas.addEventListener('mouseup', stopDrawing);
+            canvas.addEventListener('mouseleave', stopDrawing);
+
+            // 2. 觸控監聽 (原生處理，不進行 dispatchMouseEvent 轉換以免拋錯)
+            canvas.addEventListener('touchstart', (e) => {
+                if (e.cancelable) e.preventDefault();
+                startDrawing(e);
+            }, { passive: false });
+            
+            canvas.addEventListener('touchmove', (e) => {
+                if (e.cancelable) e.preventDefault();
+                draw(e);
+            }, { passive: false });
+            
+            canvas.addEventListener('touchend', stopDrawing);
+
+            // 粗細控制
+            document.getElementById('brush-size').addEventListener('input', (e) => {
+                brushWidth = e.target.value;
+            });
+        }
+
+        // 當視窗縮放時自適應調整畫布大小，同時保留學生的作品
+        function resizeCanvas() {
+            if (!canvas) return;
+            const containerWidth = canvas.parentElement.clientWidth;
+            
+            // 暫存目前的繪圖內容
+            const tempCanvas = document.createElement('canvas');
+            tempCanvas.width = canvas.width;
+            tempCanvas.height = canvas.height;
+            const tempCtx = tempCanvas.getContext('2d');
+            tempCtx.drawImage(canvas, 0, 0);
+
+            // 重新計算長寬
+            canvas.width = containerWidth;
+            canvas.height = 400;
+
+            // 鋪上純白底色
+            ctx.fillStyle = '#ffffff';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            // 繪製回原來的圖案
+            ctx.drawImage(tempCanvas, 0, 0);
+        }
+
+        function setPaintColor(color) {
+            brushColor = color;
+        }
+
+        function setPaintTopic(topic) {
+            document.getElementById('current-paint-topic').innerText = `正在創作：${topic}`;
+        }
+
+        function clearCanvas() {
+            if (ctx) {
+                ctx.fillStyle = '#ffffff';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+            }
+        }
+
+        function downloadCanvas() {
+            const link = document.createElement('a');
+            link.download = `我的古詩大作.png`;
+            link.href = canvas.toDataURL();
+            link.click();
+        }
+
+
+        // --- 第四頁：智能工作紙生成器邏輯 ---
+        function initWorksheetGenerator() {
+            const select = document.getElementById('ws-poem-select');
+            select.innerHTML = '';
+            
+            // 填寫下拉選單
+            POEMS_DATA.forEach(poem => {
+                const opt = document.createElement('option');
+                opt.value = poem.id;
+                opt.innerText = `${poem.id}. 《${poem.title}》 - ${poem.author}`;
+                select.appendChild(opt);
+            });
+        }
+
+        function generateWorksheet() {
+            const poemId = parseInt(document.getElementById('ws-poem-select').value);
+            const poem = POEMS_DATA.find(p => p.id === poemId);
+            if (!poem) return;
+
+            // 讀取設定
+            const schoolName = document.getElementById('ws-school-name').value || '開心小學';
+            const className = document.getElementById('ws-class-name').value || '三年級';
+            const typePinyin = document.getElementById('ws-type-pinyin').checked;
+            const typeMatching = document.getElementById('ws-type-matching').checked;
+            const typeExplanation = document.getElementById('ws-type-explanation').checked;
+            const typeCopybook = document.getElementById('ws-type-copybook').checked;
+
+            // 更新預覽頭部
+            document.getElementById('preview-school-name').innerText = schoolName;
+            document.getElementById('preview-class-name').innerText = className;
+            document.getElementById('preview-poem-title').innerText = poem.title;
+
+            // 構造題目
+            const qList = document.getElementById('preview-questions-list');
+            qList.innerHTML = '';
+            let questionIndex = 1;
+
+            // 題型 1：粵音 / 漢語拼音填空
+            if (typePinyin) {
+                const qDiv = document.createElement('div');
+                qDiv.className = "space-y-3";
+                
+                // 取古詩前兩句
+                let blanksHtml = '';
+                poem.content.forEach((lineObj, i) => {
+                    // 每句挖掉一些詞作拼音填空
+                    const parts = lineObj.line.split('');
+                    let lineWithBlanks = '';
+                    if (i % 2 === 0) {
+                        // 挖掉最後兩個字
+                        lineWithBlanks = parts.slice(0, parts.length - 2).join('') + "（ ＿＿＿ ）（ ＿＿＿ ）";
+                    } else {
+                        // 挖掉開頭兩個字
+                        lineWithBlanks = "（ ＿＿＿ ）（ ＿＿＿ ）" + parts.slice(2).join('');
+                    }
+
+                    blanksHtml += `
+                        <div class="flex flex-col gap-1 items-start ml-4 py-2">
+                            <span class="text-xs text-indigo-500 font-mono">[ 粵音：${lineObj.jyutping} ]</span>
+                            <span class="text-lg font-bold tracking-widest text-slate-700">${lineWithBlanks}</span>
+                        </div>
+                    `;
+                });
+
+                qDiv.innerHTML = `
+                    <h5 class="font-extrabold text-base text-slate-900">
+                        第一部分：根據拼音，在括號內填上正確的古詩字詞 (每空2分)
+                    </h5>
+                    ${blanksHtml}
+                `;
+                qList.appendChild(qDiv);
+                questionIndex++;
+            }
+
+            // 題型 2：詩句接龍（連線題）
+            if (typeMatching) {
+                const qDiv = document.createElement('div');
+                qDiv.className = "space-y-3";
+                
+                // 模擬 3 個古詩混搭連線
+                let linePairs = [];
+                // 拿當前詩的兩對
+                linePairs.push({ l: poem.content[0].line, r: poem.content[1].line });
+                linePairs.push({ l: poem.content[2].line, r: poem.content[3].line });
+                
+                // 再拿另外一首詩的一對
+                const otherPoem = POEMS_DATA.find(p => p.id !== poem.id) || POEMS_DATA[0];
+                linePairs.push({ l: otherPoem.content[0].line, r: otherPoem.content[1].line });
+
+                // 隨機打亂左右
+                const leftShuffled = [...linePairs].sort(() => 0.5 - Math.random());
+                const rightShuffled = [...linePairs].sort(() => 0.5 - Math.random());
+
+                let rowsHtml = '';
+                for (let i = 0; i < 3; i++) {
+                    rowsHtml += `
+                        <div class="flex justify-between items-center px-12 py-2">
+                            <span class="font-bold text-base border border-slate-400 px-3 py-1.5 rounded-md min-w-[150px] text-center">${leftShuffled[i].l}</span>
+                            <span class="text-xl font-bold text-slate-300">● －－－－－－－ ●</span>
+                            <span class="font-bold text-base border border-slate-400 px-3 py-1.5 rounded-md min-w-[150px] text-center">${rightShuffled[i].r}</span>
+                        </div>
+                    `;
+                }
+
+                qDiv.innerHTML = `
+                    <h5 class="font-extrabold text-base text-slate-900 mt-6">
+                        第二部分：詩句接龍（請用直線把左、右兩邊合適的詩句連接起來） (每題3分)
+                    </h5>
+                    <div class="space-y-2 mt-2">
+                        ${rowsHtml}
+                    </div>
+                `;
+                qList.appendChild(qDiv);
+                questionIndex++;
+            }
+
+            // 題型 3：古詩大意理解（選擇題）
+            if (typeExplanation) {
+                const qDiv = document.createElement('div');
+                qDiv.className = "space-y-4";
+
+                qDiv.innerHTML = `
+                    <h5 class="font-extrabold text-base text-slate-900 mt-6">
+                        第三部分：古詩大意理解（選擇題，請把正確答案的英文字母填在括號內） (每題5分)
+                    </h5>
+                    <div class="ml-4 space-y-3">
+                        <div>
+                            <p class="font-bold text-sm">1. 關於古詩《${poem.title}》，以下哪一項的作者是正確的？（　　）</p>
+                            <p class="text-xs text-slate-600 mt-1 pl-4">A. 李白 &nbsp;&nbsp;&nbsp;&nbsp; B. ${poem.author} &nbsp;&nbsp;&nbsp;&nbsp; C. 杜甫 &nbsp;&nbsp;&nbsp;&nbsp; D. 蘇軾</p>
+                        </div>
+                        <div>
+                            <p class="font-bold text-sm">2. 在《${poem.title}》中，作者表達了怎樣的思想感情？（　　）</p>
+                            <p class="text-xs text-slate-600 mt-1 pl-4">A. 讚美大自然 / 思考人生的哲理 / 熱愛生活 &nbsp;&nbsp;&nbsp;&nbsp; B. 嘲笑他人 &nbsp;&nbsp;&nbsp;&nbsp; C. 感到非常憤怒</p>
+                        </div>
+                    </div>
+                `;
+                qList.appendChild(qDiv);
+                questionIndex++;
+            }
+
+            // 題型 4：硬筆書法臨摹格
+            if (typeCopybook) {
+                const qDiv = document.createElement('div');
+                qDiv.className = "space-y-3";
+
+                const copyWord = poem.words[0] ? poem.words[0].word : "古詩";
+                const gridTemplate = `
+                    <div class="flex gap-4 mt-2">
+                        <div class="flex items-center gap-1">
+                            <span class="font-extrabold text-sm text-slate-500">示範：</span>
+                            <span class="w-12 h-12 flex items-center justify-center border-2 border-red-500 border-dashed text-2xl font-black text-slate-400 bg-red-50">${copyWord[0] || '古'}</span>
+                            <span class="w-12 h-12 flex items-center justify-center border-2 border-red-500 border-dashed text-2xl font-black text-slate-400 bg-red-50">${copyWord[1] || '詩'}</span>
+                        </div>
+                        <div class="flex items-center gap-1">
+                            <span class="font-extrabold text-sm text-slate-500">臨摹格：</span>
+                            <span class="w-12 h-12 border-2 border-slate-400 border-dashed"></span>
+                            <span class="w-12 h-12 border-2 border-slate-400 border-dashed"></span>
+                            <span class="w-12 h-12 border-2 border-slate-400 border-dashed"></span>
+                            <span class="w-12 h-12 border-2 border-slate-400 border-dashed"></span>
+                        </div>
+                    </div>
+                `;
+
+                qDiv.innerHTML = `
+                    <h5 class="font-extrabold text-base text-slate-900 mt-6">
+                        第四部分：硬筆書法優美臨摹（請在虛線九宮格內，端正地寫下重點字詞）
+                    </h5>
+                    <div class="ml-4">
+                        <p class="text-xs text-slate-500">寫字小貼士：坐姿端正，保持筆畫工整流暢哦！</p>
+                        ${gridTemplate}
+                    </div>
+                `;
+                qList.appendChild(qDiv);
+            }
+
+            // 顯示預覽區域
+            document.getElementById('worksheet-preview-container').classList.remove('hidden');
+
+            // 滾動定位到工作紙
+            document.getElementById('worksheet-preview-container').scrollIntoView({ behavior: 'smooth' });
+        }
+
+
+        // 網頁加載完畢初始化
+        window.onload = function() {
+            // 預設解鎖並選擇第一關
+            selectLevel(1);
+        }
+    </script>
+</body>
+</html>
