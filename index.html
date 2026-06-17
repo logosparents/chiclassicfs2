@@ -282,7 +282,6 @@
         ];
     </script>
 
-    <!-- 頂部繽紛導航欄 -->
     <header class="bg-amber-300 border-b-8 border-amber-400 py-4 px-6 no-print sticky top-0 z-50">
         <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
             <!-- 平台 Logo -->
@@ -387,20 +386,15 @@
                     <!-- 動態JS生成詩歌本體 -->
                 </div>
 
-                <!-- 智能語音與拼音控制按鈕 -->
                 <div class="mt-6 bg-amber-50 p-4 rounded-2xl border-2 border-amber-200">
                     <p class="text-center text-xs font-black text-amber-900 mb-3">🗣️ 智能發聲與普通話拼音工具欄</p>
                     <div class="flex flex-wrap justify-center gap-3">
                         <!-- 廣東話朗讀 -->
-                        <button id="btn-read-cantonese" onclick="readAloud('cantonese')" class="px-4 py-2.5 bg-red-400 hover:bg-red-500 text-white text-xs md:text-sm font-extrabold rounded-full border-2 border-red-600 kids-shadow-primary flex items-center gap-1.5 transform active:translate-y-1 transition-all">
+                        <button id="btn-read-cantonese" onclick="readAloud('cantonese')" class="px-5 py-2.5 bg-red-400 hover:bg-red-500 text-white text-xs md:text-sm font-extrabold rounded-full border-2 border-red-600 kids-shadow-primary flex items-center gap-1.5 transform active:translate-y-1 transition-all">
                             <span>🔊</span> 廣東話朗讀 (粵語)
                         </button>
-                        <!-- 普通話朗讀 -->
-                        <button id="btn-read-mandarin" onclick="readAloud('mandarin')" class="px-4 py-2.5 bg-orange-400 hover:bg-orange-500 text-white text-xs md:text-sm font-extrabold rounded-full border-2 border-orange-600 kids-shadow-warning flex items-center gap-1.5 transform active:translate-y-1 transition-all">
-                            <span>🗣️</span> 普通話朗讀 (國語)
-                        </button>
                         <!-- 顯示/隱藏拼音 -->
-                        <button onclick="togglePinyinDisplay()" id="btn-toggle-pinyin" class="px-4 py-2.5 bg-blue-400 hover:bg-blue-500 text-white text-xs md:text-sm font-extrabold rounded-full border-2 border-blue-600 kids-shadow-info flex items-center gap-1.5 transform active:translate-y-1 transition-all">
+                        <button onclick="togglePinyinDisplay()" id="btn-toggle-pinyin" class="px-5 py-2.5 bg-blue-400 hover:bg-blue-500 text-white text-xs md:text-sm font-extrabold rounded-full border-2 border-blue-600 kids-shadow-info flex items-center gap-1.5 transform active:translate-y-1 transition-all">
                             <span>📝</span> 顯示/隱藏 拼音
                         </button>
                     </div>
@@ -815,10 +809,10 @@
             if (btn) {
                 if (pinyinVisible) {
                     btn.innerHTML = `<span>📝</span> 隱藏普通話拼音`;
-                    btn.className = "px-4 py-2.5 bg-blue-400 hover:bg-blue-500 text-white text-xs md:text-sm font-extrabold rounded-full border-2 border-blue-600 kids-shadow-info flex items-center gap-1.5 transform active:translate-y-1 transition-all";
+                    btn.className = "px-5 py-2.5 bg-blue-400 hover:bg-blue-500 text-white text-xs md:text-sm font-extrabold rounded-full border-2 border-blue-600 kids-shadow-info flex items-center gap-1.5 transform active:translate-y-1 transition-all";
                 } else {
                     btn.innerHTML = `<span>📝</span> 顯示普通話拼音`;
-                    btn.className = "px-4 py-2.5 bg-slate-400 hover:bg-slate-500 text-white text-xs md:text-sm font-extrabold rounded-full border-2 border-slate-600 kids-shadow flex items-center gap-1.5 transform active:translate-y-1 transition-all";
+                    btn.className = "px-5 py-2.5 bg-slate-400 hover:bg-slate-500 text-white text-xs md:text-sm font-extrabold rounded-full border-2 border-slate-600 kids-shadow flex items-center gap-1.5 transform active:translate-y-1 transition-all";
                 }
             }
             const poem = POEMS_DATA.find(p => p.id === currentLevel);
@@ -827,7 +821,7 @@
             }
         }
 
-        // --- STREAMING_CHUNK: 修復語音合成朗讀模組 (對齊 Mandarin 引擎 & iOS 相容) ---
+        // --- STREAMING_CHUNK: 建立廣東話(粵語)朗讀模組 ---
         function readAloud(language) {
             const poem = POEMS_DATA.find(p => p.id === currentLevel);
             if (!poem) return;
@@ -843,51 +837,51 @@
                 // 獲取目前環境可用的所有聲音庫
                 let voices = window.speechSynthesis.getVoices();
 
-                if (language === 'cantonese') {
-                    // 廣東話 (zh-HK / zh-YUE)
-                    utterance.lang = 'zh-HK';
-                    const cantoneseVoice = voices.find(v => {
-                        const name = v.name.toLowerCase();
-                        const lang = v.lang.toLowerCase();
-                        return lang.includes('hk') || lang.includes('yue') || name.includes('cantonese') || name.includes('hong kong');
-                    });
-                    if (cantoneseVoice) utterance.voice = cantoneseVoice;
+                // 廣東話 (zh-HK / zh-YUE)
+                utterance.lang = 'zh-HK';
+                const cantoneseVoice = voices.find(v => {
+                    const name = v.name.toLowerCase();
+                    const lang = v.lang.toLowerCase();
+                    return lang.includes('hk') || lang.includes('yue') || name.includes('cantonese') || name.includes('hong kong');
+                });
+                if (cantoneseVoice) utterance.voice = cantoneseVoice;
 
-                    const btn = document.getElementById('btn-read-cantonese');
-                    if (btn) {
-                        btn.classList.add('animate-pulse');
-                        utterance.onend = () => btn.classList.remove('animate-pulse');
-                        utterance.onerror = () => btn.classList.remove('animate-pulse');
-                    }
-                } else {
-                    // 普通話 (zh-CN) - 極致相容與匹配邏輯
-                    utterance.lang = 'zh-CN';
-                    
-                    // 從瀏覽器引擎搜尋匹配普通話的聲音包
-                    const mandarinVoice = voices.find(v => {
-                        const name = v.name.toLowerCase();
-                        const lang = v.lang.toLowerCase();
-                        const isMandarin = lang.includes('cn') || lang.includes('hans') || lang.includes('cmn') || name.includes('mandarin') || name.includes('putonghua') || name.includes('xiaoxiao');
-                        const isCantonese = lang.includes('hk') || lang.includes('yue') || name.includes('hong');
-                        return isMandarin && !isCantonese; // 剔除廣東話
-                    });
-                    
-                    if (mandarinVoice) {
-                        utterance.voice = mandarinVoice;
-                    }
-
-                    const btn = document.getElementById('btn-read-mandarin');
-                    if (btn) {
-                        btn.classList.add('animate-pulse');
-                        utterance.onend = () => btn.classList.remove('animate-pulse');
-                        utterance.onerror = () => btn.classList.remove('animate-pulse');
-                    }
+                const btn = document.getElementById('btn-read-cantonese');
+                if (btn) {
+                    btn.classList.add('animate-pulse');
+                    utterance.onend = () => btn.classList.remove('animate-pulse');
+                    utterance.onerror = () => btn.classList.remove('animate-pulse');
                 }
 
                 // 執行朗讀
                 window.speechSynthesis.speak(utterance);
             } else {
                 showKidAlert("抱歉，您的設備不支援網頁語音合成功能，建議使用最新版 Chrome 或 Safari 瀏覽器。");
+            }
+        }
+
+        // --- STREAMING_CHUNK: 建立字詞卡(Flash Card)單獨廣東話發音功能 ---
+        function readWordAloud(e, wordText) {
+            e.stopPropagation(); // 阻止事件向上傳遞，避免點選按鈕時觸發字卡翻面
+            
+            if ('speechSynthesis' in window) {
+                window.speechSynthesis.cancel(); // 停止先前的發音
+                
+                const utterance = new SpeechSynthesisUtterance(wordText);
+                utterance.rate = 0.75; // 舒緩語速
+                utterance.lang = 'zh-HK'; // 設定為廣東話
+                
+                const voices = window.speechSynthesis.getVoices();
+                const cantoneseVoice = voices.find(v => {
+                    const name = v.name.toLowerCase();
+                    const lang = v.lang.toLowerCase();
+                    return lang.includes('hk') || lang.includes('yue') || name.includes('cantonese') || name.includes('hong kong');
+                });
+                if (cantoneseVoice) utterance.voice = cantoneseVoice;
+                
+                window.speechSynthesis.speak(utterance);
+            } else {
+                showKidAlert("抱歉，您的設備不支援網頁語音發聲。");
             }
         }
 
@@ -899,7 +893,7 @@
         }
 
 
-        // --- 第二頁：Flashcards 字詞卡片邏輯 ---
+        // --- STREAMING_CHUNK: 渲染與篩選 Flashcards 重點字詞卡片 ---
         let currentFilterId = 0;
 
         function renderFlashcards() {
@@ -930,27 +924,33 @@
 
             filteredList.forEach((wordObj, idx) => {
                 const cardDiv = document.createElement('div');
-                cardDiv.className = "flip-card w-72 h-44 cursor-pointer transform hover:scale-105 transition-all";
+                cardDiv.className = "flip-card w-72 h-48 cursor-pointer transform hover:scale-105 transition-all";
                 cardDiv.onclick = () => {
                     cardDiv.classList.toggle('flipped');
                 };
 
+                // 在正面字詞下方添加一個精美的 🔊 發音按鈕，並利用 readWordAloud 播放粵語語音
                 cardDiv.innerHTML = `
                     <div class="flip-card-inner relative w-full h-full transition-all duration-500">
                         <!-- 卡片正面 -->
-                        <div class="flip-card-front absolute w-full h-full bg-gradient-to-br from-amber-200 to-yellow-300 border-4 border-yellow-400 rounded-3xl shadow-md p-6 flex flex-col justify-between items-center text-slate-800">
+                        <div class="flip-card-front absolute w-full h-full bg-gradient-to-br from-amber-200 to-yellow-300 border-4 border-yellow-400 rounded-3xl shadow-md p-5 flex flex-col justify-between items-center text-slate-800">
                             <span class="text-xs px-2.5 py-1 bg-white/70 text-amber-900 border border-amber-300 rounded-full font-bold">
                                 來自：《${wordObj.sourcePoem}》
                             </span>
-                            <h4 class="text-3xl font-black text-amber-950">${wordObj.word}</h4>
-                            <span class="text-xs text-amber-800 font-bold">👉 點擊翻頁看普通話拼音與解釋</span>
+                            <div class="flex flex-col items-center gap-1.5">
+                                <h4 class="text-3xl font-black text-amber-950">${wordObj.word}</h4>
+                                <button onclick="readWordAloud(event, '${wordObj.word}')" class="px-3 py-1.5 bg-red-500 hover:bg-red-600 text-white font-extrabold text-xs rounded-full border border-red-600 shadow flex items-center gap-1 active:scale-95 transition-all">
+                                    <span>🔊</span> 聽粵語發音
+                                </button>
+                            </div>
+                            <span class="text-xs text-amber-800 font-bold">👉 點擊卡片翻面看拼音與解釋</span>
                         </div>
                         
                         <!-- 卡片背面 -->
-                        <div class="flip-card-back absolute w-full h-full bg-indigo-50 border-4 border-indigo-400 rounded-3xl shadow-md p-6 flex flex-col justify-between items-center text-indigo-950">
+                        <div class="flip-card-back absolute w-full h-full bg-indigo-50 border-4 border-indigo-400 rounded-3xl shadow-md p-5 flex flex-col justify-between items-center text-indigo-950">
                             <div>
                                 <span class="text-xs px-2.5 py-1 bg-indigo-200/50 text-indigo-900 rounded-full font-bold">
-                                    拼音：[ ${wordObj.pron} ]
+                                    普通話拼音：[ ${wordObj.pron} ]
                                 </span>
                             </div>
                             <p class="text-sm font-bold text-indigo-900 text-center leading-relaxed">
@@ -969,9 +969,9 @@
             const btns = document.querySelectorAll('.filter-card-btn');
             btns.forEach((btn, index) => {
                 if (index === poemId) {
-                    btn.className = "filter-card-btn px-4 py-1.5 bg-blue-500 text-white border-2 border-blue-600 font-bold rounded-full shadow text-sm";
+                    btn.className = "filter-card-btn px-3 py-1 bg-blue-500 text-white border-2 border-blue-600 font-bold rounded-full shadow text-xs";
                 } else {
-                    btn.className = "filter-card-btn px-4 py-1.5 bg-white hover:bg-blue-100 text-slate-700 border-2 border-slate-300 font-bold rounded-full shadow text-sm";
+                    btn.className = "filter-card-btn px-3 py-1 bg-white hover:bg-blue-100 text-slate-700 border-2 border-slate-300 font-bold rounded-full shadow text-xs";
                 }
             });
             renderFlashcards();
@@ -1115,15 +1115,14 @@
         }
 
 
-        // --- STREAMING_CHUNK: 實作新版「詩句重組小神童」小遊戲 (完全適應手機觸控與小螢幕) ---
+        // --- STREAMING_CHUNK: 建立手機流暢玩耍的「詩句重組小神童」小遊戲 ---
         // --- 遊戲 B: 詩句重組小神童 ---
-        let unscrambleTargetLine = ""; // 答案：「床前明月光」
-        let unscrambleCandidateChars = []; // 候選字：['前', '光', '床', '明', '月']
-        let unscrambleSelectedChars = []; // 使用者點選的字：['床']
+        let unscrambleTargetLine = ""; // 答案
+        let unscrambleCandidateChars = []; // 候選字
+        let unscrambleSelectedChars = []; // 使用者點選的字
         let unscrambleActivePoem = null;
 
         function initUnscrambleGame() {
-            // 選擇目前的關卡詩歌，若無，默認第3首（靜夜思）
             unscrambleActivePoem = POEMS_DATA.find(p => p.id === currentLevel) || POEMS_DATA[2];
             
             const titleEl = document.getElementById('current-unscramble-title');
@@ -1131,15 +1130,12 @@
                 titleEl.innerText = `${unscrambleActivePoem.emoji} 當前挑戰：${unscrambleActivePoem.dynasty}《${unscrambleActivePoem.title}》`;
             }
 
-            // 隨機選取該詩的其中一句
             const randomLineIndex = Math.floor(Math.random() * unscrambleActivePoem.content.length);
-            unscrambleTargetLine = unscrambleActivePoem.content[randomLineIndex].line; // 例："鋤禾日當午"
+            unscrambleTargetLine = unscrambleActivePoem.content[randomLineIndex].line;
 
             unscrambleSelectedChars = [];
-            
-            // 打亂文字
             unscrambleCandidateChars = unscrambleTargetLine.split('').sort(() => Math.random() - 0.5);
-            // 防禦性處理：若隨機打亂後與答案完全一樣，再次打亂
+            
             if (unscrambleCandidateChars.join('') === unscrambleTargetLine) {
                 unscrambleCandidateChars.sort(() => Math.random() - 0.5);
             }
@@ -1155,7 +1151,6 @@
             slotsContainer.innerHTML = '';
             candidatesContainer.innerHTML = '';
 
-            // 1. 渲染上方的已填入插槽 (顯示框)
             const targetLen = unscrambleTargetLine.length;
             for (let i = 0; i < targetLen; i++) {
                 const charBox = document.createElement('div');
@@ -1164,7 +1159,6 @@
                 if (unscrambleSelectedChars[i]) {
                     charBox.innerText = unscrambleSelectedChars[i].char;
                     charBox.className = "w-11 h-11 md:w-14 md:h-14 border-4 border-emerald-400 bg-yellow-100 rounded-xl flex items-center justify-center text-lg md:text-2xl font-black text-emerald-900 shadow transform scale-105 active:scale-95 cursor-pointer";
-                    // 點擊可以移除該字，回退字庫
                     const targetIndex = i;
                     charBox.onclick = () => removeSelectedChar(targetIndex);
                 } else {
@@ -1173,20 +1167,15 @@
                 slotsContainer.appendChild(charBox);
             }
 
-            // 2. 渲染下方的備選按鈕
             unscrambleCandidateChars.forEach((char, index) => {
-                // 檢查此備選字是否已經被點選上去了
                 const isSelected = unscrambleSelectedChars.some(item => item.origIndex === index);
-
                 const charBtn = document.createElement('button');
                 charBtn.innerText = char;
                 
                 if (isSelected) {
-                    // 已選中的按鈕，將之隱藏或半透明不可點
                     charBtn.className = "w-11 h-11 md:w-14 md:h-14 bg-slate-100 text-slate-300 border-2 border-slate-200 rounded-full font-black text-lg md:text-2xl cursor-not-allowed opacity-30 select-none";
                     charBtn.disabled = true;
                 } else {
-                    // 可點選字丸
                     charBtn.className = "w-11 h-11 md:w-14 md:h-14 bg-gradient-to-br from-amber-300 to-yellow-400 hover:from-amber-400 hover:to-yellow-500 text-amber-950 border-4 border-amber-500 rounded-full font-black text-lg md:text-2xl kids-shadow-warning transform active:scale-95 transition-all cursor-pointer";
                     charBtn.onclick = () => selectChar(char, index);
                 }
@@ -1194,38 +1183,31 @@
             });
         }
 
-        // 點擊備選字
         function selectChar(char, origIndex) {
             if (unscrambleSelectedChars.length < unscrambleTargetLine.length) {
                 unscrambleSelectedChars.push({ char, origIndex });
                 renderUnscrambleBoard();
                 
-                // 檢查是否拼滿
                 if (unscrambleSelectedChars.length === unscrambleTargetLine.length) {
                     checkUnscrambleResult();
                 }
             }
         }
 
-        // 點擊移除插槽上的字
         function removeSelectedChar(slotIndex) {
             unscrambleSelectedChars.splice(slotIndex, 1);
             renderUnscrambleBoard();
         }
 
-        // 驗證答案
         function checkUnscrambleResult() {
             const userString = unscrambleSelectedChars.map(item => item.char).join('');
             if (userString === unscrambleTargetLine) {
-                // 完全正確！
                 setTimeout(() => {
                     triggerConfetti();
                     showKidAlert(`恭喜小神童！🎉 正確答案就是「${unscrambleTargetLine}」！`);
-                    // 爆彩花後，自動開啟下一句
                     setTimeout(initUnscrambleGame, 1500);
                 }, 300);
             } else {
-                // 答錯，觸發抖動效果
                 setTimeout(() => {
                     const slots = document.getElementById('unscramble-slots');
                     if (slots) {
@@ -1233,7 +1215,6 @@
                         setTimeout(() => slots.classList.remove('animate-shake'), 400);
                     }
                     showKidAlert("順序不太對哦，請再看一遍拼音跟詩歌，重新嘗試吧！");
-                    // 答錯後自動幫玩家重置
                     resetUnscrambleGame();
                 }, 300);
             }
@@ -1245,7 +1226,6 @@
         }
 
         function nextUnscrambleQuestion() {
-            // 隨機切換到另一首
             const randomPoemId = Math.floor(Math.random() * POEMS_DATA.length) + 1;
             currentLevel = randomPoemId;
             initUnscrambleGame();
@@ -1425,7 +1405,7 @@
             }
         }
 
-        // --- 全安全定位函數 (100% 不依賴任何可能拋錯的原生 scrollIntoView) ---
+        // --- 全安全定位函數 ---
         function scrollToElementSafely(element) {
             if (!element) return;
             try {
