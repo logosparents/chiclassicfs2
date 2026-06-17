@@ -10,8 +10,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Chilanka&family=Noto+Sans+TC:wght@400;700;900&family=Comic+Neue:wght@700&display=swap" rel="stylesheet">
     <!-- FontAwesome 圖標 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- canvas-confetti 動畫效果 -->
-    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     
     <style>
         body {
@@ -111,26 +109,27 @@
     </div>
 
     <script>
-        // 核心古詩文數據庫
+        // 核心古詩文數據庫 - 全部使用普通話拼音
         const POEMS_DATA = [
             {
                 id: 1,
                 title: "回鄉偶書",
                 author: "賀知章",
                 dynasty: "唐代",
+                videoEmbedUrl: "https://www.youtube.com/embed/PCwF6Y-ezoo?list=PLVQtFr_2AmTTPDC1dBVn43IyJHrZzd76G",
                 content: [
-                    { line: "少小離家老大回", pinyin: "shào xiǎo lí jiā lǎo dà huí", jyutping: "siu2 siu2 lei4 gaa1 lou5 daai6 wui4" },
-                    { line: "鄉音無改鬢毛衰", pinyin: "xiāng yīn wú gǎi bìn máo cuī", jyutping: "hoeng1 jam1 mou4 goi2 ban1 mou4 seoi1" },
-                    { line: "兒童相見不相識", pinyin: "ér tóng xiāng jiàn bù xiāng shí", jyutping: "ji4 tung4 soeng1 gin3 bat1 soeng1 sik1" },
-                    { line: "笑問客從何處來", pinyin: "xiào wèn kè cóng hé chù lái", jyutping: "siu3 man6 haak3 cung4 ho4 cyu3 loi4" }
+                    { line: "少小離家老大回", pinyin: "shào xiǎo lí jiā lǎo dà huí" },
+                    { line: "鄉音無改鬢毛衰", pinyin: "xiāng yīn wú gǎi bìn máo cuī" },
+                    { line: "兒童相見不相識", pinyin: "ér tóng xiāng jiàn bù xiāng shí" },
+                    { line: "笑問客從何處來", pinyin: "xiào wèn kè cóng hé chù lái" }
                 ],
                 explanation: "詩人小時候離開家鄉，老了才回來。他的家鄉口音沒有改變，但耳邊的頭髮已經斑白稀疏。村裏的孩子們看見他，都不認識他，笑着問他：『客人，您是從哪裏來的呀？』",
                 themeColor: "bg-red-100 border-red-400 text-red-800",
                 btnColor: "bg-red-500 hover:bg-red-600 text-white kids-shadow-primary",
                 emoji: "👴🏡",
                 words: [
-                    { word: "鄉音", pron: "hoeng1 jam1", meaning: "故鄉的方言、口音" },
-                    { word: "鬢毛衰", pron: "ban1 mou4 seoi1", meaning: "耳邊的頭髮變稀疏斑白了" }
+                    { word: "鄉音", pron: "xiāng yīn", meaning: "故鄉的方言、口音" },
+                    { word: "鬢毛衰", pron: "bìn máo cuī", meaning: "耳邊的頭髮變稀疏斑白了" }
                 ]
             },
             {
@@ -138,19 +137,20 @@
                 title: "九月九日憶山東兄弟",
                 author: "王維",
                 dynasty: "唐代",
+                videoEmbedUrl: "https://www.youtube.com/embed/3vCgZf9w3A8?list=PLVQtFr_2AmTTPDC1dBVn43IyJHrZzd76G",
                 content: [
-                    { line: "獨在異鄉為異客", pinyin: "dú zài yì xiāng wéi yì kè", jyutping: "duk6 zoi6 ji6 hoeng1 wai4 ji6 haak3" },
-                    { line: "每逢佳節倍思親", pinyin: "měi féng jiā jié bèi sī qīn", jyutping: "mui5 fung4 gaa1 zit3 pui5 si1 can1" },
-                    { line: "遙知兄弟登高處", pinyin: "yáo zhī xiōng dì dēng gāo chù", jyutping: "jiu4 zi1 hing1 dai6 dang1 gou1 cyu3" },
-                    { line: "遍插茱萸少一人", pinyin: "biàn chā zhū yú shǎo yī rén", jyutping: "bin3 caap3 zyu1 jyu4 siu2 jat1 jan4" }
+                    { line: "獨在異鄉為異客", pinyin: "dú zài yì xiāng wéi yì kè" },
+                    { line: "每逢佳節倍思親", pinyin: "měi féng jiā jié bèi sī qīn" },
+                    { line: "遙知兄弟登高處", pinyin: "yáo zhī xiōng dì dēng gāo chù" },
+                    { line: "遍插茱萸少一人", pinyin: "biàn chā zhū yú shǎo yī rén" }
                 ],
                 explanation: "我獨自一個人外地漂泊，每當遇到好節日（如重陽節）就更加思念家鄉的親人。我在遠方想像，兄弟們今天一定登上了高山，大家都插戴着茱萸，只少了我一個人。",
                 themeColor: "bg-orange-100 border-orange-400 text-orange-800",
                 btnColor: "bg-orange-500 hover:bg-orange-600 text-white kids-shadow-warning",
                 emoji: "🍂⛰️",
                 words: [
-                    { word: "異鄉", pron: "ji6 hoeng1", meaning: "他鄉，自己家鄉以外的地方" },
-                    { word: "茱萸", pron: "zyu1 jyu4", meaning: "一種有香氣的植物，古人在重陽節插戴來辟邪" }
+                    { word: "異鄉", pron: "yì xiāng", meaning: "他鄉，自己家鄉以外的地方" },
+                    { word: "茱萸", pron: "zhū yú", meaning: "一種有香氣的植物，古人在重陽節插戴來避邪" }
                 ]
             },
             {
@@ -158,19 +158,20 @@
                 title: "靜夜思",
                 author: "李白",
                 dynasty: "唐代",
+                videoEmbedUrl: "https://www.youtube.com/embed/3v2A_N4m7lA?list=PLVQtFr_2AmTTPDC1dBVn43IyJHrZzd76G",
                 content: [
-                    { line: "床前明月光", pinyin: "chuáng qián míng yuè guāng", jyutping: "cong4 cin4 ming4 jyut6 gwong1" },
-                    { line: "疑是地上霜", pinyin: "yí shì dì shàng shuāng", jyutping: "ji4 si6 dei6 soeng6 soeng1" },
-                    { line: "舉頭望明月", pinyin: "jǔ tóu wàng míng yuè", jyutping: "geoi2 tau4 mong6 ming4 jyut6" },
-                    { line: "低頭思故鄉", pinyin: "dī tóu sī gù xiāng", jyutping: "dai1 tau4 si1 gu3 hoeng1" }
+                    { line: "床前明月光", pinyin: "chuáng qián míng yuè guāng" },
+                    { line: "疑是地上霜", pinyin: "yí shì dì shàng shuāng" },
+                    { line: "舉頭望明月", pinyin: "jǔ tóu wàng míng yuè" },
+                    { line: "低頭思故鄉", pinyin: "dī tóu sī gù xiāng" }
                 ],
                 explanation: "明亮的月光灑在我的床前，讓我恍惚以為是地上鋪了一層白白的霜。我抬起頭，看着天空中那一輪明月，不由得低下頭，思念起遠方的故鄉。",
                 themeColor: "bg-blue-100 border-blue-400 text-blue-800",
                 btnColor: "bg-blue-500 hover:bg-blue-600 text-white kids-shadow-info",
                 emoji: "🌕🛏️",
                 words: [
-                    { word: "疑是", pron: "ji4 si6", meaning: "好像是、懷疑是" },
-                    { word: "思故鄉", pron: "si1 gu3 hoeng1", meaning: "思念起自己的家鄉與親人" }
+                    { word: "疑是", pron: "yí shì", meaning: "好像是、懷疑是" },
+                    { word: "思故鄉", pron: "sī gù xiāng", meaning: "思念起自己的家鄉與親人" }
                 ]
             },
             {
@@ -178,19 +179,20 @@
                 title: "蜂",
                 author: "羅隱",
                 dynasty: "唐代",
+                videoEmbedUrl: "https://www.youtube.com/embed/T63F_Ecl0jA?list=PLVQtFr_2AmTTPDC1dBVn43IyJHrZzd76G",
                 content: [
-                    { line: "不論平地與山尖", pinyin: "bù lùn píng dì yǔ shān jiān", jyutping: "bat1 leon6 ping4 dei6 jyu5 saan1 zim1" },
-                    { line: "無限風光盡被占", pinyin: "wú xiàn fēng guāng jìn bèi zhàn", jyutping: "mou4 haan6 fung1 gwong1 zeon6 bei6 zim1" },
-                    { line: "採得百花成蜜後", pinyin: "cǎi dé bǎi huā chéng mì hòu", jyutping: "coi2 dak1 baak1 faa1 sing4 mat6 hau6" },
-                    { line: "為誰辛苦為誰甜", pinyin: "wèi shuí xīn kǔ wèi shuí tián", jyutping: "wai6 seoi4 san1 fu2 wai6 seoi4 tim4" }
+                    { line: "不論平地與山尖", pinyin: "bù lùn píng dì yǔ shān jiān" },
+                    { line: "無限風光盡被占", pinyin: "wú xiàn fēng guāng jìn bèi zhàn" },
+                    { line: "採得百花成蜜後", pinyin: "cǎi dé bǎi huā chéng mì hòu" },
+                    { line: "為誰辛苦為誰甜", pinyin: "wèi shuí xīn kǔ wèi shuí tián" }
                 ],
                 explanation: "無論是平平整整的平原，還是高聳的山尖，只要有花朵，美麗的風景都被蜜蜂佔據了。蜜蜂辛苦地採摘了無數花朵釀成甜甜的蜂蜜，這到底是為了誰而辛苦，又是為了誰帶來甜美呢？",
                 themeColor: "bg-yellow-100 border-yellow-400 text-yellow-800",
                 btnColor: "bg-yellow-500 hover:bg-yellow-600 text-yellow-950 kids-shadow-warning",
                 emoji: "🐝🌸",
                 words: [
-                    { word: "風光", pron: "fung1 gwong1", meaning: "大自然的美麗景色" },
-                    { word: "盡被占", pron: "zeon6 bei6 zim1", meaning: "全部都被蜜蜂們佔據了（形容蜜蜂無處不在）" }
+                    { word: "風光", pron: "fēng guāng", meaning: "大自然的美麗景色" },
+                    { word: "盡被占", pron: "jìn bèi zhàn", meaning: "全部都被蜜蜂們佔據了（形容蜜蜂無處不在）" }
                 ]
             },
             {
@@ -198,19 +200,20 @@
                 title: "登鸛雀樓",
                 author: "王之渙",
                 dynasty: "唐代",
+                videoEmbedUrl: "https://www.youtube.com/embed/fGvG1h6D1iQ?list=PLVQtFr_2AmTTPDC1dBVn43IyJHrZzd76G",
                 content: [
-                    { line: "白日依山盡", pinyin: "bái rì yī shān jìn", jyutping: "baak6 jat6 ji1 saan1 zeon6" },
-                    { line: "黃河入海流", pinyin: "huáng hé rù hǎi liú", jyutping: "wong4 ho4 jap6 hoi2 lau4" },
-                    { line: "欲窮千里目", pinyin: "yù qióng qiān lǐ mù", jyutping: "juk6 kung4 cin1 lei5 muk6" },
-                    { line: "更上一層樓", pinyin: "gèng shàng yī céng lóu", jyutping: "gang1 soeng5 jat1 cang4 lau4" }
+                    { line: "白日依山盡", pinyin: "bái rì yī shān jìn" },
+                    { line: "黃河入海流", pinyin: "huáng hé rù hǎi liú" },
+                    { line: "欲窮千里目", pinyin: "yù qióng qiān lǐ mù" },
+                    { line: "更上一層樓", pinyin: "gèng shàng yī céng lóu" }
                 ],
                 explanation: "太陽依着遠方的山慢慢落下去了，滾滾的黃河水奔騰流向大海。如果你想要看到更遠更美麗、無窮無盡的景色，就要再往上爬登上一層樓哦！",
                 themeColor: "bg-emerald-100 border-emerald-400 text-emerald-800",
                 btnColor: "bg-emerald-500 hover:bg-emerald-600 text-white kids-shadow-success",
                 emoji: "🌅🏢",
                 words: [
-                    { word: "欲窮", pron: "juk6 kung4", meaning: "想要看盡、想要看個夠" },
-                    { word: "更上", pron: "gang1 soeng5", meaning: "更加、再往上攀登" }
+                    { word: "欲窮", pron: "yù qióng", meaning: "想要看盡、想要看個夠" },
+                    { word: "更上", pron: "gèng shàng", meaning: "更加、再往上攀登" }
                 ]
             },
             {
@@ -218,19 +221,20 @@
                 title: "憫農",
                 author: "李紳",
                 dynasty: "唐代",
+                videoEmbedUrl: "https://www.youtube.com/embed/8tA0p3Xb6a0?list=PLVQtFr_2AmTTPDC1dBVn43IyJHrZzd76G",
                 content: [
-                    { line: "鋤禾日當午", pinyin: "chú hé rì dāng wǔ", jyutping: "co4 wo4 jat6 dong1 ng5" },
-                    { line: "汗滴禾下土", pinyin: "hàn dī hé xià tǔ", jyutping: "hon6 dik6 wo4 haa6 tou2" },
-                    { line: "誰知盤中餐", pinyin: "shuí zhī pán zhōng cān", jyutping: "seoi4 zi1 pun4 zung1 caan1" },
-                    { line: "粒粒皆辛苦", pinyin: "lì lì jiē xīn kǔ", jyutping: "lap1 lap1 gaai1 san1 fu2" }
+                    { line: "鋤禾日當午", pinyin: "chú hé rì dāng wǔ" },
+                    { line: "汗滴禾下土", pinyin: "hàn dī hé xià tǔ" },
+                    { line: "誰知盤中餐", pinyin: "shuí zhī bàn zhōng cān" },
+                    { line: "粒粒皆辛苦", pinyin: "lì lì jiē xīn kǔ" }
                 ],
                 explanation: "農民伯伯頂着中午火辣辣的太陽在田裏除草，辛勤的汗水一滴滴地掉落在禾苗底下的泥土裏。有誰能知道，我們碗盤中的香噴噴白米飯，每一粒都是農民伯伯無比辛苦換來的呢？",
                 themeColor: "bg-teal-100 border-teal-400 text-teal-800",
                 btnColor: "bg-teal-500 hover:bg-teal-600 text-white kids-shadow-info",
                 emoji: "🌾☀️",
                 words: [
-                    { word: "鋤禾", pron: "co4 wo4", meaning: "在田裏鬆土，給禾苗拔草" },
-                    { word: "皆辛苦", pron: "gaai1 san1 fu2", meaning: "全都是非常辛勞得來的結果" }
+                    { word: "鋤禾", pron: "chú hé", meaning: "在田裏鬆土，給禾苗拔草" },
+                    { word: "皆辛苦", pron: "jiē xīn kǔ", meaning: "全都是非常辛勞得來的結果" }
                 ]
             },
             {
@@ -238,19 +242,20 @@
                 title: "清明",
                 author: "杜牧",
                 dynasty: "唐代",
+                videoEmbedUrl: "https://www.youtube.com/embed/M_Yv0N6S6_Y?list=PLVQtFr_2AmTTPDC1dBVn43IyJHrZzd76G",
                 content: [
-                    { line: "清明時節雨紛紛", pinyin: "qīng míng shí jié yǔ fēn fēn", jyutping: "cing1 ming4 si4 zit3 jyu5 fan1 fan1" },
-                    { line: "路上行人欲斷魂", pinyin: "lù shàng xíng rén yù duàn hún", jyutping: "lou6 soeng6 hang4 jan4 juk6 dyun6 wan4" },
-                    { line: "借問酒家何處有", pinyin: "jiè wèn jiǔ jiā hé chù yǒu", jyutping: "ze3 man6 zau2 gaa1 ho4 cyu3 jau5" },
-                    { line: "牧童遙指杏花村", pinyin: "mù tóng yáo zhǐ xìng huā cūn", jyutping: "muk6 tung4 jiu4 zi2 hang6 faa1 cyun1" }
+                    { line: "清明時節雨紛紛", pinyin: "qīng míng shí jié yǔ fēn fēn" },
+                    { line: "路上行人欲斷魂", pinyin: "lù shàng xíng rén yù duàn hún" },
+                    { line: "借問酒家何處有", pinyin: "jiè wèn jiǔ jiā hé chù yǒu" },
+                    { line: "牧童遙指杏花村", pinyin: "mù tóng yáo zhǐ xìng huā cūn" }
                 ],
                 explanation: "清明節的時候，天空下起紛紛揚揚的細雨。在路上趕路的人，心裏都感到憂愁難過極了。請問哪裏有客棧酒家可以歇歇腳呢？小牧童指着遠方美麗的杏花村。",
                 themeColor: "bg-purple-100 border-purple-400 text-purple-800",
                 btnColor: "bg-purple-500 hover:bg-purple-600 text-white kids-shadow-purple",
                 emoji: "🌧️🐃",
                 words: [
-                    { word: "紛紛", pron: "fan1 fan1", meaning: "形容雨下個不停、細雨密布的樣子" },
-                    { word: "遙指", pron: "jiu4 zi2", meaning: "伸出手指向遠遠的地方" }
+                    { word: "紛紛", pron: "fēn fēn", meaning: "形容雨下個不停、細雨密布的樣子" },
+                    { word: "遙指", pron: "yáo zhǐ", meaning: "伸出手指向遠遠的地方" }
                 ]
             },
             {
@@ -258,19 +263,20 @@
                 title: "元日",
                 author: "王安石",
                 dynasty: "宋代",
+                videoEmbedUrl: "https://www.youtube.com/embed/Z0oYm0O2N_o?list=PLVQtFr_2AmTTPDC1dBVn43IyJHrZzd76G",
                 content: [
-                    { line: "爆竹聲中一歲除", pinyin: "bào zhú shēng zhōng yī suì chú", jyutping: "baau3 zuk1 sing1 zung1 jat1 seoi3 ceoi2" },
-                    { line: "春風送暖入屠蘇", pinyin: "chūn fēng sòng nuǎn rù tú sū", jyutping: "ceon1 fung1 sung3 nyun5 jap6 tou4 sou1" },
-                    { line: "千門萬戶曈曈日", pinyin: "qiān mén wàn hù tóng tóng rì", jyutping: "cin1 mun4 maan6 wu6 tung4 tung4 jat1" },
-                    { line: "總把新桃換舊符", pinyin: "zǒng bǎ xīn táo huàn jiù fú", jyutping: "zung2 baa2 san1 tou4 wun6 gau6 fu4" }
+                    { line: "爆竹聲中一歲除", pinyin: "bào zhú shēng zhōng yī suì chú" },
+                    { line: "春風送暖入屠蘇", pinyin: "chūn fēng sòng nuǎn rù tú sū" },
+                    { line: "千門萬戶曈曈日", pinyin: "qiān mén wàn hù tóng tóng rì" },
+                    { line: "總把新桃換舊符", pinyin: "zǒng bǎ xīn táo huàn jiù fú" }
                 ],
                 explanation: "在噼裏啪啦的爆竹聲中，舊的一年過去了。溫慢的春風吹拂着大地，大家開心地喝着避邪的屠蘇酒。初升的太陽照亮了千家萬戶，大家把門口舊的桃符換成了新寫的桃符。",
                 themeColor: "bg-rose-100 border-rose-400 text-rose-800",
                 btnColor: "bg-rose-500 hover:bg-rose-600 text-white kids-shadow-primary",
                 emoji: "🧨🍊",
                 words: [
-                    { word: "一歲除", pron: "jat1 seoi3 ceoi2", meaning: "一年過去了（除：過去，消逝）" },
-                    { word: "新桃換舊符", pron: "san1 tou4 wun6 gau6 fu4", meaning: "把舊的春聯（桃符）除下，換上新的" }
+                    { word: "一歲除", pron: "yī suì chú", meaning: "一年過去了（除：過去，消逝）" },
+                    { word: "新桃換舊符", pron: "xīn táo huàn jiù fú", meaning: "把舊的春聯（桃符）除下，換上新的" }
                 ]
             }
         ];
@@ -316,17 +322,17 @@
         <section id="page-home" class="tab-content block">
             
             <!-- YouTube 學習影片橫幅 -->
-            <div class="bg-gradient-to-r from-pink-400 to-amber-300 p-6 rounded-3xl border-4 border-pink-500 kids-shadow-primary mb-8 text-center relative overflow-hidden">
+            <div id="video-section-anchor" class="bg-gradient-to-r from-pink-400 to-amber-300 p-6 rounded-3xl border-4 border-pink-500 kids-shadow-primary mb-8 text-center relative overflow-hidden">
                 <div class="absolute -right-10 -top-10 text-9xl opacity-10 rotate-12">🎬</div>
                 <h2 class="text-2xl md:text-3xl font-black text-white mb-4 drop-shadow-md">
                     🌟 兒歌古詩動畫劇場 🌟
                 </h2>
                 <p class="text-white font-medium mb-6 text-sm md:text-base max-w-2xl mx-auto">
-                    聽音樂、唱兒歌，輕輕鬆鬆學會中華經典古詩文！老師和同學們可以一起跟著下面的動畫朗讀哦。
+                    聽音樂、唱兒歌，輕輕鬆鬆學會中華經典古詩文！點選下方關卡即可切換對應古詩學習影片哦。
                 </p>
                 
                 <!-- YouTube 嵌入 -->
-                <div class="aspect-video w-full max-w-3xl mx-auto rounded-2xl border-4 border-white shadow-xl overflow-hidden">
+                <div class="aspect-video w-full max-w-3xl mx-auto rounded-2xl border-4 border-white shadow-xl overflow-hidden bg-black">
                     <iframe 
                         id="yt-player"
                         class="w-full h-full"
@@ -352,7 +358,7 @@
                 <script>
                     POEMS_DATA.forEach((poem, index) => {
                         document.write(`
-                            <button onclick="selectLevel(${poem.id})" id="level-btn-${poem.id}" class="level-btn flex flex-col items-center p-3 rounded-2xl border-4 bg-white border-slate-300 hover:border-yellow-400 hover:scale-105 transition-all">
+                            <button onclick="selectLevel(${poem.id}, false)" id="level-btn-${poem.id}" class="level-btn flex flex-col items-center p-3 rounded-2xl border-4 bg-white border-slate-300 hover:border-yellow-400 hover:scale-105 transition-all">
                                 <span class="w-10 h-10 flex items-center justify-center text-lg font-black bg-slate-100 rounded-full border-2 border-slate-300 mb-1" id="level-badge-${poem.id}">
                                     ${poem.id}
                                 </span>
@@ -381,20 +387,29 @@
                     <!-- 動態JS生成詩歌本體 -->
                 </div>
 
-                <!-- 廣東話發音與控制按鈕 -->
-                <div class="flex flex-wrap justify-center gap-4 mt-8">
-                    <button id="btn-read-aloud" onclick="readAloud()" class="px-6 py-3 bg-red-400 hover:bg-red-500 text-white font-extrabold rounded-full border-2 border-red-600 kids-shadow-primary flex items-center gap-2 transform active:translate-y-1 transition-all">
-                        <span>🔊</span> 廣東話朗讀 (AI發音)
-                    </button>
-                    <button onclick="togglePinyin()" id="btn-pinyin" class="px-6 py-3 bg-indigo-400 hover:bg-indigo-500 text-white font-extrabold rounded-full border-2 border-indigo-600 kids-shadow-info flex items-center gap-2 transform active:translate-y-1 transition-all">
-                        <span>🗣️</span> 切換粵拼 / 漢語拼音
-                    </button>
+                <!-- 智能語音與拼音控制按鈕 -->
+                <div class="mt-8 bg-amber-50 p-4 rounded-2xl border-2 border-amber-200">
+                    <p class="text-center text-xs font-black text-amber-900 mb-3">🗣️ 智能發聲與普通話拼音工具欄</p>
+                    <div class="flex flex-wrap justify-center gap-4">
+                        <!-- 廣東話朗讀 -->
+                        <button id="btn-read-cantonese" onclick="readAloud('cantonese')" class="px-5 py-2.5 bg-red-400 hover:bg-red-500 text-white text-sm font-extrabold rounded-full border-2 border-red-600 kids-shadow-primary flex items-center gap-1.5 transform active:translate-y-1 transition-all">
+                            <span>🔊</span> 廣東話朗讀 (預設)
+                        </button>
+                        <!-- 普通話朗讀 -->
+                        <button id="btn-read-mandarin" onclick="readAloud('mandarin')" class="px-5 py-2.5 bg-orange-400 hover:bg-orange-500 text-white text-sm font-extrabold rounded-full border-2 border-orange-600 kids-shadow-warning flex items-center gap-1.5 transform active:translate-y-1 transition-all">
+                            <span>🗣️</span> 普通話朗讀
+                        </button>
+                        <!-- 顯示/隱藏拼音 -->
+                        <button onclick="togglePinyinDisplay()" id="btn-toggle-pinyin" class="px-5 py-2.5 bg-blue-400 hover:bg-blue-500 text-white text-sm font-extrabold rounded-full border-2 border-blue-600 kids-shadow-info flex items-center gap-1.5 transform active:translate-y-1 transition-all">
+                            <span>📝</span> 顯示/隱藏 拼音
+                        </button>
+                    </div>
                 </div>
 
                 <!-- 淺白譯文 -->
-                <div class="mt-8 bg-green-50 p-5 rounded-2xl border-2 border-green-300 text-green-950">
+                <div class="mt-6 bg-green-50 p-5 rounded-2xl border-2 border-green-300 text-green-950">
                     <h4 class="font-black text-lg mb-2 flex items-center gap-2">
-                        <span>💡</span> 詩歌大意（童趣譯文）：
+                        <span>💡</span> 詩歌大意（兒童版）：
                     </h4>
                     <p id="poem-explanation" class="text-sm md:text-base leading-relaxed">
                         明亮的月光灑在我的床前...
@@ -410,7 +425,7 @@
                 <h3 class="text-3xl font-black text-blue-950 flex items-center justify-center gap-2">
                     🃏 重點字詞智多星
                 </h3>
-                <p class="text-blue-800 text-sm font-bold mt-1">點擊卡片即可旋轉，翻轉看字詞解釋和粵音！</p>
+                <p class="text-blue-800 text-sm font-bold mt-1">點擊卡片即可翻面，查看字詞普通話拼音和淺易解釋！</p>
                 
                 <!-- 篩選器 -->
                 <div class="flex justify-center flex-wrap gap-2 mt-4">
@@ -568,7 +583,7 @@
                         <div class="flex flex-col gap-2">
                             <label class="inline-flex items-center font-bold text-slate-700 text-xs cursor-pointer">
                                 <input type="checkbox" id="ws-type-pinyin" checked class="rounded border-purple-400 text-purple-600 focus:ring-purple-500 mr-2">
-                                題型一：拼音/粵拼填空
+                                題型一：普通話拼音填空
                             </label>
                             <label class="inline-flex items-center font-bold text-slate-700 text-xs cursor-pointer">
                                 <input type="checkbox" id="ws-type-matching" checked class="rounded border-purple-400 text-purple-600 focus:ring-purple-500 mr-2">
@@ -580,7 +595,7 @@
                             </label>
                             <label class="inline-flex items-center font-bold text-slate-700 text-xs cursor-pointer">
                                 <input type="checkbox" id="ws-type-copybook" checked class="rounded border-purple-400 text-purple-600 focus:ring-purple-500 mr-2">
-                                題型四：硬筆書法臨摹格
+                                題型四：硬筆九宮格臨摹格
                             </label>
                         </div>
                     </div>
@@ -650,7 +665,7 @@
     <script>
         // 全局狀態
         let currentLevel = 1;
-        let pinyinMode = 'jyutping'; // 'jyutping' 或 'pinyin'
+        let pinyinVisible = true; // 是否顯示普通話拼音
         let currentTab = 'home';
         
         // --- 樂園提示框 ---
@@ -663,45 +678,101 @@
             document.getElementById('kid-alert-modal').classList.add('hidden');
         }
 
+        // --- 純原生 CSS DOM 噴砂五彩爆破特效 (徹底免除對外置 Confetti 庫的 getBoundingClientRect 依賴) ---
+        function triggerConfetti() {
+            try {
+                const colors = ['#f43f5e', '#f59e0b', '#10b981', '#3b82f6', '#8b5cf6', '#ec4899'];
+                const container = document.body;
+                if (!container) return;
+
+                for (let i = 0; i < 45; i++) {
+                    const el = document.createElement('div');
+                    el.className = 'no-print';
+                    el.style.position = 'fixed';
+                    el.style.width = Math.random() * 8 + 6 + 'px';
+                    el.style.height = Math.random() * 12 + 6 + 'px';
+                    el.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                    el.style.left = Math.random() * 100 + 'vw';
+                    el.style.top = '-20px';
+                    el.style.borderRadius = '3px';
+                    el.style.zIndex = '9999';
+                    el.style.pointerEvents = 'none';
+                    
+                    const rotation = Math.random() * 360;
+                    const targetLeftSway = (Math.random() - 0.5) * 260; // 飄動左右位移
+                    const duration = Math.random() * 1.5 + 1.5; // 1.5 ~ 3.0s
+                    
+                    el.style.transition = `transform ${duration}s linear, top ${duration}s linear, left ${duration}s linear`;
+                    container.appendChild(el);
+                    
+                    // 於下一幀渲染起動動畫
+                    requestAnimationFrame(() => {
+                        el.style.top = '105vh';
+                        el.style.left = `calc(${el.style.left} + ${targetLeftSway}px)`;
+                        el.style.transform = `rotate(${rotation + 720}deg)`;
+                    });
+                    
+                    // 播放完畢清除 DOM 節點
+                    setTimeout(() => {
+                        if (el && el.parentNode) {
+                            el.parentNode.removeChild(el);
+                        }
+                    }, duration * 1000);
+                }
+            } catch (err) {
+                // 靜默捕捉，防禦極端沙盒
+            }
+        }
+
         // --- Tab 導航控制 ---
         function switchTab(tabId) {
             currentTab = tabId;
-            // 隱藏所有 tab 內容
             document.querySelectorAll('.tab-content').forEach(element => {
                 element.classList.add('hidden');
             });
-            // 顯示當前 tab 內容
             document.getElementById(`page-${tabId}`).classList.remove('hidden');
 
-            // 調整按鈕激活樣式
             document.querySelectorAll('.tab-btn').forEach(btn => {
                 btn.classList.add('opacity-75');
             });
-            document.getElementById(`tab-${tabId}`).classList.remove('opacity-75');
+            const activeBtn = document.getElementById(`tab-${tabId}`);
+            if (activeBtn) {
+                activeBtn.classList.remove('opacity-75');
+            }
 
-            // 如果切換到 Flashcard，初始化
             if (tabId === 'flashcards') {
                 renderFlashcards();
             }
-            // 如果切換到 遊戲，初始化配對
             if (tabId === 'games') {
                 initMatchGame();
-                // 確保延遲一點等 DOM 高度加載完再初始化畫布大小
                 setTimeout(initPainter, 50);
             }
-            // 如果切換到工作紙
             if (tabId === 'worksheets') {
                 initWorksheetGenerator();
             }
         }
 
-        // --- 第一頁：古詩關卡控制 ---
-        function selectLevel(levelId) {
+        // --- 第一頁：古詩關卡控制 (不使用任何原生 scrollIntoView 避免沙盒 Polyfill 崩潰) ---
+        function selectLevel(levelId, isInitial = false) {
             currentLevel = levelId;
             const poem = POEMS_DATA.find(p => p.id === levelId);
             if (!poem) return;
 
-            // 更新關卡選中狀態樣式
+            // 1. 刷新 YouTube 影片播放
+            const ytPlayer = document.getElementById('yt-player');
+            if (ytPlayer && poem.videoEmbedUrl) {
+                ytPlayer.src = poem.videoEmbedUrl;
+                
+                // 僅在用戶主動點選關卡時進行精確滾動（在 window.onload 初始化加載時不自動滾動，避免干擾學生的視覺與觸發沙盒 DOM Interceptor）
+                if (!isInitial) {
+                    const anchor = document.getElementById('video-section-anchor');
+                    if (anchor) {
+                        scrollToElementSafely(anchor);
+                    }
+                }
+            }
+
+            // 2. 刷新按鈕選中狀態
             document.querySelectorAll('.level-btn').forEach(btn => {
                 btn.className = "level-btn flex flex-col items-center p-3 rounded-2xl border-4 bg-white border-slate-300 hover:border-yellow-400 hover:scale-105 transition-all";
             });
@@ -710,12 +781,11 @@
                 activeBtn.className = "level-btn flex flex-col items-center p-3 rounded-2xl border-4 bg-yellow-100 border-yellow-400 scale-105 transition-all ring-4 ring-yellow-300";
             }
 
-            // 更新展示卡片
+            // 3. 更新數據展示
             const viewer = document.getElementById('poem-viewer');
-            viewer.classList.remove('hidden');
-
-            // 設置主題顏色
-            viewer.className = `bg-white border-8 border-yellow-300 rounded-3xl p-6 md:p-8 shadow-inner relative max-w-4xl mx-auto transition-all duration-300`;
+            if (viewer) {
+                viewer.classList.remove('hidden');
+            }
 
             document.getElementById('poem-emoji').innerText = poem.emoji;
             document.getElementById('poem-dynasty').innerText = poem.dynasty;
@@ -725,28 +795,26 @@
 
             renderPoemLines(poem);
 
-            // 當選取關卡時，發射五彩碎片動畫，增加儀式感
-            confetti({
-                particleCount: 50,
-                spread: 60,
-                origin: { y: 0.8 }
-            });
+            // 僅在非初始加載時觸發自研彩帶特效
+            if (!isInitial) {
+                triggerConfetti();
+            }
         }
 
-        // 渲染詩句（支持粵拼、拼音切換）
+        // 渲染詩句
         function renderPoemLines(poem) {
             const container = document.getElementById('poem-lines-container');
+            if (!container) return;
             container.innerHTML = '';
 
             poem.content.forEach((item, index) => {
-                const phoneticText = pinyinMode === 'jyutping' ? item.jyutping : item.pinyin;
-                const phoneticColor = pinyinMode === 'jyutping' ? 'text-indigo-600' : 'text-emerald-600';
-                
                 const lineDiv = document.createElement('div');
                 lineDiv.className = 'text-center py-2';
+                const pinyinClass = pinyinVisible ? 'block' : 'invisible h-0';
+                
                 lineDiv.innerHTML = `
-                    <div class="text-xs md:text-sm ${phoneticColor} font-mono h-5 opacity-80 leading-tight select-none">
-                        ${phoneticText}
+                    <div class="text-xs md:text-sm text-emerald-600 font-mono h-5 opacity-90 leading-tight select-none transition-all ${pinyinClass}">
+                        ${item.pinyin}
                     </div>
                     <div class="text-xl md:text-3xl font-black text-slate-800 tracking-widest mt-1 hover:text-red-500 hover:scale-105 cursor-pointer transition-all">
                         ${item.line}
@@ -756,14 +824,18 @@
             });
         }
 
-        // 切換拼音模式
-        function togglePinyin() {
-            pinyinMode = pinyinMode === 'jyutping' ? 'pinyin' : 'jyutping';
-            const btn = document.getElementById('btn-pinyin');
-            if (pinyinMode === 'jyutping') {
-                btn.innerHTML = `<span>🗣️</span> 使用拼音標註 (國語)`;
-            } else {
-                btn.innerHTML = `<span>🗣️</span> 使用粵拼標註 (廣東話)`;
+        // 切換普通話拼音展示與隱藏
+        function togglePinyinDisplay() {
+            pinyinVisible = !pinyinVisible;
+            const btn = document.getElementById('btn-toggle-pinyin');
+            if (btn) {
+                if (pinyinVisible) {
+                    btn.innerHTML = `<span>📝</span> 隱藏普通話拼音`;
+                    btn.className = "px-5 py-2.5 bg-blue-400 hover:bg-blue-500 text-white text-sm font-extrabold rounded-full border-2 border-blue-600 kids-shadow-info flex items-center gap-1.5 transform active:translate-y-1 transition-all";
+                } else {
+                    btn.innerHTML = `<span>📝</span> 顯示普通話拼音`;
+                    btn.className = "px-5 py-2.5 bg-slate-400 hover:bg-slate-500 text-white text-sm font-extrabold rounded-full border-2 border-slate-600 kids-shadow flex items-center gap-1.5 transform active:translate-y-1 transition-all";
+                }
             }
             const poem = POEMS_DATA.find(p => p.id === currentLevel);
             if (poem) {
@@ -771,40 +843,46 @@
             }
         }
 
-        // Web Speech API 朗讀（廣東話）
-        function readAloud() {
+        // 廣東話 vs 普通話語音合成朗讀
+        function readAloud(language) {
             const poem = POEMS_DATA.find(p => p.id === currentLevel);
             if (!poem) return;
 
-            // 提取整首詩的純文字
             const speechText = poem.content.map(c => c.line).join('。');
 
             if ('speechSynthesis' in window) {
-                // 先取消任何正在播放的語音
-                window.speechSynthesis.cancel();
+                window.speechSynthesis.cancel(); 
 
                 const utterance = new SpeechSynthesisUtterance(speechText);
-                utterance.lang = 'zh-HK'; // 設定為廣東話（香港）
-                utterance.rate = 0.8;    // 稍微放慢一點，方便小朋友聆聽
-                
-                // 嘗試尋找廣東話語音庫
+                utterance.rate = 0.75; 
+
                 const voices = window.speechSynthesis.getVoices();
-                const hkVoice = voices.find(v => v.lang === 'zh-HK' || v.lang === 'zh-YUE');
-                if (hkVoice) {
-                    utterance.voice = hkVoice;
+                
+                if (language === 'cantonese') {
+                    utterance.lang = 'zh-HK';
+                    const cantoneseVoice = voices.find(v => v.lang.toLowerCase().includes('hk') || v.lang.toLowerCase().includes('yue'));
+                    if (cantoneseVoice) utterance.voice = cantoneseVoice;
+                    
+                    const btn = document.getElementById('btn-read-cantonese');
+                    if (btn) {
+                        btn.classList.add('animate-pulse');
+                        utterance.onend = () => btn.classList.remove('animate-pulse');
+                    }
+                } else {
+                    utterance.lang = 'zh-CN';
+                    const mandarinVoice = voices.find(v => v.lang.toLowerCase().includes('cn') || v.lang.toLowerCase().includes('zh-hans') || v.lang.toLowerCase().includes('cmn'));
+                    if (mandarinVoice) utterance.voice = mandarinVoice;
+
+                    const btn = document.getElementById('btn-read-mandarin');
+                    if (btn) {
+                        btn.classList.add('animate-pulse');
+                        utterance.onend = () => btn.classList.remove('animate-pulse');
+                    }
                 }
 
-                // 開始播放
                 window.speechSynthesis.speak(utterance);
-                
-                // 按鈕動效
-                const btn = document.getElementById('btn-read-aloud');
-                btn.classList.add('animate-pulse');
-                utterance.onend = () => {
-                    btn.classList.remove('animate-pulse');
-                };
             } else {
-                showKidAlert("抱歉，您的瀏覽器不支援語音朗讀功能，請更換主流瀏覽器（如 Chrome, Safari）。");
+                showKidAlert("抱歉，您的瀏覽器不支援發聲功能，請更換 Chrome 或 Safari 瀏覽器。");
             }
         }
 
@@ -814,18 +892,17 @@
 
         function renderFlashcards() {
             const grid = document.getElementById('flashcards-grid');
+            if (!grid) return;
             grid.innerHTML = '';
 
             let filteredList = [];
             if (currentFilterId === 0) {
-                // 展示所有詩歌的字詞
                 POEMS_DATA.forEach(p => {
                     p.words.forEach(w => {
                         filteredList.push({ ...w, sourcePoem: p.title });
                     });
                 });
             } else {
-                // 展示單一詩歌的字詞
                 const poem = POEMS_DATA.find(p => p.id === currentFilterId);
                 if (poem) {
                     poem.words.forEach(w => {
@@ -835,14 +912,13 @@
             }
 
             if (filteredList.length === 0) {
-                grid.innerHTML = `<p class="col-span-full text-slate-500 font-bold">該詩歌暫無推薦重點詞彙，去看看其他古詩吧！</p>`;
+                grid.innerHTML = `<p class="col-span-full text-slate-500 font-bold">該詩歌暫無推薦字詞。</p>`;
                 return;
             }
 
             filteredList.forEach((wordObj, idx) => {
                 const cardDiv = document.createElement('div');
                 cardDiv.className = "flip-card w-72 h-44 cursor-pointer transform hover:scale-105 transition-all";
-                // 點擊翻轉
                 cardDiv.onclick = () => {
                     cardDiv.classList.toggle('flipped');
                 };
@@ -855,20 +931,20 @@
                                 來自：《${wordObj.sourcePoem}》
                             </span>
                             <h4 class="text-3xl font-black text-amber-950">${wordObj.word}</h4>
-                            <span class="text-xs text-amber-800 font-bold">👉 點擊翻頁看粵音與解釋</span>
+                            <span class="text-xs text-amber-800 font-bold">👉 點擊翻頁看普通話拼音與解釋</span>
                         </div>
                         
                         <!-- 卡片背面 -->
                         <div class="flip-card-back absolute w-full h-full bg-indigo-50 border-4 border-indigo-400 rounded-3xl shadow-md p-6 flex flex-col justify-between items-center text-indigo-950">
                             <div>
                                 <span class="text-xs px-2.5 py-1 bg-indigo-200/50 text-indigo-900 rounded-full font-bold">
-                                    粵拼：[ ${wordObj.pron} ]
+                                    拼音：[ ${wordObj.pron} ]
                                 </span>
                             </div>
                             <p class="text-sm font-bold text-indigo-900 text-center leading-relaxed">
                                 ${wordObj.meaning}
                             </p>
-                            <span class="text-xs text-indigo-400 font-bold">🔄 點擊卡片翻回正面</span>
+                            <span class="text-xs text-indigo-400 font-bold">🔄 點擊卡片翻回復位</span>
                         </div>
                     </div>
                 `;
@@ -878,7 +954,6 @@
 
         function filterFlashcards(poemId) {
             currentFilterId = poemId;
-            // 更新篩選按鈕樣式
             const btns = document.querySelectorAll('.filter-card-btn');
             btns.forEach((btn, index) => {
                 if (index === poemId) {
@@ -903,16 +978,16 @@
             const painterContainer = document.getElementById('game-painter-container');
 
             if (gameType === 'match') {
-                btnMatch.className = "px-6 py-3 bg-amber-400 text-amber-950 border-4 border-amber-500 font-black rounded-full shadow-lg text-lg flex items-center gap-2";
-                btnPainter.className = "px-6 py-3 bg-slate-200 text-slate-700 border-4 border-slate-300 font-black rounded-full shadow-lg text-lg flex items-center gap-2";
-                matchContainer.classList.remove('hidden');
-                painterContainer.classList.add('hidden');
+                if (btnMatch) btnMatch.className = "px-6 py-3 bg-amber-400 text-amber-950 border-4 border-amber-500 font-black rounded-full shadow-lg text-lg flex items-center gap-2";
+                if (btnPainter) btnPainter.className = "px-6 py-3 bg-slate-200 text-slate-700 border-4 border-slate-300 font-black rounded-full shadow-lg text-lg flex items-center gap-2";
+                if (matchContainer) matchContainer.classList.remove('hidden');
+                if (painterContainer) painterContainer.classList.add('hidden');
                 initMatchGame();
             } else {
-                btnMatch.className = "px-6 py-3 bg-slate-200 text-slate-700 border-4 border-slate-300 font-black rounded-full shadow-lg text-lg flex items-center gap-2";
-                btnPainter.className = "px-6 py-3 bg-indigo-400 text-indigo-950 border-4 border-indigo-500 font-black rounded-full shadow-lg text-lg flex items-center gap-2";
-                matchContainer.classList.add('hidden');
-                painterContainer.classList.remove('hidden');
+                if (btnMatch) btnMatch.className = "px-6 py-3 bg-slate-200 text-slate-700 border-4 border-slate-300 font-black rounded-full shadow-lg text-lg flex items-center gap-2";
+                if (btnPainter) btnPainter.className = "px-6 py-3 bg-indigo-400 text-indigo-950 border-4 border-indigo-500 font-black rounded-full shadow-lg text-lg flex items-center gap-2";
+                if (matchContainer) matchContainer.classList.add('hidden');
+                if (painterContainer) painterContainer.classList.remove('hidden');
                 setTimeout(initPainter, 50);
             }
         }
@@ -922,22 +997,21 @@
             selectedRight = null;
             matchedCount = 0;
             
-            // 隨機抽選 4 條古詩的句子對
             const shuffledPoems = [...POEMS_DATA].sort(() => 0.5 - Math.random()).slice(0, 4);
             const pairs = shuffledPoems.map(p => {
                 return {
-                    left: p.content[0].line,  // 首句
-                    right: p.content[1].line, // 次句 (接龍)
+                    left: p.content[0].line,  
+                    right: p.content[1].line, 
                     id: p.id
-                }
+                };
             });
 
             const leftCol = document.getElementById('match-left-column');
             const rightCol = document.getElementById('match-right-column');
+            if (!leftCol || !rightCol) return;
             leftCol.innerHTML = '';
             rightCol.innerHTML = '';
 
-            // 隨機化兩列的顯示順序
             const leftItems = [...pairs].sort(() => 0.5 - Math.random());
             const rightItems = [...pairs].sort(() => 0.5 - Math.random());
 
@@ -962,66 +1036,57 @@
 
         function selectMatchItem(side, id) {
             if (side === 'left') {
-                // 如果已經點擊了其他的，先復原
                 if (selectedLeft) {
-                    document.getElementById(`match-left-${selectedLeft}`).classList.remove('border-amber-500', 'bg-amber-100');
+                    const prevBtn = document.getElementById(`match-left-${selectedLeft}`);
+                    if (prevBtn) prevBtn.classList.remove('border-amber-500', 'bg-amber-100');
                 }
                 selectedLeft = id;
-                document.getElementById(`match-left-${id}`).classList.add('border-amber-500', 'bg-amber-100');
+                const activeBtn = document.getElementById(`match-left-${id}`);
+                if (activeBtn) activeBtn.classList.add('border-amber-500', 'bg-amber-100');
             } else {
                 if (selectedRight) {
-                    document.getElementById(`match-right-${selectedRight}`).classList.remove('border-amber-500', 'bg-amber-100');
+                    const prevBtn = document.getElementById(`match-right-${selectedRight}`);
+                    if (prevBtn) prevBtn.classList.remove('border-amber-500', 'bg-amber-100');
                 }
                 selectedRight = id;
-                document.getElementById(`match-right-${id}`).classList.add('border-amber-500', 'bg-amber-100');
+                const activeBtn = document.getElementById(`match-right-${id}`);
+                if (activeBtn) activeBtn.classList.add('border-amber-500', 'bg-amber-100');
             }
 
-            // 檢查是否配對成功
             if (selectedLeft !== null && selectedRight !== null) {
                 if (selectedLeft === selectedRight) {
-                    // 成功配對！
                     const lBtn = document.getElementById(`match-left-${selectedLeft}`);
                     const rBtn = document.getElementById(`match-right-${selectedRight}`);
                     
-                    lBtn.className = "w-full py-4 px-3 bg-emerald-100 text-emerald-800 border-4 border-emerald-500 font-black rounded-2xl text-center cursor-not-allowed opacity-60 text-sm md:text-base";
-                    rBtn.className = "w-full py-4 px-3 bg-emerald-100 text-emerald-800 border-4 border-emerald-500 font-black rounded-2xl text-center cursor-not-allowed opacity-60 text-sm md:text-base";
-                    
-                    lBtn.onclick = null;
-                    rBtn.onclick = null;
+                    if (lBtn && rBtn) {
+                        lBtn.className = "w-full py-4 px-3 bg-emerald-100 text-emerald-800 border-4 border-emerald-500 font-black rounded-2xl text-center cursor-not-allowed opacity-60 text-sm md:text-base";
+                        rBtn.className = "w-full py-4 px-3 bg-emerald-100 text-emerald-800 border-4 border-emerald-500 font-black rounded-2xl text-center cursor-not-allowed opacity-60 text-sm md:text-base";
+                        lBtn.onclick = null;
+                        rBtn.onclick = null;
+                    }
 
-                    // 煙花小特效
-                    confetti({
-                        particleCount: 20,
-                        spread: 40,
-                        origin: { y: 0.8 }
-                    });
+                    triggerConfetti();
 
                     matchedCount++;
                     selectedLeft = null;
                     selectedRight = null;
 
                     if (matchedCount === 4) {
-                        // 通關煙花大爆炸
-                        setTimeout(() => {
-                            confetti({
-                                particleCount: 150,
-                                spread: 80,
-                                origin: { y: 0.6 }
-                            });
-                        }, 300);
+                        setTimeout(triggerConfetti, 400);
                     }
                 } else {
-                    // 配對失敗，提示一下，並復原
                     const lBtn = document.getElementById(`match-left-${selectedLeft}`);
                     const rBtn = document.getElementById(`match-right-${selectedRight}`);
                     
-                    lBtn.classList.add('animate-shake', 'border-red-500', 'bg-red-50');
-                    rBtn.classList.add('animate-shake', 'border-red-500', 'bg-red-50');
+                    if (lBtn && rBtn) {
+                        lBtn.classList.add('animate-shake', 'border-red-500', 'bg-red-50');
+                        rBtn.classList.add('animate-shake', 'border-red-500', 'bg-red-50');
 
-                    setTimeout(() => {
-                        lBtn.classList.remove('animate-shake', 'border-red-500', 'bg-red-50', 'border-amber-500', 'bg-amber-100');
-                        rBtn.classList.remove('animate-shake', 'border-red-500', 'bg-red-50', 'border-amber-500', 'bg-amber-100');
-                    }, 500);
+                        setTimeout(() => {
+                            lBtn.classList.remove('animate-shake', 'border-red-500', 'bg-red-50', 'border-amber-500', 'bg-amber-100');
+                            rBtn.classList.remove('animate-shake', 'border-red-500', 'bg-red-50', 'border-amber-500', 'bg-amber-100');
+                        }, 500);
+                    }
 
                     selectedLeft = null;
                     selectedRight = null;
@@ -1034,7 +1099,7 @@
         }
 
 
-        // --- 第三頁：遊戲 B：小畫家邏輯 (全新重寫，徹底解決 Touch Event 與 getBoundingClientRect 衝突) ---
+        // --- 第三頁：遊戲 B：小畫家邏輯 ---
         let canvas, ctx;
         let painting = false;
         let brushColor = '#f43f5e';
@@ -1042,16 +1107,35 @@
 
         function initPainter() {
             canvas = document.getElementById('paintCanvas');
+            if (!canvas) return;
             ctx = canvas.getContext('2d');
             
-            // 響應式：將 canvas 寬度設為容器寬度並做縮放保存
             resizeCanvas();
             window.removeEventListener('resize', resizeCanvas);
             window.addEventListener('resize', resizeCanvas);
 
-            // 統一取得觸控/滑鼠相對 Canvas 的座標位置
+            // 獲取觸摸或滑鼠坐標，加入超安全防護，完全不受沙盒 getBoundingClientRect 影響
             function getCoordinates(e) {
-                const rect = canvas.getBoundingClientRect();
+                const activeCanvas = canvas || document.getElementById('paintCanvas');
+                if (!activeCanvas) return { x: 0, y: 0 };
+                
+                let rect = { left: 0, top: 0 };
+                try {
+                    if (typeof activeCanvas.getBoundingClientRect === 'function') {
+                        rect = activeCanvas.getBoundingClientRect();
+                    }
+                } catch (err) {
+                    // 靜默捕捉，後備由 offset 累加坐標
+                    let offsetLeft = 0, offsetTop = 0;
+                    let curr = activeCanvas;
+                    while (curr) {
+                        offsetLeft += curr.offsetLeft || 0;
+                        offsetTop += curr.offsetTop || 0;
+                        curr = curr.offsetParent;
+                    }
+                    rect = { left: offsetLeft, top: offsetTop };
+                }
+
                 let clientX, clientY;
                 if (e.touches && e.touches.length > 0) {
                     clientX = e.touches[0].clientX;
@@ -1061,8 +1145,8 @@
                     clientY = e.clientY;
                 }
                 return {
-                    x: clientX - rect.left,
-                    y: clientY - rect.top
+                    x: clientX - (rect.left || 0),
+                    y: clientY - (rect.top || 0)
                 };
             }
 
@@ -1071,14 +1155,12 @@
                 ctx.beginPath();
                 const coords = getCoordinates(e);
                 ctx.moveTo(coords.x, coords.y);
-                // 點擊瞬間也畫一個小點
                 ctx.lineTo(coords.x, coords.y);
                 ctx.stroke();
             }
 
             function draw(e) {
                 if (!painting) return;
-                // 阻止預設捲動行為 (尤其是觸控操作)
                 if (e.cancelable) e.preventDefault();
                 
                 const coords = getCoordinates(e);
@@ -1097,13 +1179,13 @@
                 ctx.beginPath();
             }
 
-            // 1. 滑鼠監聽
+            // 滑鼠監聽
             canvas.addEventListener('mousedown', startDrawing);
             canvas.addEventListener('mousemove', draw);
             canvas.addEventListener('mouseup', stopDrawing);
             canvas.addEventListener('mouseleave', stopDrawing);
 
-            // 2. 觸控監聽 (原生處理，不進行 dispatchMouseEvent 轉換以免拋錯)
+            // 觸控監聽
             canvas.addEventListener('touchstart', (e) => {
                 if (e.cancelable) e.preventDefault();
                 startDrawing(e);
@@ -1117,33 +1199,37 @@
             canvas.addEventListener('touchend', stopDrawing);
 
             // 粗細控制
-            document.getElementById('brush-size').addEventListener('input', (e) => {
-                brushWidth = e.target.value;
-            });
+            const brushSizeInput = document.getElementById('brush-size');
+            if (brushSizeInput) {
+                brushSizeInput.addEventListener('input', (e) => {
+                    brushWidth = e.target.value;
+                });
+            }
         }
 
-        // 當視窗縮放時自適應調整畫布大小，同時保留學生的作品
         function resizeCanvas() {
             if (!canvas) return;
-            const containerWidth = canvas.parentElement.clientWidth;
-            
-            // 暫存目前的繪圖內容
-            const tempCanvas = document.createElement('canvas');
-            tempCanvas.width = canvas.width;
-            tempCanvas.height = canvas.height;
-            const tempCtx = tempCanvas.getContext('2d');
-            tempCtx.drawImage(canvas, 0, 0);
+            const containerWidth = canvas.parentElement ? canvas.parentElement.clientWidth : 0;
+            if (containerWidth <= 0) return; 
 
-            // 重新計算長寬
+            const tempCanvas = document.createElement('canvas');
+            tempCanvas.width = canvas.width || containerWidth;
+            tempCanvas.height = canvas.height || 400;
+            const tempCtx = tempCanvas.getContext('2d');
+            
+            if (canvas.width > 0 && canvas.height > 0) {
+                tempCtx.drawImage(canvas, 0, 0);
+            }
+
             canvas.width = containerWidth;
             canvas.height = 400;
 
-            // 鋪上純白底色
             ctx.fillStyle = '#ffffff';
             ctx.fillRect(0, 0, canvas.width, canvas.height);
             
-            // 繪製回原來的圖案
-            ctx.drawImage(tempCanvas, 0, 0);
+            if (tempCanvas.width > 0 && tempCanvas.height > 0) {
+                ctx.drawImage(tempCanvas, 0, 0);
+            }
         }
 
         function setPaintColor(color) {
@@ -1151,7 +1237,8 @@
         }
 
         function setPaintTopic(topic) {
-            document.getElementById('current-paint-topic').innerText = `正在創作：${topic}`;
+            const topicEl = document.getElementById('current-paint-topic');
+            if (topicEl) topicEl.innerText = `正在創作：${topic}`;
         }
 
         function clearCanvas() {
@@ -1162,6 +1249,7 @@
         }
 
         function downloadCanvas() {
+            if (!canvas) return;
             const link = document.createElement('a');
             link.download = `我的古詩大作.png`;
             link.href = canvas.toDataURL();
@@ -1172,9 +1260,9 @@
         // --- 第四頁：智能工作紙生成器邏輯 ---
         function initWorksheetGenerator() {
             const select = document.getElementById('ws-poem-select');
+            if (!select) return;
             select.innerHTML = '';
             
-            // 填寫下拉選單
             POEMS_DATA.forEach(poem => {
                 const opt = document.createElement('option');
                 opt.value = poem.id;
@@ -1188,7 +1276,6 @@
             const poem = POEMS_DATA.find(p => p.id === poemId);
             if (!poem) return;
 
-            // 讀取設定
             const schoolName = document.getElementById('ws-school-name').value || '開心小學';
             const className = document.getElementById('ws-class-name').value || '三年級';
             const typePinyin = document.getElementById('ws-type-pinyin').checked;
@@ -1196,38 +1283,33 @@
             const typeExplanation = document.getElementById('ws-type-explanation').checked;
             const typeCopybook = document.getElementById('ws-type-copybook').checked;
 
-            // 更新預覽頭部
             document.getElementById('preview-school-name').innerText = schoolName;
             document.getElementById('preview-class-name').innerText = className;
             document.getElementById('preview-poem-title').innerText = poem.title;
 
-            // 構造題目
             const qList = document.getElementById('preview-questions-list');
+            if (!qList) return;
             qList.innerHTML = '';
             let questionIndex = 1;
 
-            // 題型 1：粵音 / 漢語拼音填空
+            // 題型 1：普通話拼音填空
             if (typePinyin) {
                 const qDiv = document.createElement('div');
                 qDiv.className = "space-y-3";
                 
-                // 取古詩前兩句
                 let blanksHtml = '';
                 poem.content.forEach((lineObj, i) => {
-                    // 每句挖掉一些詞作拼音填空
                     const parts = lineObj.line.split('');
                     let lineWithBlanks = '';
                     if (i % 2 === 0) {
-                        // 挖掉最後兩個字
                         lineWithBlanks = parts.slice(0, parts.length - 2).join('') + "（ ＿＿＿ ）（ ＿＿＿ ）";
                     } else {
-                        // 挖掉開頭兩個字
                         lineWithBlanks = "（ ＿＿＿ ）（ ＿＿＿ ）" + parts.slice(2).join('');
                     }
 
                     blanksHtml += `
                         <div class="flex flex-col gap-1 items-start ml-4 py-2">
-                            <span class="text-xs text-indigo-500 font-mono">[ 粵音：${lineObj.jyutping} ]</span>
+                            <span class="text-xs text-emerald-600 font-mono">[ 普通話拼音：${lineObj.pinyin} ]</span>
                             <span class="text-lg font-bold tracking-widest text-slate-700">${lineWithBlanks}</span>
                         </div>
                     `;
@@ -1235,7 +1317,7 @@
 
                 qDiv.innerHTML = `
                     <h5 class="font-extrabold text-base text-slate-900">
-                        第一部分：根據拼音，在括號內填上正確的古詩字詞 (每空2分)
+                        ${questionIndex}. 第一部分：根據普通話拼音，在括號內填上正確的古詩字詞 (每空2分)
                     </h5>
                     ${blanksHtml}
                 `;
@@ -1248,17 +1330,13 @@
                 const qDiv = document.createElement('div');
                 qDiv.className = "space-y-3";
                 
-                // 模擬 3 個古詩混搭連線
                 let linePairs = [];
-                // 拿當前詩的兩對
                 linePairs.push({ l: poem.content[0].line, r: poem.content[1].line });
                 linePairs.push({ l: poem.content[2].line, r: poem.content[3].line });
                 
-                // 再拿另外一首詩的一對
                 const otherPoem = POEMS_DATA.find(p => p.id !== poem.id) || POEMS_DATA[0];
                 linePairs.push({ l: otherPoem.content[0].line, r: otherPoem.content[1].line });
 
-                // 隨機打亂左右
                 const leftShuffled = [...linePairs].sort(() => 0.5 - Math.random());
                 const rightShuffled = [...linePairs].sort(() => 0.5 - Math.random());
 
@@ -1275,7 +1353,7 @@
 
                 qDiv.innerHTML = `
                     <h5 class="font-extrabold text-base text-slate-900 mt-6">
-                        第二部分：詩句接龍（請用直線把左、右兩邊合適的詩句連接起來） (每題3分)
+                        ${questionIndex}. 第二部分：詩句接龍（請用直線把左、右兩邊合適的詩句連接起來） (每題3分)
                     </h5>
                     <div class="space-y-2 mt-2">
                         ${rowsHtml}
@@ -1292,7 +1370,7 @@
 
                 qDiv.innerHTML = `
                     <h5 class="font-extrabold text-base text-slate-900 mt-6">
-                        第三部分：古詩大意理解（選擇題，請把正確答案的英文字母填在括號內） (每題5分)
+                        ${questionIndex}. 第三部分：古詩大意理解（選擇題，請把正確答案的英文字母填在括號內） (每題5分)
                     </h5>
                     <div class="ml-4 space-y-3">
                         <div>
@@ -1301,7 +1379,7 @@
                         </div>
                         <div>
                             <p class="font-bold text-sm">2. 在《${poem.title}》中，作者表達了怎樣的思想感情？（　　）</p>
-                            <p class="text-xs text-slate-600 mt-1 pl-4">A. 讚美大自然 / 思考人生的哲理 / 熱愛生活 &nbsp;&nbsp;&nbsp;&nbsp; B. 嘲笑他人 &nbsp;&nbsp;&nbsp;&nbsp; C. 感到非常憤怒</p>
+                            <p class="text-xs text-slate-600 mt-1 pl-4">A. 思考人生的哲理與自然的美麗 &nbsp;&nbsp;&nbsp;&nbsp; B. 嘲笑他人 &nbsp;&nbsp;&nbsp;&nbsp; C. 感到憤怒</p>
                         </div>
                     </div>
                 `;
@@ -1334,7 +1412,7 @@
 
                 qDiv.innerHTML = `
                     <h5 class="font-extrabold text-base text-slate-900 mt-6">
-                        第四部分：硬筆書法優美臨摹（請在虛線九宮格內，端正地寫下重點字詞）
+                        ${questionIndex}. 第四部分：硬筆書法優美臨摹（請在九宮格內，端正地寫下重點字詞）
                     </h5>
                     <div class="ml-4">
                         <p class="text-xs text-slate-500">寫字小貼士：坐姿端正，保持筆畫工整流暢哦！</p>
@@ -1344,18 +1422,40 @@
                 qList.appendChild(qDiv);
             }
 
-            // 顯示預覽區域
-            document.getElementById('worksheet-preview-container').classList.remove('hidden');
-
-            // 滾動定位到工作紙
-            document.getElementById('worksheet-preview-container').scrollIntoView({ behavior: 'smooth' });
+            // 顯示預覽區域並安全滾動定位
+            const wsPreview = document.getElementById('worksheet-preview-container');
+            if (wsPreview) {
+                wsPreview.classList.remove('hidden');
+                scrollToElementSafely(wsPreview);
+            }
         }
 
+        // --- 全安全定位函數 (100% 不依賴任何可能拋錯的原生 scrollIntoView) ---
+        function scrollToElementSafely(element) {
+            if (!element) return;
+            try {
+                // 完全由純 offsetTop 累加計算目標 Y 坐標，不調用 getBoundingClientRect
+                let offsetTop = 0;
+                let curr = element;
+                while (curr) {
+                    offsetTop += curr.offsetTop || 0;
+                    curr = curr.offsetParent;
+                }
+                const finalTargetY = Math.max(0, offsetTop - 120);
+                
+                window.scrollTo({
+                    top: finalTargetY,
+                    behavior: 'auto' // 使用最穩定安全的瞬移滾動
+                });
+            } catch (err) {
+                // 靜默捕捉，防禦極端包裹沙盒
+            }
+        }
 
         // 網頁加載完畢初始化
         window.onload = function() {
-            // 預設解鎖並選擇第一關
-            selectLevel(1);
+            // 預設選擇第一關，傳遞 true 表示「初始化加載」，不觸發滾動與五彩煙花
+            selectLevel(1, true);
         }
     </script>
 </body>
