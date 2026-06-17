@@ -1,4 +1,3 @@
-```html
 <!DOCTYPE html>
 <html lang="zh-Hant-HK">
 <head>
@@ -110,7 +109,7 @@
     </div>
 
     <script>
-        // 核心古詩文數據庫 - 全部使用普通話拼音，已對應最新的 YouTube 影片 embed 連結
+        // 核心古詩文數據庫
         const POEMS_DATA = [
             {
                 id: 1,
@@ -225,8 +224,8 @@
                 videoEmbedUrl: "https://www.youtube.com/embed/m_S_di4KYCg",
                 content: [
                     { line: "鋤禾日當午", pinyin: "chú hé rì dāng wǔ" },
-                    { line: "汗滴禾下土", pinyin: "hàn dī hé xià tǔ" },
-                    { line: "誰知盤中餐", pinyin: "shuí zhi pán zhōng cān" },
+                    { line: "汗滴禾下土", pinyin: "hàn dī hè xià tǔ" },
+                    { line: "誰知盤中餐", pinyin: "shuí zhī pán zhōng cān" },
                     { line: "粒粒皆辛苦", pinyin: "lì lì jiē xīn kǔ" }
                 ],
                 explanation: "農民伯伯頂着中午火辣辣的太陽在田裏除草，辛勤的汗水一滴滴地掉落在禾苗底下的泥土裏。有誰能知道，我們碗盤中的香噴噴白米飯，每一粒都是農民伯伯無比辛苦換來的呢？",
@@ -299,17 +298,17 @@
             </div>
             
             <!-- 導航選單 (Tab 控制) -->
-            <nav class="flex flex-wrap justify-center gap-3">
-                <button onclick="switchTab('home')" id="tab-home" class="tab-btn px-4 py-2.5 bg-red-500 text-white font-black rounded-2xl border-2 border-red-600 kids-shadow-primary transform active:translate-y-1 transition-all flex items-center gap-2">
+            <nav class="flex flex-wrap justify-center gap-2 md:gap-3">
+                <button onclick="switchTab('home')" id="tab-home" class="tab-btn px-4 py-2 bg-red-50 text-white font-black rounded-2xl border-2 border-red-600 kids-shadow-primary transform active:translate-y-1 transition-all flex items-center gap-1 text-sm md:text-base">
                     <span>🎬</span> 詩文動畫
                 </button>
-                <button onclick="switchTab('flashcards')" id="tab-flashcards" class="tab-btn px-4 py-2.5 bg-blue-400 text-white font-black rounded-2xl border-2 border-blue-500 kids-shadow-info transform active:translate-y-1 transition-all flex items-center gap-2">
+                <button onclick="switchTab('flashcards')" id="tab-flashcards" class="tab-btn px-4 py-2 bg-blue-400 text-white font-black rounded-2xl border-2 border-blue-500 kids-shadow-info transform active:translate-y-1 transition-all flex items-center gap-1 text-sm md:text-base">
                     <span>🃏</span> 重點字詞卡
                 </button>
-                <button onclick="switchTab('games')" id="tab-games" class="tab-btn px-4 py-2.5 bg-emerald-400 text-white font-black rounded-2xl border-2 border-emerald-500 kids-shadow-success transform active:translate-y-1 transition-all flex items-center gap-2">
+                <button onclick="switchTab('games')" id="tab-games" class="tab-btn px-4 py-2 bg-emerald-400 text-white font-black rounded-2xl border-2 border-emerald-500 kids-shadow-success transform active:translate-y-1 transition-all flex items-center gap-1 text-sm md:text-base">
                     <span>🎮</span> 趣味遊戲
                 </button>
-                <button onclick="switchTab('worksheets')" id="tab-worksheets" class="tab-btn px-4 py-2.5 bg-purple-400 text-white font-black rounded-2xl border-2 border-purple-500 kids-shadow-purple transform active:translate-y-1 transition-all flex items-center gap-2">
+                <button onclick="switchTab('worksheets')" id="tab-worksheets" class="tab-btn px-4 py-2 bg-purple-400 text-white font-black rounded-2xl border-2 border-purple-500 kids-shadow-purple transform active:translate-y-1 transition-all flex items-center gap-1 text-sm md:text-base">
                     <span>📝</span> 工作紙生成器
                 </button>
             </nav>
@@ -317,18 +316,18 @@
     </header>
 
     <!-- 主體內容區 -->
-    <main class="flex-grow max-w-7xl w-full mx-auto p-4 md:p-6">
+    <main class="flex-grow max-w-7xl w-full mx-auto p-3 md:p-6">
 
         <!-- ==================== 第一頁：詩文動畫與古詩關卡 ==================== -->
         <section id="page-home" class="tab-content block">
             
             <!-- YouTube 學習影片橫幅 -->
-            <div id="video-section-anchor" class="bg-gradient-to-r from-pink-400 to-amber-300 p-6 rounded-3xl border-4 border-pink-500 kids-shadow-primary mb-8 text-center relative overflow-hidden">
+            <div id="video-section-anchor" class="bg-gradient-to-r from-pink-400 to-amber-300 p-4 md:p-6 rounded-3xl border-4 border-pink-500 kids-shadow-primary mb-6 text-center relative overflow-hidden">
                 <div class="absolute -right-10 -top-10 text-9xl opacity-10 rotate-12">🎬</div>
-                <h2 class="text-2xl md:text-3xl font-black text-white mb-4 drop-shadow-md">
+                <h2 class="text-2xl md:text-3xl font-black text-white mb-3 drop-shadow-md">
                     🌟 兒歌古詩動畫劇場 🌟
                 </h2>
-                <p class="text-white font-medium mb-6 text-sm md:text-base max-w-2xl mx-auto">
+                <p class="text-white font-medium mb-4 text-xs md:text-sm max-w-2xl mx-auto">
                     聽音樂、唱兒歌，輕輕鬆鬆學會中華經典古詩文！點選下方關卡即可切換對應古詩學習影片哦。
                 </p>
                 
@@ -348,19 +347,19 @@
 
             <!-- 8大關卡冒險地圖 -->
             <div class="text-center mb-6">
-                <h3 class="text-3xl font-black text-green-950 flex items-center justify-center gap-2">
+                <h3 class="text-2xl md:text-3xl font-black text-green-950 flex items-center justify-center gap-2">
                     🚀 古詩冒險地圖 (8大關卡)
                 </h3>
-                <p class="text-green-800 text-sm font-bold mt-1">選一首古詩，開啟你的智能朗讀與探險之旅吧！</p>
+                <p class="text-green-800 text-xs md:text-sm font-bold mt-1">選一首古詩，開啟你的智能朗讀與探險之旅吧！</p>
             </div>
 
-            <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-4 mb-8">
+            <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-3 mb-6">
                 <!-- 關卡按鈕生成 -->
                 <script>
                     POEMS_DATA.forEach((poem, index) => {
                         document.write(`
-                            <button onclick="selectLevel(${poem.id}, false)" id="level-btn-${poem.id}" class="level-btn flex flex-col items-center p-3 rounded-2xl border-4 bg-white border-slate-300 hover:border-yellow-400 hover:scale-105 transition-all">
-                                <span class="w-10 h-10 flex items-center justify-center text-lg font-black bg-slate-100 rounded-full border-2 border-slate-300 mb-1" id="level-badge-${poem.id}">
+                            <button onclick="selectLevel(${poem.id}, false)" id="level-btn-${poem.id}" class="level-btn flex flex-col items-center p-2.5 rounded-2xl border-4 bg-white border-slate-300 hover:border-yellow-400 hover:scale-105 transition-all">
+                                <span class="w-8 h-8 flex items-center justify-center text-sm font-black bg-slate-100 rounded-full border-2 border-slate-300 mb-1" id="level-badge-${poem.id}">
                                     ${poem.id}
                                 </span>
                                 <span class="text-2xl mb-1">${poem.emoji}</span>
@@ -372,47 +371,47 @@
             </div>
 
             <!-- 古詩文多功能展示板 -->
-            <div id="poem-viewer" class="bg-white border-8 border-yellow-300 rounded-3xl p-6 md:p-8 shadow-inner relative max-w-4xl mx-auto hidden transition-all duration-300">
+            <div id="poem-viewer" class="bg-white border-8 border-yellow-300 rounded-3xl p-5 md:p-8 shadow-inner relative max-w-4xl mx-auto hidden transition-all duration-300">
                 <!-- 漂浮裝飾物 -->
-                <div class="absolute right-4 top-4 text-4xl animate-pulse" id="poem-emoji">🎈</div>
+                <div class="absolute right-4 top-4 text-3xl md:text-4xl animate-pulse" id="poem-emoji">🎈</div>
                 
                 <!-- 標題與作者 -->
                 <div class="text-center mb-6">
                     <span id="poem-dynasty" class="px-3 py-1 bg-yellow-400 text-yellow-950 text-xs font-bold rounded-full border-2 border-yellow-600">唐代</span>
-                    <h2 id="poem-title" class="text-3xl md:text-4xl font-black text-slate-800 mt-2">靜夜思</h2>
-                    <p id="poem-author" class="text-lg font-bold text-slate-500 mt-1">李白</p>
+                    <h2 id="poem-title" class="text-2xl md:text-4xl font-black text-slate-800 mt-2">靜夜思</h2>
+                    <p id="poem-author" class="text-base md:text-lg font-bold text-slate-500 mt-1">李白</p>
                 </div>
 
                 <!-- 詩歌本文與拼音對照 -->
-                <div class="flex flex-col items-center gap-4 py-4 px-2 md:px-12 bg-amber-50/50 rounded-2xl border-2 border-dashed border-amber-300 max-w-2xl mx-auto" id="poem-lines-container">
+                <div class="flex flex-col items-center gap-3 py-4 px-2 md:px-12 bg-amber-50/50 rounded-2xl border-2 border-dashed border-amber-300 max-w-2xl mx-auto" id="poem-lines-container">
                     <!-- 動態JS生成詩歌本體 -->
                 </div>
 
                 <!-- 智能語音與拼音控制按鈕 -->
-                <div class="mt-8 bg-amber-50 p-4 rounded-2xl border-2 border-amber-200">
+                <div class="mt-6 bg-amber-50 p-4 rounded-2xl border-2 border-amber-200">
                     <p class="text-center text-xs font-black text-amber-900 mb-3">🗣️ 智能發聲與普通話拼音工具欄</p>
-                    <div class="flex flex-wrap justify-center gap-4">
+                    <div class="flex flex-wrap justify-center gap-3">
                         <!-- 廣東話朗讀 -->
-                        <button id="btn-read-cantonese" onclick="readAloud('cantonese')" class="px-5 py-2.5 bg-red-400 hover:bg-red-500 text-white text-sm font-extrabold rounded-full border-2 border-red-600 kids-shadow-primary flex items-center gap-1.5 transform active:translate-y-1 transition-all">
-                            <span>🔊</span> 廣東話朗讀 (預設)
+                        <button id="btn-read-cantonese" onclick="readAloud('cantonese')" class="px-4 py-2.5 bg-red-400 hover:bg-red-500 text-white text-xs md:text-sm font-extrabold rounded-full border-2 border-red-600 kids-shadow-primary flex items-center gap-1.5 transform active:translate-y-1 transition-all">
+                            <span>🔊</span> 廣東話朗讀 (粵語)
                         </button>
                         <!-- 普通話朗讀 -->
-                        <button id="btn-read-mandarin" onclick="readAloud('mandarin')" class="px-5 py-2.5 bg-orange-400 hover:bg-orange-500 text-white text-sm font-extrabold rounded-full border-2 border-orange-600 kids-shadow-warning flex items-center gap-1.5 transform active:translate-y-1 transition-all">
-                            <span>🗣️</span> 普通話朗讀
+                        <button id="btn-read-mandarin" onclick="readAloud('mandarin')" class="px-4 py-2.5 bg-orange-400 hover:bg-orange-500 text-white text-xs md:text-sm font-extrabold rounded-full border-2 border-orange-600 kids-shadow-warning flex items-center gap-1.5 transform active:translate-y-1 transition-all">
+                            <span>🗣️</span> 普通話朗讀 (國語)
                         </button>
                         <!-- 顯示/隱藏拼音 -->
-                        <button onclick="togglePinyinDisplay()" id="btn-toggle-pinyin" class="px-5 py-2.5 bg-blue-400 hover:bg-blue-500 text-white text-sm font-extrabold rounded-full border-2 border-blue-600 kids-shadow-info flex items-center gap-1.5 transform active:translate-y-1 transition-all">
+                        <button onclick="togglePinyinDisplay()" id="btn-toggle-pinyin" class="px-4 py-2.5 bg-blue-400 hover:bg-blue-500 text-white text-xs md:text-sm font-extrabold rounded-full border-2 border-blue-600 kids-shadow-info flex items-center gap-1.5 transform active:translate-y-1 transition-all">
                             <span>📝</span> 顯示/隱藏 拼音
                         </button>
                     </div>
                 </div>
 
                 <!-- 淺白譯文 -->
-                <div class="mt-6 bg-green-50 p-5 rounded-2xl border-2 border-green-300 text-green-950">
-                    <h4 class="font-black text-lg mb-2 flex items-center gap-2">
+                <div class="mt-6 bg-green-50 p-4 md:p-5 rounded-2xl border-2 border-green-300 text-green-950">
+                    <h4 class="font-black text-base md:text-lg mb-2 flex items-center gap-2">
                         <span>💡</span> 詩歌大意（兒童版）：
                     </h4>
-                    <p id="poem-explanation" class="text-sm md:text-base leading-relaxed">
+                    <p id="poem-explanation" class="text-xs md:text-base leading-relaxed">
                         明亮的月光灑在我的床前...
                     </p>
                 </div>
@@ -422,21 +421,21 @@
 
         <!-- ==================== 第二頁：重點字詞 FlashCards ==================== -->
         <section id="page-flashcards" class="tab-content hidden">
-            <div class="text-center mb-8">
-                <h3 class="text-3xl font-black text-blue-950 flex items-center justify-center gap-2">
+            <div class="text-center mb-6">
+                <h3 class="text-2xl md:text-3xl font-black text-blue-950 flex items-center justify-center gap-2">
                     🃏 重點字詞智多星
                 </h3>
-                <p class="text-blue-800 text-sm font-bold mt-1">點擊卡片即可翻面，查看字詞普通話拼音和淺易解釋！</p>
+                <p class="text-blue-800 text-xs md:text-sm font-bold mt-1">點擊卡片即可翻面，查看字詞普通話拼音和淺易解釋！</p>
                 
                 <!-- 篩選器 -->
-                <div class="flex justify-center flex-wrap gap-2 mt-4">
-                    <button onclick="filterFlashcards(0)" class="filter-card-btn px-4 py-1.5 bg-blue-500 text-white border-2 border-blue-600 font-bold rounded-full shadow text-sm">
+                <div class="flex justify-center flex-wrap gap-1.5 mt-4">
+                    <button onclick="filterFlashcards(0)" class="filter-card-btn px-3 py-1 bg-blue-500 text-white border-2 border-blue-600 font-bold rounded-full shadow text-xs">
                         全部字詞
                     </button>
                     <script>
                         POEMS_DATA.forEach(poem => {
                             document.write(`
-                                <button onclick="filterFlashcards(${poem.id})" class="filter-card-btn px-4 py-1.5 bg-white hover:bg-blue-100 text-slate-700 border-2 border-slate-300 font-bold rounded-full shadow text-sm">
+                                <button onclick="filterFlashcards(${poem.id})" class="filter-card-btn px-3 py-1 bg-white hover:bg-blue-100 text-slate-700 border-2 border-slate-300 font-bold rounded-full shadow text-xs">
                                     ${poem.title}
                                 </button>
                             `);
@@ -446,98 +445,81 @@
             </div>
 
             <!-- 卡片容器 -->
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 justify-items-center" id="flashcards-grid">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 justify-items-center" id="flashcards-grid">
                 <!-- JS動態生成字詞卡 -->
             </div>
         </section>
 
 
-        <!-- ==================== 第三頁：趣味遊戲（配對 + 小畫家） ==================== -->
+        <!-- ==================== 第三頁：趣味遊戲（配對 + 詩句重組） ==================== -->
         <section id="page-games" class="tab-content hidden">
             <!-- 遊戲分頁切換 -->
-            <div class="flex justify-center gap-4 mb-8">
-                <button onclick="switchGame('match')" id="btn-game-match" class="px-6 py-3 bg-amber-400 text-amber-950 border-4 border-amber-500 font-black rounded-full shadow-lg text-lg flex items-center gap-2">
+            <div class="flex justify-center gap-3 mb-6">
+                <button onclick="switchGame('match')" id="btn-game-match" class="px-5 py-2.5 bg-amber-400 text-amber-950 border-4 border-amber-500 font-black rounded-full shadow-lg text-sm md:text-base flex items-center gap-1">
                     🧩 詩句接龍配對
                 </button>
-                <button onclick="switchGame('painter')" id="btn-game-painter" class="px-6 py-3 bg-slate-200 text-slate-700 border-4 border-slate-300 font-black rounded-full shadow-lg text-lg flex items-center gap-2">
-                    🎨 詩意小畫家
+                <button onclick="switchGame('unscramble')" id="btn-game-unscramble" class="px-5 py-2.5 bg-slate-200 text-slate-700 border-4 border-slate-300 font-black rounded-full shadow-lg text-sm md:text-base flex items-center gap-1">
+                    🌟 詩句重組小神童
                 </button>
             </div>
 
             <!-- 遊戲 A: 詩歌配對 -->
-            <div id="game-match-container" class="bg-amber-50 border-8 border-amber-300 rounded-3xl p-6 md:p-8 max-w-4xl mx-auto">
+            <div id="game-match-container" class="bg-amber-50 border-8 border-amber-300 rounded-3xl p-4 md:p-8 max-w-4xl mx-auto">
                 <div class="text-center mb-6">
-                    <h4 class="text-2xl font-black text-amber-900">🧩 詩句接龍配對</h4>
-                    <p class="text-amber-800 text-sm mt-1">請將左右兩邊能組成一句完整古詩的卡片連接配對！</p>
+                    <h4 class="text-xl md:text-2xl font-black text-amber-900">🧩 詩句接龍配對</h4>
+                    <p class="text-amber-800 text-xs md:text-sm mt-1">請將左右兩邊能組成一句完整古詩的卡片連接配對！</p>
                 </div>
 
-                <div class="grid grid-cols-2 gap-8 mb-8" id="match-game-board">
+                <div class="grid grid-cols-2 gap-4 md:gap-8 mb-6" id="match-game-board">
                     <!-- 左列：前半句 -->
-                    <div class="flex flex-col gap-3" id="match-left-column"></div>
+                    <div class="flex flex-col gap-2.5" id="match-left-column"></div>
                     <!-- 右列：後半句 -->
-                    <div class="flex flex-col gap-3" id="match-right-column"></div>
+                    <div class="flex flex-col gap-2.5" id="match-right-column"></div>
                 </div>
 
                 <div class="text-center">
-                    <button onclick="resetMatchGame()" class="px-8 py-3 bg-red-400 hover:bg-red-500 text-white font-extrabold text-lg rounded-full border-2 border-red-600 kids-shadow-primary transform active:translate-y-1 transition-all">
+                    <button onclick="resetMatchGame()" class="px-6 py-2.5 bg-red-400 hover:bg-red-500 text-white font-extrabold rounded-full border-2 border-red-600 kids-shadow-primary transform active:translate-y-1 transition-all">
                         🔄 重新載入遊戲
                     </button>
                 </div>
             </div>
 
-            <!-- 遊戲 B: 小畫家 -->
-            <div id="game-painter-container" class="bg-indigo-50 border-8 border-indigo-300 rounded-3xl p-6 md:p-8 max-w-4xl mx-auto hidden">
+            <!-- 遊戲 B: 詩句重組 (超強手機相容版) -->
+            <div id="game-unscramble-container" class="bg-emerald-50 border-8 border-emerald-300 rounded-3xl p-4 md:p-8 max-w-2xl mx-auto hidden">
                 <div class="text-center mb-6">
-                    <h4 class="text-2xl font-black text-indigo-900">🎨 詩意小畫家</h4>
-                    <p class="text-indigo-800 text-sm mt-1">選一首你喜歡的古詩，一邊朗讀，一邊發揮創意在畫板上創作吧！</p>
+                    <h4 class="text-xl md:text-2xl font-black text-emerald-900">🌟 詩句重組小神童</h4>
+                    <p class="text-emerald-800 text-xs md:text-sm mt-1">
+                        點擊下方被打亂的字，按正確順序拼回完整古詩句，考考你的記憶力！
+                    </p>
+                    <div class="mt-4 text-emerald-950 font-black text-sm md:text-base bg-white inline-block py-1 px-4 rounded-full border-2 border-emerald-300" id="current-unscramble-title">
+                        當前挑戰：《靜夜思》
+                    </div>
+                </div>
+
+                <!-- 答題與拼字區域 -->
+                <div class="bg-white rounded-2xl p-4 md:p-6 border-4 border-dashed border-emerald-400 text-center shadow-inner mb-6">
+                    <!-- 提示句 -->
+                    <p class="text-xs text-slate-400 mb-2">拼字目標：</p>
                     
-                    <div class="mt-4 flex flex-wrap justify-center gap-2">
-                        <span class="font-bold text-indigo-950 py-1">繪畫主題推薦：</span>
-                        <button onclick="setPaintTopic('《靜夜思》的月亮和夜空')" class="px-3 py-1 bg-white border border-indigo-300 text-xs rounded-full font-bold hover:bg-indigo-100">🌕 靜夜思的月亮</button>
-                        <button onclick="setPaintTopic('《憫農》中辛苦種田的農夫')" class="px-3 py-1 bg-white border border-indigo-300 text-xs rounded-full font-bold hover:bg-indigo-100">🌾 憫農的稻田</button>
-                        <button onclick="setPaintTopic('《登鸛雀樓》中的太陽與高樓')" class="px-3 py-1 bg-white border border-indigo-300 text-xs rounded-full font-bold hover:bg-indigo-100">🌅 登鸛雀樓高聳的景象</button>
-                    </div>
-                    <div class="mt-2 text-indigo-950 font-black text-lg bg-white inline-block py-1 px-4 rounded-full border-2 border-indigo-300" id="current-paint-topic">
-                        正在創作：🌕 《靜夜思》的月亮和夜空
-                    </div>
-                </div>
-
-                <!-- 畫板核心與工具 -->
-                <div class="flex flex-col md:flex-row gap-6 items-center">
-                    <!-- 左側工具欄 -->
-                    <div class="flex md:flex-col flex-wrap gap-2 w-full md:w-auto bg-white p-4 rounded-2xl border-2 border-indigo-200">
-                        <span class="text-xs font-bold text-slate-500 block text-center">畫筆顏色</span>
-                        <div class="grid grid-cols-6 md:grid-cols-2 gap-2">
-                            <button onclick="setPaintColor('#f43f5e')" class="w-8 h-8 rounded-full bg-rose-500 border-2 border-white ring-2 ring-transparent active:ring-rose-500"></button>
-                            <button onclick="setPaintColor('#f59e0b')" class="w-8 h-8 rounded-full bg-amber-500 border-2 border-white ring-2 ring-transparent active:ring-amber-500"></button>
-                            <button onclick="setPaintColor('#10b981')" class="w-8 h-8 rounded-full bg-emerald-500 border-2 border-white ring-2 ring-transparent active:ring-emerald-500"></button>
-                            <button onclick="setPaintColor('#3b82f6')" class="w-8 h-8 rounded-full bg-blue-500 border-2 border-white ring-2 ring-transparent active:ring-blue-500"></button>
-                            <button onclick="setPaintColor('#8b5cf6')" class="w-8 h-8 rounded-full bg-violet-500 border-2 border-white ring-2 ring-transparent active:ring-violet-500"></button>
-                            <button onclick="setPaintColor('#1e293b')" class="w-8 h-8 rounded-full bg-slate-800 border-2 border-white ring-2 ring-transparent active:ring-slate-800"></button>
-                        </div>
-                        
-                        <span class="text-xs font-bold text-slate-500 block text-center mt-2">橡皮擦</span>
-                        <button onclick="setPaintColor('#ffffff')" class="p-2 bg-slate-100 hover:bg-slate-200 border border-slate-300 rounded-lg text-xs font-bold flex items-center justify-center gap-1">
-                            🧼 橡皮擦
-                        </button>
-
-                        <span class="text-xs font-bold text-slate-500 block text-center mt-2">粗細調節</span>
-                        <input type="range" id="brush-size" min="2" max="25" value="6" class="w-24">
+                    <!-- 填空插槽 (顯示已選取的字) -->
+                    <div class="flex flex-wrap justify-center gap-2 min-h-[50px] items-center mb-6" id="unscramble-slots">
+                        <!-- JS 動態生成已填入的字 -->
                     </div>
 
-                    <!-- Canvas 畫布 -->
-                    <div class="flex-grow w-full bg-white rounded-2xl border-4 border-indigo-400 overflow-hidden shadow-md">
-                        <canvas id="paintCanvas" class="w-full cursor-crosshair" style="height: 400px; display: block;"></canvas>
+                    <!-- 備選字庫（打亂後的按鈕） -->
+                    <p class="text-xs text-slate-400 mb-2">請從下方點選中文字：</p>
+                    <div class="flex flex-wrap justify-center gap-3" id="unscramble-candidates">
+                        <!-- JS 動態生成混亂的按鈕 -->
                     </div>
                 </div>
 
-                <!-- 畫板控制鈕 -->
-                <div class="flex justify-center gap-4 mt-6">
-                    <button onclick="clearCanvas()" class="px-6 py-2.5 bg-slate-400 hover:bg-slate-500 text-white font-bold rounded-full border-2 border-slate-600 shadow transform active:translate-y-0.5 transition-all">
-                        🗑️ 清空畫布
+                <!-- 重組控制按鈕 -->
+                <div class="flex justify-center gap-3">
+                    <button onclick="resetUnscrambleGame()" class="px-4 py-2 bg-slate-400 hover:bg-slate-500 text-white font-bold rounded-full border-2 border-slate-600 shadow-sm text-sm">
+                        🧹 重新填字
                     </button>
-                    <button onclick="downloadCanvas()" class="px-6 py-2.5 bg-indigo-500 hover:bg-indigo-600 text-white font-bold rounded-full border-2 border-indigo-700 shadow transform active:translate-y-0.5 transition-all">
-                        💾 下載我的大作
+                    <button onclick="nextUnscrambleQuestion()" class="px-4 py-2 bg-emerald-500 hover:bg-emerald-600 text-white font-bold rounded-full border-2 border-emerald-700 shadow-sm text-sm">
+                        ⏭️ 換一首詩
                     </button>
                 </div>
             </div>
@@ -553,13 +535,13 @@
                 <p class="text-sm md:text-base mb-6 max-w-2xl mx-auto font-medium">
                     推薦前往香港教育大學「古詩文教學與評估」官方網站。內有大量專為香港小學師生編寫的教學材料與高質素工作紙！
                 </p>
-                <a href="https://classic.eduhk.modernedu.hk/" target="_blank" class="inline-flex items-center gap-2 px-8 py-3.5 bg-yellow-400 hover:bg-yellow-300 text-yellow-950 font-black rounded-full border-2 border-yellow-500 text-lg shadow-lg transform active:translate-y-1 transition-all">
+                <a href="https://classic.eduhk.modernedu.hk/" target="_blank" class="inline-flex items-center gap-2 px-8 py-3.5 bg-yellow-400 hover:bg-yellow-300 text-yellow-950 font-black rounded-full border-2 border-yellow-500 text-base md:text-lg shadow-lg transform active:translate-y-1 transition-all">
                     🌐 前往 香港教育大學 古詩文教學網 <i class="fa-solid fa-square-arrow-up-right"></i>
                 </a>
             </div>
 
-            <!-- 智能工作紙生成器（為中文老師量身打造） -->
-            <div class="bg-white border-8 border-purple-300 rounded-3xl p-6 md:p-8 kids-shadow no-print">
+            <!-- 智能工作紙生成器 -->
+            <div class="bg-white border-8 border-purple-300 rounded-3xl p-5 md:p-8 kids-shadow no-print">
                 <div class="text-center mb-6">
                     <h4 class="text-2xl font-black text-purple-900 flex items-center justify-center gap-2">
                         <span>🛠️</span> 智能古詩工作紙自製器 (老師專用)
@@ -619,15 +601,15 @@
             </div>
 
             <!-- 工作紙即時預覽區域（打印區域） -->
-            <div id="worksheet-preview-container" class="mt-8 bg-white border-2 border-dashed border-slate-300 rounded-3xl p-8 max-w-3xl mx-auto shadow-lg hidden print-area">
+            <div id="worksheet-preview-container" class="mt-8 bg-white border-2 border-dashed border-slate-300 rounded-3xl p-6 md:p-8 max-w-3xl mx-auto shadow-lg hidden print-area">
                 <!-- 頁眉資訊 -->
                 <div class="border-b-4 border-double border-slate-800 pb-4 mb-6">
                     <div class="flex justify-between items-center text-slate-800">
-                        <span id="preview-school-name" class="font-bold text-lg">開心小學</span>
-                        <span class="font-extrabold text-2xl">中文科古詩文學習工作紙</span>
-                        <span class="text-sm">成績：__________</span>
+                        <span id="preview-school-name" class="font-bold text-base md:text-lg">開心小學</span>
+                        <span class="font-extrabold text-lg md:text-2xl">中文科古詩文學習工作紙</span>
+                        <span class="text-xs md:text-sm">成績：__________</span>
                     </div>
-                    <div class="flex justify-between items-center text-slate-600 mt-2 text-xs">
+                    <div class="flex justify-between items-center text-slate-600 mt-2 text-[10px] md:text-xs">
                         <span>課題：《<span id="preview-poem-title" class="font-bold">靜夜思</span>》隨堂練習</span>
                         <span>班別：<span id="preview-class-name" class="font-bold">三年級</span></span>
                         <span>姓名：_________________</span>
@@ -681,14 +663,14 @@
             if (modal) modal.classList.add('hidden');
         }
 
-        // --- 純原生 CSS DOM 噴砂五彩爆破特效 (徹底免除對外置 Confetti 庫的 getBoundingClientRect 依賴) ---
+        // --- 純原生 CSS DOM 五彩紙屑爆炸特效 ---
         function triggerConfetti() {
             try {
                 const colors = ['#f43f5e', '#f59e0b', '#10b981', '#3b82f6', '#8b5cf6', '#ec4899'];
                 const container = document.body;
                 if (!container) return;
 
-                for (let i = 0; i < 45; i++) {
+                for (let i = 0; i < 40; i++) {
                     const el = document.createElement('div');
                     el.className = 'no-print';
                     el.style.position = 'fixed';
@@ -702,29 +684,25 @@
                     el.style.pointerEvents = 'none';
                     
                     const rotation = Math.random() * 360;
-                    const targetLeftSway = (Math.random() - 0.5) * 260; // 飄動左右位移
-                    const duration = Math.random() * 1.5 + 1.5; // 1.5 ~ 3.0s
+                    const targetLeftSway = (Math.random() - 0.5) * 260; // 左右飄動
+                    const duration = Math.random() * 1.5 + 1.5; 
                     
                     el.style.transition = `transform ${duration}s linear, top ${duration}s linear, left ${duration}s linear`;
                     container.appendChild(el);
                     
-                    // 於下一幀渲染起動動畫
                     requestAnimationFrame(() => {
                         el.style.top = '105vh';
                         el.style.left = `calc(${el.style.left} + ${targetLeftSway}px)`;
                         el.style.transform = `rotate(${rotation + 720}deg)`;
                     });
                     
-                    // 播放完畢清除 DOM 節點
                     setTimeout(() => {
                         if (el && el.parentNode) {
                             el.parentNode.removeChild(el);
                         }
                     }, duration * 1000);
                 }
-            } catch (err) {
-                // 靜默捕捉，防禦極端沙盒
-            }
+            } catch (err) {}
         }
 
         // --- Tab 導航控制 ---
@@ -737,26 +715,25 @@
             if (targetPage) targetPage.classList.remove('hidden');
 
             document.querySelectorAll('.tab-btn').forEach(btn => {
-                btn.classList.add('opacity-75');
+                btn.className = btn.className.replace('bg-red-500', 'bg-red-50').replace('opacity-100', 'opacity-75');
             });
             const activeBtn = document.getElementById(`tab-${tabId}`);
             if (activeBtn) {
-                activeBtn.classList.remove('opacity-75');
+                activeBtn.className = activeBtn.className.replace('bg-red-50', 'bg-red-500').replace('opacity-75', 'opacity-100');
             }
 
             if (tabId === 'flashcards') {
                 renderFlashcards();
             }
             if (tabId === 'games') {
-                initMatchGame();
-                setTimeout(initPainter, 50);
+                switchGame('match');
             }
             if (tabId === 'worksheets') {
                 initWorksheetGenerator();
             }
         }
 
-        // --- 第一頁：古詩關卡控制 (不使用任何原生 scrollIntoView 避免沙盒 Polyfill 崩潰) ---
+        // --- 第一頁：古詩關卡控制 ---
         function selectLevel(levelId, isInitial = false) {
             currentLevel = levelId;
             const poem = POEMS_DATA.find(p => p.id === levelId);
@@ -767,7 +744,6 @@
             if (ytPlayer && poem.videoEmbedUrl) {
                 ytPlayer.src = poem.videoEmbedUrl;
                 
-                // 僅在用戶主動點選關卡時進行精確滾動（在 window.onload 初始化加載時不自動滾動，避免干擾學生的視覺與觸發沙盒 DOM Interceptor）
                 if (!isInitial) {
                     const anchor = document.getElementById('video-section-anchor');
                     if (anchor) {
@@ -778,11 +754,11 @@
 
             // 2. 刷新按鈕選中狀態
             document.querySelectorAll('.level-btn').forEach(btn => {
-                btn.className = "level-btn flex flex-col items-center p-3 rounded-2xl border-4 bg-white border-slate-300 hover:border-yellow-400 hover:scale-105 transition-all";
+                btn.className = "level-btn flex flex-col items-center p-2.5 rounded-2xl border-4 bg-white border-slate-300 hover:border-yellow-400 hover:scale-105 transition-all";
             });
             const activeBtn = document.getElementById(`level-btn-${levelId}`);
             if (activeBtn) {
-                activeBtn.className = "level-btn flex flex-col items-center p-3 rounded-2xl border-4 bg-yellow-100 border-yellow-400 scale-105 transition-all ring-4 ring-yellow-300";
+                activeBtn.className = "level-btn flex flex-col items-center p-2.5 rounded-2xl border-4 bg-yellow-100 border-yellow-400 scale-105 transition-all ring-4 ring-yellow-300";
             }
 
             // 3. 更新數據展示
@@ -804,7 +780,6 @@
 
             renderPoemLines(poem);
 
-            // 僅在非初始加載時觸發自研彩帶特效
             if (!isInitial) {
                 triggerConfetti();
             }
@@ -818,14 +793,14 @@
 
             poem.content.forEach((item, index) => {
                 const lineDiv = document.createElement('div');
-                lineDiv.className = 'text-center py-2';
+                lineDiv.className = 'text-center py-1.5';
                 const pinyinClass = pinyinVisible ? 'block' : 'invisible h-0';
                 
                 lineDiv.innerHTML = `
-                    <div class="text-xs md:text-sm text-emerald-600 font-mono h-5 opacity-90 leading-tight select-none transition-all ${pinyinClass}">
+                    <div class="text-[10px] md:text-sm text-emerald-600 font-mono h-4 opacity-90 leading-tight select-none transition-all ${pinyinClass}">
                         ${item.pinyin}
                     </div>
-                    <div class="text-xl md:text-3xl font-black text-slate-800 tracking-widest mt-1 hover:text-red-500 hover:scale-105 cursor-pointer transition-all">
+                    <div class="text-lg md:text-3xl font-black text-slate-800 tracking-widest mt-1 hover:text-red-500 hover:scale-105 cursor-pointer transition-all">
                         ${item.line}
                     </div>
                 `;
@@ -840,10 +815,10 @@
             if (btn) {
                 if (pinyinVisible) {
                     btn.innerHTML = `<span>📝</span> 隱藏普通話拼音`;
-                    btn.className = "px-5 py-2.5 bg-blue-400 hover:bg-blue-500 text-white text-sm font-extrabold rounded-full border-2 border-blue-600 kids-shadow-info flex items-center gap-1.5 transform active:translate-y-1 transition-all";
+                    btn.className = "px-4 py-2.5 bg-blue-400 hover:bg-blue-500 text-white text-xs md:text-sm font-extrabold rounded-full border-2 border-blue-600 kids-shadow-info flex items-center gap-1.5 transform active:translate-y-1 transition-all";
                 } else {
                     btn.innerHTML = `<span>📝</span> 顯示普通話拼音`;
-                    btn.className = "px-5 py-2.5 bg-slate-400 hover:bg-slate-500 text-white text-sm font-extrabold rounded-full border-2 border-slate-600 kids-shadow flex items-center gap-1.5 transform active:translate-y-1 transition-all";
+                    btn.className = "px-4 py-2.5 bg-slate-400 hover:bg-slate-500 text-white text-xs md:text-sm font-extrabold rounded-full border-2 border-slate-600 kids-shadow flex items-center gap-1.5 transform active:translate-y-1 transition-all";
                 }
             }
             const poem = POEMS_DATA.find(p => p.id === currentLevel);
@@ -852,47 +827,75 @@
             }
         }
 
-        // 廣東話 vs 普通話語音合成朗讀
+        // --- STREAMING_CHUNK: 修復語音合成朗讀模組 (對齊 Mandarin 引擎 & iOS 相容) ---
         function readAloud(language) {
             const poem = POEMS_DATA.find(p => p.id === currentLevel);
             if (!poem) return;
 
-            const speechText = poem.content.map(c => c.line).join('。');
+            const speechText = poem.content.map(c => c.line).join('，');
 
             if ('speechSynthesis' in window) {
-                window.speechSynthesis.cancel(); 
+                window.speechSynthesis.cancel(); // 停止先前的朗讀
 
                 const utterance = new SpeechSynthesisUtterance(speechText);
-                utterance.rate = 0.75; 
+                utterance.rate = 0.75; // 舒緩語速
 
-                const voices = window.speechSynthesis.getVoices();
-                
+                // 獲取目前環境可用的所有聲音庫
+                let voices = window.speechSynthesis.getVoices();
+
                 if (language === 'cantonese') {
+                    // 廣東話 (zh-HK / zh-YUE)
                     utterance.lang = 'zh-HK';
-                    const cantoneseVoice = voices.find(v => v.lang.toLowerCase().includes('hk') || v.lang.toLowerCase().includes('yue'));
+                    const cantoneseVoice = voices.find(v => {
+                        const name = v.name.toLowerCase();
+                        const lang = v.lang.toLowerCase();
+                        return lang.includes('hk') || lang.includes('yue') || name.includes('cantonese') || name.includes('hong kong');
+                    });
                     if (cantoneseVoice) utterance.voice = cantoneseVoice;
-                    
+
                     const btn = document.getElementById('btn-read-cantonese');
                     if (btn) {
                         btn.classList.add('animate-pulse');
                         utterance.onend = () => btn.classList.remove('animate-pulse');
+                        utterance.onerror = () => btn.classList.remove('animate-pulse');
                     }
                 } else {
+                    // 普通話 (zh-CN) - 極致相容與匹配邏輯
                     utterance.lang = 'zh-CN';
-                    const mandarinVoice = voices.find(v => v.lang.toLowerCase().includes('cn') || v.lang.toLowerCase().includes('zh-hans') || v.lang.toLowerCase().includes('cmn'));
-                    if (mandarinVoice) utterance.voice = mandarinVoice;
+                    
+                    // 從瀏覽器引擎搜尋匹配普通話的聲音包
+                    const mandarinVoice = voices.find(v => {
+                        const name = v.name.toLowerCase();
+                        const lang = v.lang.toLowerCase();
+                        const isMandarin = lang.includes('cn') || lang.includes('hans') || lang.includes('cmn') || name.includes('mandarin') || name.includes('putonghua') || name.includes('xiaoxiao');
+                        const isCantonese = lang.includes('hk') || lang.includes('yue') || name.includes('hong');
+                        return isMandarin && !isCantonese; // 剔除廣東話
+                    });
+                    
+                    if (mandarinVoice) {
+                        utterance.voice = mandarinVoice;
+                    }
 
                     const btn = document.getElementById('btn-read-mandarin');
                     if (btn) {
                         btn.classList.add('animate-pulse');
                         utterance.onend = () => btn.classList.remove('animate-pulse');
+                        utterance.onerror = () => btn.classList.remove('animate-pulse');
                     }
                 }
 
+                // 執行朗讀
                 window.speechSynthesis.speak(utterance);
             } else {
-                showKidAlert("抱歉，您的瀏覽器不支援發聲功能，請更換 Chrome 或 Safari 瀏覽器。");
+                showKidAlert("抱歉，您的設備不支援網頁語音合成功能，建議使用最新版 Chrome 或 Safari 瀏覽器。");
             }
+        }
+
+        // 當語音庫發生變化時，自動重新加載（解決 Chrome / Safari 異步載入 voices 的問題）
+        if (typeof speechSynthesis !== 'undefined' && speechSynthesis.onvoiceschanged !== undefined) {
+            speechSynthesis.onvoiceschanged = function() {
+                window.speechSynthesis.getVoices();
+            };
         }
 
 
@@ -975,31 +978,32 @@
         }
 
 
-        // --- 第三頁：遊戲 A：詩句配對邏輯 ---
+        // --- 第三頁：小遊戲切換邏輯 ---
+        function switchGame(gameType) {
+            const btnMatch = document.getElementById('btn-game-match');
+            const btnUnscramble = document.getElementById('btn-game-unscramble');
+            const matchContainer = document.getElementById('game-match-container');
+            const unscrambleContainer = document.getElementById('game-unscramble-container');
+
+            if (gameType === 'match') {
+                if (btnMatch) btnMatch.className = "px-5 py-2.5 bg-amber-400 text-amber-950 border-4 border-amber-500 font-black rounded-full shadow-lg text-sm md:text-base flex items-center gap-1";
+                if (btnUnscramble) btnUnscramble.className = "px-5 py-2.5 bg-slate-200 text-slate-700 border-4 border-slate-300 font-black rounded-full shadow-lg text-sm md:text-base flex items-center gap-1";
+                if (matchContainer) matchContainer.classList.remove('hidden');
+                if (unscrambleContainer) unscrambleContainer.classList.add('hidden');
+                initMatchGame();
+            } else {
+                if (btnMatch) btnMatch.className = "px-5 py-2.5 bg-slate-200 text-slate-700 border-4 border-slate-300 font-black rounded-full shadow-lg text-sm md:text-base flex items-center gap-1";
+                if (btnUnscramble) btnUnscramble.className = "px-5 py-2.5 bg-emerald-400 text-emerald-950 border-4 border-emerald-500 font-black rounded-full shadow-lg text-sm md:text-base flex items-center gap-1";
+                if (matchContainer) matchContainer.classList.add('hidden');
+                if (unscrambleContainer) unscrambleContainer.classList.remove('hidden');
+                initUnscrambleGame();
+            }
+        }
+
+        // --- 遊戲 A: 詩句接龍配對 ---
         let selectedLeft = null;
         let selectedRight = null;
         let matchedCount = 0;
-
-        function switchGame(gameType) {
-            const btnMatch = document.getElementById('btn-game-match');
-            const btnPainter = document.getElementById('btn-game-painter');
-            const matchContainer = document.getElementById('game-match-container');
-            const painterContainer = document.getElementById('game-painter-container');
-
-            if (gameType === 'match') {
-                if (btnMatch) btnMatch.className = "px-6 py-3 bg-amber-400 text-amber-950 border-4 border-amber-500 font-black rounded-full shadow-lg text-lg flex items-center gap-2";
-                if (btnPainter) btnPainter.className = "px-6 py-3 bg-slate-200 text-slate-700 border-4 border-slate-300 font-black rounded-full shadow-lg text-lg flex items-center gap-2";
-                if (matchContainer) matchContainer.classList.remove('hidden');
-                if (painterContainer) painterContainer.classList.add('hidden');
-                initMatchGame();
-            } else {
-                if (btnMatch) btnMatch.className = "px-6 py-3 bg-slate-200 text-slate-700 border-4 border-slate-300 font-black rounded-full shadow-lg text-lg flex items-center gap-2";
-                if (btnPainter) btnPainter.className = "px-6 py-3 bg-indigo-400 text-indigo-950 border-4 border-indigo-500 font-black rounded-full shadow-lg text-lg flex items-center gap-2";
-                if (matchContainer) matchContainer.classList.add('hidden');
-                if (painterContainer) painterContainer.classList.remove('hidden');
-                setTimeout(initPainter, 50);
-            }
-        }
 
         function initMatchGame() {
             selectedLeft = null;
@@ -1027,7 +1031,7 @@
             leftItems.forEach(item => {
                 const btn = document.createElement('button');
                 btn.id = `match-left-${item.id}`;
-                btn.className = "w-full py-4 px-3 bg-white hover:bg-amber-100 border-4 border-slate-300 text-slate-800 font-black rounded-2xl shadow-sm text-center transform hover:scale-102 transition-all cursor-pointer text-sm md:text-base";
+                btn.className = "w-full py-3.5 px-3 bg-white hover:bg-amber-100 border-4 border-slate-300 text-slate-800 font-black rounded-2xl shadow-sm text-center transform hover:scale-102 transition-all cursor-pointer text-xs md:text-base active:scale-95";
                 btn.innerText = item.left;
                 btn.onclick = () => selectMatchItem('left', item.id);
                 leftCol.appendChild(btn);
@@ -1036,7 +1040,7 @@
             rightItems.forEach(item => {
                 const btn = document.createElement('button');
                 btn.id = `match-right-${item.id}`;
-                btn.className = "w-full py-4 px-3 bg-white hover:bg-amber-100 border-4 border-slate-300 text-slate-800 font-black rounded-2xl shadow-sm text-center transform hover:scale-102 transition-all cursor-pointer text-sm md:text-base";
+                btn.className = "w-full py-3.5 px-3 bg-white hover:bg-amber-100 border-4 border-slate-300 text-slate-800 font-black rounded-2xl shadow-sm text-center transform hover:scale-102 transition-all cursor-pointer text-xs md:text-base active:scale-95";
                 btn.innerText = item.right;
                 btn.onclick = () => selectMatchItem('right', item.id);
                 rightCol.appendChild(btn);
@@ -1068,8 +1072,8 @@
                     const rBtn = document.getElementById(`match-right-${selectedRight}`);
                     
                     if (lBtn && rBtn) {
-                        lBtn.className = "w-full py-4 px-3 bg-emerald-100 text-emerald-800 border-4 border-emerald-500 font-black rounded-2xl text-center cursor-not-allowed opacity-60 text-sm md:text-base";
-                        rBtn.className = "w-full py-4 px-3 bg-emerald-100 text-emerald-800 border-4 border-emerald-500 font-black rounded-2xl text-center cursor-not-allowed opacity-60 text-sm md:text-base";
+                        lBtn.className = "w-full py-3.5 px-3 bg-emerald-100 text-emerald-800 border-4 border-emerald-500 font-black rounded-2xl text-center cursor-not-allowed opacity-60 text-xs md:text-base";
+                        rBtn.className = "w-full py-3.5 px-3 bg-emerald-100 text-emerald-800 border-4 border-emerald-500 font-black rounded-2xl text-center cursor-not-allowed opacity-60 text-xs md:text-base";
                         lBtn.onclick = null;
                         rBtn.onclick = null;
                     }
@@ -1081,7 +1085,10 @@
                     selectedRight = null;
 
                     if (matchedCount === 4) {
-                        setTimeout(triggerConfetti, 400);
+                        setTimeout(() => {
+                            triggerConfetti();
+                            showKidAlert("太棒了！🎉 你成功完成了所有的詩句配對挑戰！");
+                        }, 400);
                     }
                 } else {
                     const lBtn = document.getElementById(`match-left-${selectedLeft}`);
@@ -1108,161 +1115,140 @@
         }
 
 
-        // --- 第三頁：遊戲 B：小畫家邏輯 ---
-        let canvas, ctx;
-        let painting = false;
-        let brushColor = '#f43f5e';
-        let brushWidth = 6;
+        // --- STREAMING_CHUNK: 實作新版「詩句重組小神童」小遊戲 (完全適應手機觸控與小螢幕) ---
+        // --- 遊戲 B: 詩句重組小神童 ---
+        let unscrambleTargetLine = ""; // 答案：「床前明月光」
+        let unscrambleCandidateChars = []; // 候選字：['前', '光', '床', '明', '月']
+        let unscrambleSelectedChars = []; // 使用者點選的字：['床']
+        let unscrambleActivePoem = null;
 
-        function initPainter() {
-            canvas = document.getElementById('paintCanvas');
-            if (!canvas) return;
-            ctx = canvas.getContext('2d');
+        function initUnscrambleGame() {
+            // 選擇目前的關卡詩歌，若無，默認第3首（靜夜思）
+            unscrambleActivePoem = POEMS_DATA.find(p => p.id === currentLevel) || POEMS_DATA[2];
             
-            resizeCanvas();
-            window.removeEventListener('resize', resizeCanvas);
-            window.addEventListener('resize', resizeCanvas);
+            const titleEl = document.getElementById('current-unscramble-title');
+            if (titleEl) {
+                titleEl.innerText = `${unscrambleActivePoem.emoji} 當前挑戰：${unscrambleActivePoem.dynasty}《${unscrambleActivePoem.title}》`;
+            }
 
-            // 獲取觸摸或滑鼠坐標，加入超安全防護，完全不受沙盒 getBoundingClientRect 影響
-            function getCoordinates(e) {
-                const activeCanvas = canvas || document.getElementById('paintCanvas');
-                if (!activeCanvas) return { x: 0, y: 0 };
+            // 隨機選取該詩的其中一句
+            const randomLineIndex = Math.floor(Math.random() * unscrambleActivePoem.content.length);
+            unscrambleTargetLine = unscrambleActivePoem.content[randomLineIndex].line; // 例："鋤禾日當午"
+
+            unscrambleSelectedChars = [];
+            
+            // 打亂文字
+            unscrambleCandidateChars = unscrambleTargetLine.split('').sort(() => Math.random() - 0.5);
+            // 防禦性處理：若隨機打亂後與答案完全一樣，再次打亂
+            if (unscrambleCandidateChars.join('') === unscrambleTargetLine) {
+                unscrambleCandidateChars.sort(() => Math.random() - 0.5);
+            }
+
+            renderUnscrambleBoard();
+        }
+
+        function renderUnscrambleBoard() {
+            const slotsContainer = document.getElementById('unscramble-slots');
+            const candidatesContainer = document.getElementById('unscramble-candidates');
+            if (!slotsContainer || !candidatesContainer) return;
+
+            slotsContainer.innerHTML = '';
+            candidatesContainer.innerHTML = '';
+
+            // 1. 渲染上方的已填入插槽 (顯示框)
+            const targetLen = unscrambleTargetLine.length;
+            for (let i = 0; i < targetLen; i++) {
+                const charBox = document.createElement('div');
+                charBox.className = "w-11 h-11 md:w-14 md:h-14 border-4 border-dashed border-emerald-300 rounded-xl flex items-center justify-center text-lg md:text-2xl font-black bg-emerald-50/50 transition-all shadow-inner";
                 
-                let rect = { left: 0, top: 0 };
-                try {
-                    if (typeof activeCanvas.getBoundingClientRect === 'function') {
-                        rect = activeCanvas.getBoundingClientRect();
-                    }
-                } catch (err) {
-                    let offsetLeft = 0, offsetTop = 0;
-                    let curr = activeCanvas;
-                    while (curr) {
-                        offsetLeft += curr.offsetLeft || 0;
-                        offsetTop += curr.offsetTop || 0;
-                        curr = curr.offsetParent;
-                    }
-                    rect = { left: offsetLeft, top: offsetTop };
-                }
-
-                let clientX, clientY;
-                if (e.touches && e.touches.length > 0) {
-                    clientX = e.touches[0].clientX;
-                    clientY = e.touches[0].clientY;
+                if (unscrambleSelectedChars[i]) {
+                    charBox.innerText = unscrambleSelectedChars[i].char;
+                    charBox.className = "w-11 h-11 md:w-14 md:h-14 border-4 border-emerald-400 bg-yellow-100 rounded-xl flex items-center justify-center text-lg md:text-2xl font-black text-emerald-900 shadow transform scale-105 active:scale-95 cursor-pointer";
+                    // 點擊可以移除該字，回退字庫
+                    const targetIndex = i;
+                    charBox.onclick = () => removeSelectedChar(targetIndex);
                 } else {
-                    clientX = e.clientX;
-                    clientY = e.clientY;
+                    charBox.innerHTML = `<span class="text-emerald-200 text-xs">?</span>`;
                 }
-                return {
-                    x: clientX - (rect.left || 0),
-                    y: clientY - (rect.top || 0)
-                };
+                slotsContainer.appendChild(charBox);
             }
 
-            function startDrawing(e) {
-                painting = true;
-                ctx.beginPath();
-                const coords = getCoordinates(e);
-                ctx.moveTo(coords.x, coords.y);
-                ctx.lineTo(coords.x, coords.y);
-                ctx.stroke();
-            }
+            // 2. 渲染下方的備選按鈕
+            unscrambleCandidateChars.forEach((char, index) => {
+                // 檢查此備選字是否已經被點選上去了
+                const isSelected = unscrambleSelectedChars.some(item => item.origIndex === index);
 
-            function draw(e) {
-                if (!painting) return;
-                if (e.cancelable) e.preventDefault();
+                const charBtn = document.createElement('button');
+                charBtn.innerText = char;
                 
-                const coords = getCoordinates(e);
-                ctx.lineWidth = brushWidth;
-                ctx.lineCap = 'round';
-                ctx.strokeStyle = brushColor;
+                if (isSelected) {
+                    // 已選中的按鈕，將之隱藏或半透明不可點
+                    charBtn.className = "w-11 h-11 md:w-14 md:h-14 bg-slate-100 text-slate-300 border-2 border-slate-200 rounded-full font-black text-lg md:text-2xl cursor-not-allowed opacity-30 select-none";
+                    charBtn.disabled = true;
+                } else {
+                    // 可點選字丸
+                    charBtn.className = "w-11 h-11 md:w-14 md:h-14 bg-gradient-to-br from-amber-300 to-yellow-400 hover:from-amber-400 hover:to-yellow-500 text-amber-950 border-4 border-amber-500 rounded-full font-black text-lg md:text-2xl kids-shadow-warning transform active:scale-95 transition-all cursor-pointer";
+                    charBtn.onclick = () => selectChar(char, index);
+                }
+                candidatesContainer.appendChild(charBtn);
+            });
+        }
 
-                ctx.lineTo(coords.x, coords.y);
-                ctx.stroke();
-                ctx.beginPath();
-                ctx.moveTo(coords.x, coords.y);
-            }
-
-            function stopDrawing() {
-                painting = false;
-                ctx.beginPath();
-            }
-
-            // 滑鼠監聽
-            canvas.addEventListener('mousedown', startDrawing);
-            canvas.addEventListener('mousemove', draw);
-            canvas.addEventListener('mouseup', stopDrawing);
-            canvas.addEventListener('mouseleave', stopDrawing);
-
-            // 觸控監聽
-            canvas.addEventListener('touchstart', (e) => {
-                if (e.cancelable) e.preventDefault();
-                startDrawing(e);
-            }, { passive: false });
-            
-            canvas.addEventListener('touchmove', (e) => {
-                if (e.cancelable) e.preventDefault();
-                draw(e);
-            }, { passive: false });
-            
-            canvas.addEventListener('touchend', stopDrawing);
-
-            // 粗細控制
-            const brushSizeInput = document.getElementById('brush-size');
-            if (brushSizeInput) {
-                brushSizeInput.addEventListener('input', (e) => {
-                    brushWidth = e.target.value;
-                });
+        // 點擊備選字
+        function selectChar(char, origIndex) {
+            if (unscrambleSelectedChars.length < unscrambleTargetLine.length) {
+                unscrambleSelectedChars.push({ char, origIndex });
+                renderUnscrambleBoard();
+                
+                // 檢查是否拼滿
+                if (unscrambleSelectedChars.length === unscrambleTargetLine.length) {
+                    checkUnscrambleResult();
+                }
             }
         }
 
-        function resizeCanvas() {
-            if (!canvas) return;
-            const containerWidth = canvas.parentElement ? canvas.parentElement.clientWidth : 0;
-            if (containerWidth <= 0) return; 
-
-            const tempCanvas = document.createElement('canvas');
-            tempCanvas.width = canvas.width || containerWidth;
-            tempCanvas.height = canvas.height || 400;
-            const tempCtx = tempCanvas.getContext('2d');
-            
-            if (canvas.width > 0 && canvas.height > 0) {
-                tempCtx.drawImage(canvas, 0, 0);
-            }
-
-            canvas.width = containerWidth;
-            canvas.height = 400;
-
-            ctx.fillStyle = '#ffffff';
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-            
-            if (tempCanvas.width > 0 && tempCanvas.height > 0) {
-                ctx.drawImage(tempCanvas, 0, 0);
-            }
+        // 點擊移除插槽上的字
+        function removeSelectedChar(slotIndex) {
+            unscrambleSelectedChars.splice(slotIndex, 1);
+            renderUnscrambleBoard();
         }
 
-        // 當點擊調色盤更換顏色時觸發
-        function setPaintColor(color) {
-            brushColor = color;
-        }
-
-        function setPaintTopic(topic) {
-            const topicEl = document.getElementById('current-paint-topic');
-            if (topicEl) topicEl.innerText = `正在創作：${topic}`;
-        }
-
-        function clearCanvas() {
-            if (ctx) {
-                ctx.fillStyle = '#ffffff';
-                ctx.fillRect(0, 0, canvas.width, canvas.height);
+        // 驗證答案
+        function checkUnscrambleResult() {
+            const userString = unscrambleSelectedChars.map(item => item.char).join('');
+            if (userString === unscrambleTargetLine) {
+                // 完全正確！
+                setTimeout(() => {
+                    triggerConfetti();
+                    showKidAlert(`恭喜小神童！🎉 正確答案就是「${unscrambleTargetLine}」！`);
+                    // 爆彩花後，自動開啟下一句
+                    setTimeout(initUnscrambleGame, 1500);
+                }, 300);
+            } else {
+                // 答錯，觸發抖動效果
+                setTimeout(() => {
+                    const slots = document.getElementById('unscramble-slots');
+                    if (slots) {
+                        slots.classList.add('animate-shake');
+                        setTimeout(() => slots.classList.remove('animate-shake'), 400);
+                    }
+                    showKidAlert("順序不太對哦，請再看一遍拼音跟詩歌，重新嘗試吧！");
+                    // 答錯後自動幫玩家重置
+                    resetUnscrambleGame();
+                }, 300);
             }
         }
 
-        function downloadCanvas() {
-            if (!canvas) return;
-            const link = document.createElement('a');
-            link.download = `我的古詩大作.png`;
-            link.href = canvas.toDataURL();
-            link.click();
+        function resetUnscrambleGame() {
+            unscrambleSelectedChars = [];
+            renderUnscrambleBoard();
+        }
+
+        function nextUnscrambleQuestion() {
+            // 隨機切換到另一首
+            const randomPoemId = Math.floor(Math.random() * POEMS_DATA.length) + 1;
+            currentLevel = randomPoemId;
+            initUnscrambleGame();
         }
 
 
@@ -1388,7 +1374,7 @@
                         </div>
                         <div>
                             <p class="font-bold text-sm">2. 在《${poem.title}》中，作者表達了怎樣的思想感情？（　　）</p>
-                            <p class="text-xs text-slate-600 mt-1 pl-4">A. 思考人生的哲理與自然的美麗 &nbsp;&nbsp;&nbsp;&nbsp; B. 嘲笑他人 &nbsp;&nbsp;&nbsp;&nbsp; C. 感到憤怒</p>
+                            <p class="text-xs text-slate-600 mt-1 pl-4">A. 思考人生的哲理與自然的美麗 &nbsp;&nbsp;&nbsp;&nbsp; B. 嘲笑他人 &nbsp;&nbsp;&nbsp;&nbsp; C. 感到憂愁難過或思鄉情懷</p>
                         </div>
                     </div>
                 `;
@@ -1443,7 +1429,6 @@
         function scrollToElementSafely(element) {
             if (!element) return;
             try {
-                // 完全由純 offsetTop 累加計算目標 Y 坐標，不調用 getBoundingClientRect
                 let offsetTop = 0;
                 let curr = element;
                 while (curr) {
@@ -1454,20 +1439,15 @@
                 
                 window.scrollTo({
                     top: finalTargetY,
-                    behavior: 'auto' // 使用最穩定安全的瞬移滾動
+                    behavior: 'auto' 
                 });
-            } catch (err) {
-                // 靜默捕捉，防禦極端包裹沙盒
-            }
+            } catch (err) {}
         }
 
         // 網頁加載完畢初始化
         window.onload = function() {
-            // 預設選擇第一關，傳遞 true 表示「初始化加載」，不觸發滾動與五彩煙花
             selectLevel(1, true);
         }
     </script>
 </body>
 </html>
-
-```
